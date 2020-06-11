@@ -1,0 +1,12 @@
+MS=function(g1,g2)
+{
+  allset=colnames(target)
+  set1=allset[target[g1,]==1];
+  set2=allset[target[g2,]==1];
+  x=length(intersect(set1,set2));
+  m=length(set2);
+  n=length(setdiff(allset,set2));
+  k=length(set1);
+  pvalue=1-phyper(x-1,m,n,k);
+  return(pvalue)
+}

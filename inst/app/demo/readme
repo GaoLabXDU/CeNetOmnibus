@@ -1,0 +1,11 @@
+This fold contains the data files to test CeNetOmnibus.
+
+ceRNA_exp.txt--the expression profiles of ceRNAs of BRCA paritents from TCGA
+micro_exp.txt--the expression profiles of microRNAs of BRCA patients from TCGA
+target.txt--the ceRNA-microRNA interaction from mirwalk2.0
+geneinfo.txt--the essential information of ceRNAs from Ensembl
+
+The four files above are used as input files of the first section--Data Input
+
+hallmark.txt contains gene sets from MSigDB, used as the input file of custom enrichment analysis
+brca_subtype.csv is the patient clinical information from TCGA, used as the input file of survival analysis

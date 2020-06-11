@@ -1,0 +1,199 @@
+ensembl_gene_id	description	strand	external_gene_name	gene_biotype
+ENSG00000006377	ENSG00000006377	distal-less homeobox 6 [Source:HGNC Symbol;Acc:HGNC:2919]	1	DLX6	protein_coding
+ENSG00000010361	ENSG00000010361	fuzzy planar cell polarity protein [Source:HGNC Symbol;Acc:HGNC:26219]	-1	FUZ	protein_coding
+ENSG00000010438	ENSG00000010438	serine protease 3 [Source:HGNC Symbol;Acc:HGNC:9486]	1	PRSS3	protein_coding
+ENSG00000036054	ENSG00000036054	TBC1 domain family member 23 [Source:HGNC Symbol;Acc:HGNC:25622]	1	TBC1D23	protein_coding
+ENSG00000047249	ENSG00000047249	ATPase H+ transporting V1 subunit H [Source:HGNC Symbol;Acc:HGNC:18303]	-1	ATP6V1H	protein_coding
+ENSG00000056998	ENSG00000056998	glycogenin 2 [Source:HGNC Symbol;Acc:HGNC:4700]	1	GYG2	protein_coding
+ENSG00000065882	ENSG00000065882	TBC1 domain family member 1 [Source:HGNC Symbol;Acc:HGNC:11578]	1	TBC1D1	protein_coding
+ENSG00000066117	ENSG00000066117	SWI/SNF related, matrix associated, actin dependent regulator of chromatin, subfamily d, member 1 [Source:HGNC Symbol;Acc:HGNC:11106]	1	SMARCD1	protein_coding
+ENSG00000087274	ENSG00000087274	adducin 1 [Source:HGNC Symbol;Acc:HGNC:243]	1	ADD1	protein_coding
+ENSG00000087510	ENSG00000087510	transcription factor AP-2 gamma [Source:HGNC Symbol;Acc:HGNC:11744]	1	TFAP2C	protein_coding
+ENSG00000095203	ENSG00000095203	erythrocyte membrane protein band 4.1 like 4B [Source:HGNC Symbol;Acc:HGNC:19818]	-1	EPB41L4B	protein_coding
+ENSG00000099282	ENSG00000099282	tetraspanin 15 [Source:HGNC Symbol;Acc:HGNC:23298]	1	TSPAN15	protein_coding
+ENSG00000100036	ENSG00000100036	solute carrier family 35 member E4 [Source:HGNC Symbol;Acc:HGNC:17058]	1	SLC35E4	protein_coding
+ENSG00000100150	ENSG00000100150	DEP domain containing 5 [Source:HGNC Symbol;Acc:HGNC:18423]	1	DEPDC5	protein_coding
+ENSG00000101577	ENSG00000101577	lipin 2 [Source:HGNC Symbol;Acc:HGNC:14450]	-1	LPIN2	protein_coding
+ENSG00000101842	ENSG00000101842	V-set and immunoglobulin domain containing 1 [Source:HGNC Symbol;Acc:HGNC:28675]	1	VSIG1	protein_coding
+ENSG00000102977	ENSG00000102977	ACD shelterin complex subunit and telomerase recruitment factor [Source:HGNC Symbol;Acc:HGNC:25070]	-1	ACD	protein_coding
+ENSG00000103740	ENSG00000103740	acyl-CoA synthetase bubblegum family member 1 [Source:HGNC Symbol;Acc:HGNC:29567]	-1	ACSBG1	protein_coding
+ENSG00000104804	ENSG00000104804	tubby like protein 2 [Source:HGNC Symbol;Acc:HGNC:12424]	-1	TULP2	protein_coding
+ENSG00000110063	ENSG00000110063	decapping enzyme, scavenger [Source:HGNC Symbol;Acc:HGNC:29812]	1	DCPS	protein_coding
+ENSG00000111319	ENSG00000111319	sodium channel epithelial 1 alpha subunit [Source:HGNC Symbol;Acc:HGNC:10599]	-1	SCNN1A	protein_coding
+ENSG00000114026	ENSG00000114026	8-oxoguanine DNA glycosylase [Source:HGNC Symbol;Acc:HGNC:8125]	1	OGG1	protein_coding
+ENSG00000114120	ENSG00000114120	solute carrier family 25 member 36 [Source:HGNC Symbol;Acc:HGNC:25554]	1	SLC25A36	protein_coding
+ENSG00000114315	ENSG00000114315	hes family bHLH transcription factor 1 [Source:HGNC Symbol;Acc:HGNC:5192]	1	HES1	protein_coding
+ENSG00000115365	ENSG00000115365	LanC like 1 [Source:HGNC Symbol;Acc:HGNC:6508]	-1	LANCL1	protein_coding
+ENSG00000116685	ENSG00000116685	KIAA2013 [Source:HGNC Symbol;Acc:HGNC:28513]	-1	KIAA2013	protein_coding
+ENSG00000117593	ENSG00000117593	aspartyl-tRNA synthetase 2, mitochondrial [Source:HGNC Symbol;Acc:HGNC:25538]	1	DARS2	protein_coding
+ENSG00000120868	ENSG00000120868	apoptotic peptidase activating factor 1 [Source:HGNC Symbol;Acc:HGNC:576]	1	APAF1	protein_coding
+ENSG00000120907	ENSG00000120907	adrenoceptor alpha 1A [Source:HGNC Symbol;Acc:HGNC:277]	-1	ADRA1A	protein_coding
+ENSG00000121413	ENSG00000121413	zinc finger and SCAN domain containing 18 [Source:HGNC Symbol;Acc:HGNC:21037]	-1	ZSCAN18	protein_coding
+ENSG00000122406	ENSG00000122406	ribosomal protein L5 [Source:HGNC Symbol;Acc:HGNC:10360]	1	RPL5	protein_coding
+ENSG00000123388	ENSG00000123388	homeobox C11 [Source:HGNC Symbol;Acc:HGNC:5123]	1	HOXC11	protein_coding
+ENSG00000123500	ENSG00000123500	collagen type X alpha 1 chain [Source:HGNC Symbol;Acc:HGNC:2185]	-1	COL10A1	protein_coding
+ENSG00000124126	ENSG00000124126	phosphatidylinositol-3,4,5-trisphosphate dependent Rac exchange factor 1 [Source:HGNC Symbol;Acc:HGNC:32594]	-1	PREX1	protein_coding
+ENSG00000124602	ENSG00000124602	unc-5 family C-terminal like [Source:HGNC Symbol;Acc:HGNC:21203]	-1	UNC5CL	protein_coding
+ENSG00000128714	ENSG00000128714	homeobox D13 [Source:HGNC Symbol;Acc:HGNC:5136]	1	HOXD13	protein_coding
+ENSG00000130734	ENSG00000130734	autophagy related 4D cysteine peptidase [Source:HGNC Symbol;Acc:HGNC:20789]	1	ATG4D	protein_coding
+ENSG00000132429	ENSG00000132429	popeye domain containing 3 [Source:HGNC Symbol;Acc:HGNC:17649]	-1	POPDC3	protein_coding
+ENSG00000132432	ENSG00000132432	Sec61 translocon gamma subunit [Source:HGNC Symbol;Acc:HGNC:18277]	-1	SEC61G	protein_coding
+ENSG00000132518	ENSG00000132518	guanylate cyclase 2D, retinal [Source:HGNC Symbol;Acc:HGNC:4689]	1	GUCY2D	protein_coding
+ENSG00000132911	ENSG00000132911	neuromedin U receptor 2 [Source:HGNC Symbol;Acc:HGNC:16454]	-1	NMUR2	protein_coding
+ENSG00000133422	ENSG00000133422	MORC family CW-type zinc finger 2 [Source:HGNC Symbol;Acc:HGNC:23573]	-1	MORC2	protein_coding
+ENSG00000134588	ENSG00000134588	ubiquitin specific peptidase 26 [Source:HGNC Symbol;Acc:HGNC:13485]	-1	USP26	protein_coding
+ENSG00000135272	ENSG00000135272	MyoD family inhibitor domain containing [Source:HGNC Symbol;Acc:HGNC:28870]	1	MDFIC	protein_coding
+ENSG00000136450	ENSG00000136450	serine and arginine rich splicing factor 1 [Source:HGNC Symbol;Acc:HGNC:10780]	-1	SRSF1	protein_coding
+ENSG00000138382	ENSG00000138382	methyltransferase like 5 [Source:HGNC Symbol;Acc:HGNC:25006]	-1	METTL5	protein_coding
+ENSG00000142513	ENSG00000142513	acid phosphatase 4 [Source:HGNC Symbol;Acc:HGNC:14376]	1	ACP4	protein_coding
+ENSG00000142530	ENSG00000142530	family with sequence similarity 71 member E1 [Source:NCBI gene;Acc:112703]	-1	AC020909.1	protein_coding
+ENSG00000143373	ENSG00000143373	zinc finger protein 687 [Source:HGNC Symbol;Acc:HGNC:29277]	1	ZNF687	protein_coding
+ENSG00000143412	ENSG00000143412	annexin A9 [Source:HGNC Symbol;Acc:HGNC:547]	1	ANXA9	protein_coding
+ENSG00000143590	ENSG00000143590	ephrin A3 [Source:HGNC Symbol;Acc:HGNC:3223]	1	EFNA3	protein_coding
+ENSG00000145725	ENSG00000145725	diphosphoinositol pentakisphosphate kinase 2 [Source:HGNC Symbol;Acc:HGNC:29035]	1	PPIP5K2	protein_coding
+ENSG00000146215	ENSG00000146215	cysteine rich protein 3 [Source:HGNC Symbol;Acc:HGNC:17751]	-1	CRIP3	protein_coding
+ENSG00000146267	ENSG00000146267	failed axon connections homolog, metaxin like GST domain containing [Source:HGNC Symbol;Acc:HGNC:20742]	-1	FAXC	protein_coding
+ENSG00000149091	ENSG00000149091	diacylglycerol kinase zeta [Source:HGNC Symbol;Acc:HGNC:2857]	1	DGKZ	protein_coding
+ENSG00000151006	ENSG00000151006	serine protease 53 [Source:HGNC Symbol;Acc:HGNC:34407]	-1	PRSS53	protein_coding
+ENSG00000151503	ENSG00000151503	non-SMC condensin II complex subunit D3 [Source:HGNC Symbol;Acc:HGNC:28952]	-1	NCAPD3	protein_coding
+ENSG00000152465	ENSG00000152465	N-myristoyltransferase 2 [Source:HGNC Symbol;Acc:HGNC:7858]	-1	NMT2	protein_coding
+ENSG00000153093	ENSG00000153093	acyl-CoA oxidase like [Source:HGNC Symbol;Acc:HGNC:25621]	1	ACOXL	protein_coding
+ENSG00000153233	ENSG00000153233	protein tyrosine phosphatase receptor type R [Source:HGNC Symbol;Acc:HGNC:9680]	-1	PTPRR	protein_coding
+ENSG00000154175	ENSG00000154175	ABI family member 3 binding protein [Source:HGNC Symbol;Acc:HGNC:17265]	-1	ABI3BP	protein_coding
+ENSG00000154310	ENSG00000154310	TRAF2 and NCK interacting kinase [Source:HGNC Symbol;Acc:HGNC:30765]	-1	TNIK	protein_coding
+ENSG00000154556	ENSG00000154556	sorbin and SH3 domain containing 2 [Source:HGNC Symbol;Acc:HGNC:24098]	-1	SORBS2	protein_coding
+ENSG00000155313	ENSG00000155313	ubiquitin specific peptidase 25 [Source:HGNC Symbol;Acc:HGNC:12624]	1	USP25	protein_coding
+ENSG00000156218	ENSG00000156218	ADAMTS like 3 [Source:HGNC Symbol;Acc:HGNC:14633]	1	ADAMTSL3	protein_coding
+ENSG00000162882	ENSG00000162882	3-hydroxyanthranilate 3,4-dioxygenase [Source:HGNC Symbol;Acc:HGNC:4796]	-1	HAAO	protein_coding
+ENSG00000164051	ENSG00000164051	coiled-coil domain containing 51 [Source:HGNC Symbol;Acc:HGNC:25714]	-1	CCDC51	protein_coding
+ENSG00000164113	ENSG00000164113	adenosine deaminase domain containing 1 [Source:HGNC Symbol;Acc:HGNC:30713]	1	ADAD1	protein_coding
+ENSG00000164649	ENSG00000164649	cell division cycle associated 7 like [Source:HGNC Symbol;Acc:HGNC:30777]	-1	CDCA7L	protein_coding
+ENSG00000164751	ENSG00000164751	peroxisomal biogenesis factor 2 [Source:HGNC Symbol;Acc:HGNC:9717]	-1	PEX2	protein_coding
+ENSG00000164935	ENSG00000164935	dendrocyte expressed seven transmembrane protein [Source:HGNC Symbol;Acc:HGNC:18549]	1	DCSTAMP	protein_coding
+ENSG00000165204	ENSG00000165204	olfactory receptor family 1 subfamily K member 1 [Source:HGNC Symbol;Acc:HGNC:8212]	1	OR1K1	protein_coding
+ENSG00000166278	ENSG00000166278	complement C2 [Source:HGNC Symbol;Acc:HGNC:1248]	1	C2	protein_coding
+ENSG00000167112	ENSG00000167112	TruB pseudouridine synthase family member 2 [Source:HGNC Symbol;Acc:HGNC:17170]	-1	TRUB2	protein_coding
+ENSG00000167207	ENSG00000167207	nucleotide binding oligomerization domain containing 2 [Source:HGNC Symbol;Acc:HGNC:5331]	1	NOD2	protein_coding
+ENSG00000167554	ENSG00000167554	zinc finger protein 610 [Source:HGNC Symbol;Acc:HGNC:26687]	1	ZNF610	protein_coding
+ENSG00000167685	ENSG00000167685	zinc finger protein 444 [Source:HGNC Symbol;Acc:HGNC:16052]	1	ZNF444	protein_coding
+ENSG00000167721	ENSG00000167721	TSR1 ribosome maturation factor [Source:HGNC Symbol;Acc:HGNC:25542]	-1	TSR1	protein_coding
+ENSG00000168268	ENSG00000168268	5'-nucleotidase domain containing 2 [Source:HGNC Symbol;Acc:HGNC:25717]	-1	NT5DC2	protein_coding
+ENSG00000170178	ENSG00000170178	homeobox D12 [Source:HGNC Symbol;Acc:HGNC:5135]	1	HOXD12	protein_coding
+ENSG00000170322	ENSG00000170322	nuclear factor related to kappaB binding protein [Source:HGNC Symbol;Acc:HGNC:7802]	-1	NFRKB	protein_coding
+ENSG00000171102	ENSG00000171102	odorant binding protein 2B [Source:HGNC Symbol;Acc:HGNC:23381]	-1	OBP2B	protein_coding
+ENSG00000172006	ENSG00000172006	zinc finger protein 554 [Source:HGNC Symbol;Acc:HGNC:26629]	1	ZNF554	protein_coding
+ENSG00000172461	ENSG00000172461	fucosyltransferase 9 [Source:HGNC Symbol;Acc:HGNC:4020]	1	FUT9	protein_coding
+ENSG00000174606	ENSG00000174606	angel homolog 2 [Source:HGNC Symbol;Acc:HGNC:30534]	-1	ANGEL2	protein_coding
+ENSG00000174738	ENSG00000174738	nuclear receptor subfamily 1 group D member 2 [Source:HGNC Symbol;Acc:HGNC:7963]	1	NR1D2	protein_coding
+ENSG00000176236	ENSG00000176236	RPP38 divergent transcript [Source:HGNC Symbol;Acc:HGNC:28582]	-1	RPP38-DT	lncRNA
+ENSG00000177272	ENSG00000177272	potassium voltage-gated channel subfamily A member 3 [Source:HGNC Symbol;Acc:HGNC:6221]	-1	KCNA3	protein_coding
+ENSG00000177535	ENSG00000177535	olfactory receptor family 2 subfamily B member 11 [Source:HGNC Symbol;Acc:HGNC:31249]	-1	OR2B11	protein_coding
+ENSG00000178229	ENSG00000178229	zinc finger protein 543 [Source:HGNC Symbol;Acc:HGNC:25281]	1	ZNF543	protein_coding
+ENSG00000182866	ENSG00000182866	LCK proto-oncogene, Src family tyrosine kinase [Source:HGNC Symbol;Acc:HGNC:6524]	1	LCK	protein_coding
+ENSG00000184608	ENSG00000184608	FAM167A antisense RNA 1 [Source:HGNC Symbol;Acc:HGNC:15548]	1	FAM167A-AS1	lncRNA
+ENSG00000185966	ENSG00000185966	late cornified envelope 3E [Source:HGNC Symbol;Acc:HGNC:29463]	-1	LCE3E	protein_coding
+ENSG00000189030	ENSG00000189030	VHL like [Source:HGNC Symbol;Acc:HGNC:30666]	-1	VHLL	protein_coding
+ENSG00000197296	ENSG00000197296	fat storage inducing transmembrane protein 2 [Source:HGNC Symbol;Acc:HGNC:16135]	-1	FITM2	protein_coding
+ENSG00000197948	ENSG00000197948	FCH and double SH3 domains 1 [Source:HGNC Symbol;Acc:HGNC:25463]	-1	FCHSD1	protein_coding
+ENSG00000197992	ENSG00000197992	C-type lectin domain containing 9A [Source:HGNC Symbol;Acc:HGNC:26705]	1	CLEC9A	protein_coding
+ENSG00000204614	ENSG00000204614	tripartite motif containing 40 [Source:HGNC Symbol;Acc:HGNC:18736]	1	TRIM40	protein_coding
+ENSG00000205090	ENSG00000205090	transmembrane protein 240 [Source:HGNC Symbol;Acc:HGNC:25186]	-1	TMEM240	protein_coding
+ENSG00000205309	ENSG00000205309	5',3'-nucleotidase, mitochondrial [Source:HGNC Symbol;Acc:HGNC:15769]	1	NT5M	protein_coding
+ENSG00000205611	ENSG00000205611	long intergenic non-protein coding RNA 1597 [Source:HGNC Symbol;Acc:HGNC:51594]	-1	LINC01597	lncRNA
+ENSG00000223462	ENSG00000223462	novel transcript	1	AL353801.1	lncRNA
+ENSG00000223765	ENSG00000223765	long intergenic non-protein coding RNA 1626 [Source:HGNC Symbol;Acc:HGNC:52257]	1	LINC01626	lncRNA
+ENSG00000224228	ENSG00000224228	novel transcript	1	AL031599.1	lncRNA
+ENSG00000224277	ENSG00000224277	novel transcript	1	AP000345.1	lncRNA
+ENSG00000224729	ENSG00000224729	PCOLCE antisense RNA 1 [Source:HGNC Symbol;Acc:HGNC:40430]	-1	PCOLCE-AS1	lncRNA
+ENSG00000225377	ENSG00000225377	NRSN2 antisense RNA 1 [Source:HGNC Symbol;Acc:HGNC:51222]	-1	NRSN2-AS1	lncRNA
+ENSG00000226179	ENSG00000226179	long intergenic non-protein coding RNA 685 [Source:HGNC Symbol;Acc:HGNC:27560]	1	LINC00685	lncRNA
+ENSG00000226869	ENSG00000226869	LHFPL3 antisense RNA 1 [Source:HGNC Symbol;Acc:HGNC:40341]	-1	LHFPL3-AS1	lncRNA
+ENSG00000227240	ENSG00000227240	novel transcript	1	AL136456.1	lncRNA
+ENSG00000227685	ENSG00000227685	long intergenic non-protein coding RNA 2088 [Source:HGNC Symbol;Acc:HGNC:52939]	-1	LINC02088	lncRNA
+ENSG00000229539	ENSG00000229539	novel transcript	-1	AL353194.1	lncRNA
+ENSG00000230010	ENSG00000230010	novel transcript	-1	AL049646.1	lncRNA
+ENSG00000231986	ENSG00000231986	novel transcript	-1	AP000474.1	lncRNA
+ENSG00000232245	ENSG00000232245	novel transcript	1	AL035415.1	lncRNA
+ENSG00000233029	ENSG00000233029	novel transcript	-1	AC244453.2	lncRNA
+ENSG00000233044	ENSG00000233044	novel transcript	-1	AL049820.1	lncRNA
+ENSG00000233069	ENSG00000233069	novel transcript	1	AL663074.1	lncRNA
+ENSG00000234948	ENSG00000234948	long intergenic non-protein coding RNA 1524 [Source:HGNC Symbol;Acc:HGNC:51228]	1	LINC01524	lncRNA
+ENSG00000234967	ENSG00000234967	novel transcript	1	AL357558.2	lncRNA
+ENSG00000235024	ENSG00000235024	novel transcript, antisense to CDK5R2	-1	AC097468.2	lncRNA
+ENSG00000235142	ENSG00000235142	long intergenic non-protein coding RNA 2532 [Source:HGNC Symbol;Acc:HGNC:53549]	-1	LINC02532	lncRNA
+ENSG00000235419	ENSG00000235419	novel transcript, antisense to SP100	-1	AC010149.1	lncRNA
+ENSG00000235431	ENSG00000235431	novel transcript	1	AC010991.1	lncRNA
+ENSG00000235688	ENSG00000235688	SNTG2 antisense RNA 1 [Source:HGNC Symbol;Acc:HGNC:54058]	-1	SNTG2-AS1	lncRNA
+ENSG00000236520	ENSG00000236520	GPC6 antisense RNA 1 [Source:HGNC Symbol;Acc:HGNC:39909]	-1	GPC6-AS1	lncRNA
+ENSG00000236795	ENSG00000236795	novel transcript	-1	AC006004.1	lncRNA
+ENSG00000237341	ENSG00000237341	SYP antisense RNA 1 [Source:HGNC Symbol;Acc:HGNC:40571]	1	SYP-AS1	lncRNA
+ENSG00000237756	ENSG00000237756	novel transcript	1	AL592435.2	lncRNA
+ENSG00000238141	ENSG00000238141	BRWD1 antisense RNA 1 [Source:HGNC Symbol;Acc:HGNC:40614]	1	BRWD1-AS1	lncRNA
+ENSG00000243709	ENSG00000243709	left-right determination factor 1 [Source:HGNC Symbol;Acc:HGNC:6552]	-1	LEFTY1	protein_coding
+ENSG00000243927	ENSG00000243927	mitochondrial ribosomal protein S6 [Source:HGNC Symbol;Acc:HGNC:14051]	1	MRPS6	protein_coding
+ENSG00000243969	ENSG00000243969	novel transcript	-1	AC073359.2	lncRNA
+ENSG00000244268	ENSG00000244268	novel transcript	-1	AC117394.2	lncRNA
+ENSG00000245105	ENSG00000245105	A2M antisense RNA 1 [Source:HGNC Symbol;Acc:HGNC:27057]	1	A2M-AS1	lncRNA
+ENSG00000248734	ENSG00000248734	novel transcript	1	AC008906.1	lncRNA
+ENSG00000249807	ENSG00000249807	novel transcript	1	AC034229.1	lncRNA
+ENSG00000250619	ENSG00000250619	novel transcript	1	AC021088.1	lncRNA
+ENSG00000251527	ENSG00000251527	novel transcript	1	AC097110.1	lncRNA
+ENSG00000253959	ENSG00000253959	long intergenic non-protein coding RNA 1863 [Source:HGNC Symbol;Acc:HGNC:52682]	1	LINC01863	lncRNA
+ENSG00000254001	ENSG00000254001	novel transcript	1	AC084706.1	lncRNA
+ENSG00000254153	ENSG00000254153	novel transcript	-1	AC103957.2	lncRNA
+ENSG00000255516	ENSG00000255516	novel transcript	1	AP005436.3	lncRNA
+ENSG00000255557	ENSG00000255557	novel transcript	1	AP001266.2	lncRNA
+ENSG00000256564	ENSG00000256564	novel transcript	1	AC007552.2	lncRNA
+ENSG00000258451	ENSG00000258451	novel transcript, antisense to RNASE4 and ANG	-1	AL163636.1	lncRNA
+ENSG00000258600	ENSG00000258600	novel transcript	-1	AL359238.1	lncRNA
+ENSG00000258610	ENSG00000258610	novel transcript	1	AF111169.1	lncRNA
+ENSG00000258729	ENSG00000258729	novel transcript	-1	AL355102.3	lncRNA
+ENSG00000259125	ENSG00000259125	LRP1 antisense RNA [Source:HGNC Symbol;Acc:HGNC:51694]	-1	LRP1-AS	lncRNA
+ENSG00000259215	ENSG00000259215	novel transcript	-1	AC027237.3	lncRNA
+ENSG00000259293	ENSG00000259293	LIPC antisense RNA 1 [Source:HGNC Symbol;Acc:HGNC:52294]	-1	LIPC-AS1	lncRNA
+ENSG00000259359	ENSG00000259359	novel transcript	1	AC012409.1	lncRNA
+ENSG00000259417	ENSG00000259417	cortexin domain containing 1 [Source:HGNC Symbol;Acc:HGNC:50507]	-1	CTXND1	protein_coding
+ENSG00000260536	ENSG00000260536	novel transcript, antisense to MAPRE1	-1	AL035071.2	lncRNA
+ENSG00000261243	ENSG00000261243	novel transcript, antisense to KIAA1609	1	AC022165.1	lncRNA
+ENSG00000261272	ENSG00000261272	mucin 22 [Source:HGNC Symbol;Acc:HGNC:39755]	1	MUC22	protein_coding
+ENSG00000261421	ENSG00000261421	novel transcript	1	AC044798.1	lncRNA
+ENSG00000261434	ENSG00000261434	novel transcript, overlapping LRRC14B	1	AC021087.4	lncRNA
+ENSG00000261446	ENSG00000261446	long intergenic non-protein coding RNA 559 [Source:HGNC Symbol;Acc:HGNC:43703]	-1	LINC00559	lncRNA
+ENSG00000261519	ENSG00000261519	novel transcript	1	AC010542.4	lncRNA
+ENSG00000261720	ENSG00000261720	novel transcript	1	AC009041.3	lncRNA
+ENSG00000265190	ENSG00000265190	annexin A8 [Source:HGNC Symbol;Acc:HGNC:546]	-1	ANXA8	protein_coding
+ENSG00000265490	ENSG00000265490	novel transcript, antisense to ENOSF1	1	AP001178.2	lncRNA
+ENSG00000267405	ENSG00000267405	novel transcript	-1	AC005180.1	lncRNA
+ENSG00000267986	ENSG00000267986	novel transcript, antisense to ADAMTS10	1	AC130469.1	lncRNA
+ENSG00000268854	ENSG00000268854	novel transcript, antisense to EMC10	-1	AC020909.4	lncRNA
+ENSG00000269053	ENSG00000269053	novel transcript, antisense FAM125A	-1	AC010319.3	lncRNA
+ENSG00000269599	ENSG00000269599	novel transcript, antisense to FARP1	-1	AL161896.1	lncRNA
+ENSG00000269806	ENSG00000269806	BICRA antisense RNA 1 [Source:HGNC Symbol;Acc:HGNC:51588]	-1	BICRA-AS1	lncRNA
+ENSG00000270765	ENSG00000270765	growth arrest specific 2 like 2 [Source:HGNC Symbol;Acc:HGNC:24846]	-1	GAS2L2	protein_coding
+ENSG00000270964	ENSG00000270964	novel transcript	-1	AC016355.1	lncRNA
+ENSG00000271843	ENSG00000271843	novel transcript	-1	AC012557.1	lncRNA
+ENSG00000272477	ENSG00000272477	novel transcript, sense intronic to SATB1	-1	AC144521.1	lncRNA
+ENSG00000272479	ENSG00000272479	novel transcript	-1	AC010857.1	lncRNA
+ENSG00000273174	ENSG00000273174	novel transcript, antisense to RAB43	1	AC108673.2	lncRNA
+ENSG00000273175	ENSG00000273175	novel transcript	1	BX323046.1	lncRNA
+ENSG00000274225	ENSG00000274225	novel transcript	1	AP001065.1	lncRNA
+ENSG00000275454	ENSG00000275454	novel transcript, antisense to IMP3	1	AC105020.6	lncRNA
+ENSG00000276744	ENSG00000276744	novel transcript, sense intronic to SIN3A	-1	AC105137.2	lncRNA
+ENSG00000277260	ENSG00000277260	family with sequence similarity 74 member A7 [Source:HGNC Symbol;Acc:HGNC:34037]	1	FAM74A7	lncRNA
+ENSG00000278084	ENSG00000278084	novel transcript	1	AC069503.3	lncRNA
+ENSG00000278627	ENSG00000278627	novel transcript, antisense to EPX	-1	AC005962.1	lncRNA
+ENSG00000279103	ENSG00000279103	TEC	-1	AC138470.1	TEC
+ENSG00000279144	ENSG00000279144	TEC	-1	AC099667.1	TEC
+ENSG00000279209	ENSG00000279209	novel transcript	1	AP001002.1	TEC
+ENSG00000279394	ENSG00000279394	novel transcript	-1	AC015871.4	TEC
+ENSG00000279463	ENSG00000279463	novel transcript, sense intronic to KLF12	-1	AL159972.1	lncRNA
+ENSG00000279616	ENSG00000279616	novel transcript, sense intronic to C6orf163	1	AL096817.1	TEC
+ENSG00000279825	ENSG00000279825	novel transcript	1	AC003957.1	TEC
+ENSG00000279962	ENSG00000279962	TEC	-1	AP001525.1	TEC
+ENSG00000280056	ENSG00000280056	tec	-1	AC097520.1	TEC
+ENSG00000280069	ENSG00000280069	TEC	1	AC127024.8	TEC
+ENSG00000280276	ENSG00000280276	novel transcript	-1	AC009229.4	TEC
+ENSG00000280295	ENSG00000280295	novel transcript	1	AC099811.6	TEC
+ENSG00000280451	ENSG00000280451	TEC	1	AL356094.1	TEC
+ENSG00000280890	ENSG00000280890	EGFR long non-coding downstream RNA [Source:HGNC Symbol;Acc:HGNC:49511]	-1	ELDR	lncRNA
+ENSG00000281100	ENSG00000281100	TEC	-1	AC105749.1	TEC

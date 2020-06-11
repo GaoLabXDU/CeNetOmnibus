@@ -1,0 +1,6 @@
+.table, .table * {margin: 0 auto;font-size: 14px;font-family:"Times New Roman";font-weight:bold;}
+.table {display: table; width: 80%; border-collapse: collapse;float:left;}
+.table-tr {display: table-row; height: 30px;}
+.table-th {display: table-cell;font-weight: bold;height: 100%;border: 1px solid gray;text-align: center;vertical-align: middle;background-color:#E5E5E5;}
+.table-tdr {display: table-cell; height: 100%;text-align: center;vertical-align: middle;}
+.table-tdl {display: table-cell; height: 100%;text-align: center;vertical-align: middle;}

@@ -1,0 +1,13 @@
+Package: CeNetOmnibus
+Type: Package
+Title: A Shiny based application for ceRNA construction and analysis.
+Version: 0.1.2
+Author: Xiao Wen, Lin Gao, Tuo Song and Chaoqun Jiang
+Maintainer: Xiao Wen <williamxiao@live.cn>
+Description: The ceRNA regulation is a newly discovered post-transcriptional regulation mechanism and plays significant roles in physiological and pathological progress. CeRNA networks provide global views to help understand the regulation of ceRNAs. The analysis of ceRNA network has been widely used to detect survival biomarkers, select candidate regulators of disease genes, and predict long noncoding RNA functions. However, there is no software platform to provide overall functions for the construction to analysis of ceRNA networks. To fill this gap, we introduce CeNet Omnibus, a R/Shiny application, which provides a unified framework for ceRNA network construction and analysis. CeNet Omnibus enables users to select multiple measurements, such as PCC, MI and LA, to identify ceRNA pairs and construct ceRNA networks. Furthermore, CeNet Omnibus also provides a one-stop solution to analyze the ceRNA networks, including analyzing the ceRNA network topological properties, detecting modules, performing enrichment analysis and survival analysis. CeNet Omnibus is intended to cover comprehensiveness, high efficiency, high expandability and user customizability, and it also offers the web-based user-friendly interface for users to obtain the output intuitionally.
+License: MIT License
+Encoding: UTF-8
+LazyData: true
+Imports: parallel,biomaRt,shiny,plyr,ggplot2,jsonlite,shinydashboard,shinyWidgets,DT,ggthemr,tibble,igraph,scales,rhandsontable,PerformanceAnalytics,linkcomm,MCL,visNetwork,colourpicker,ggplotify,survival,survminer,ComplexHeatmap,circlize,formattable,infotheo,ProNet,gprofiler2
+Depends: R (>= 3.6.0)
+RoxygenNote: 7.0.2
