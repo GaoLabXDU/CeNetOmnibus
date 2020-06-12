@@ -1,3 +1,9 @@
+#' Check and Install the dependency packages of CeNetOmnibus
+#' @return
+#' @export
+#'
+#' @examples
+#'    checkDependency()
 checkDependency=function()
 {
   dependency=data.frame(package=c('parallel','biomaRt','shiny','plyr','ggplot2','jsonlite','shinydashboard','shinyWidgets','DT','ggthemr','tibble','igraph','scales','rhandsontable','PerformanceAnalytics','linkcomm','MCL','visNetwork','colourpicker','ggplotify','survival','survminer','ComplexHeatmap','circlize','formattable','infotheo','ProNet','gprofiler2','R.oo','svglite'),repo=c('CRAN','Bioc','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','github','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','Bioc','CRAN','CRAN','CRAN','self','CRAN','CRAN','CRAN'),stringsAsFactors = F)
