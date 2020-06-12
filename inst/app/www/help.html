@@ -23,11 +23,80 @@
 			<div id='intro2' class='panel-collapse collapse' aria-expanded='trufalsee' >
 				<div class='box-body' style="font-family:sans;font-size:18px">
 					<p style="text-align:justify; text-justify:inter-ideograph;">CeNet Omnibus consists of five components, including <b>Data Input, Data Processing, Network Construction, Network Visualization and Netwoek Analysis</b>. The framework of CeNet Omnibus is shown below.</p>
-					<image src="Figures/framework.svg" alt='' style="">
+					<img src="Figures/framework.svg" />
 				</div>
 			</div>
 		</div>
 	</div>
+	<!--
+	<h1 style="font-family:Georgia">How to Start</h1>
+	<div class='box-group' id='intro'>
+		<div class='panel box box-primary'>
+			<div class='box-header with-border'>
+				<h3 class='box-title' style="font-family:sans;font-size:20px">
+					<a class="" data-toggle='collapse' data-parent='#intro' href='#intro3' aria-expanded='false'>What to do before the installation of CeNet Omnibus?</a>
+				</h3>
+			</div>
+			<div id='intro3' class='panel-collapse collapse' aria-expanded='trufalsee' >
+				<div class='box-body' style="font-family:sans;font-size:18px">
+					<p style="text-align:justify; text-justify:inter-ideograph;">
+						CeNetOmnibus depends on multiple packages, including <b>biomaRt, circlize, colourpicker, ComplexHeatmap, DT, formattable,
+						ggplot2, ggplotify, ggthemr, gprofiler2, igraph, infotheo, jsonlite, linkcomm, MCL, parallel, PerformanceAnalytics, plyr, ProNet,
+						R.oo, rhandsontable, scales, shiny, shinydashboard, shinyWidgets, survival, survminer, svglite, tibble, visNetwork.</b></p>
+					<p style="text-align:justify; text-justify:inter-ideograph;">
+						To make sure all the dependency packages are installed, run following codes to install dependency packages.
+					</p>
+					<div class="highlight highlight-source-r">
+						<pre>source(<span class="pl-s"><span class="pl-pds">'</span>https://raw.githubusercontent.com/william0701/ceNet-Omnibus/master/dependency.R<span class="pl-pds">'</span></span>)</pre>
+					</div>
+					<p style="text-align:justify; text-justify:inter-ideograph;">Or run the following code in R console directly.</p>
+					<div class="highlight highlight-source-r">
+						<pre>dependency=data.frame(package=c('parallel','biomaRt','shiny','plyr','ggplot2','jsonlite','shinydashboard','shinyWidgets','DT','ggthemr','tibble','igraph','scales','rhandsontable','PerformanceAnalytics','linkcomm','MCL','visNetwork','colourpicker','ggplotify','survival','survminer','ComplexHeatmap','circlize','formattable','infotheo','ProNet','gprofiler2','R.oo','svglite'),repo=c('CRAN','Bioc','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','github','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','CRAN','Bioc','CRAN','CRAN','CRAN','self','CRAN','CRAN','CRAN'),stringsAsFactors = F)
+rownames(dependency)=dependency$package
+installed=installed.packages()
+if(!"devtools" %in% installed)
+install.packages('devtools')
+if(!"BiocManager" %in% installed)
+	install.packages('BiocManager')
+install=dependency[!(dependency$package %in% installed),]
+CRAN=install$package[which(install$repo=='CRAN')]
+Bioc=install$package[which(install$repo=='Bioc')]
+if(length(CRAN)>0)
+	devtools::install_cran(CRAN,upgrade='never')
+if(length(Bioc)>0)
+	devtools::install_bioc(Bioc,upgrade = 'never')
+if("ggthemr" %in% install$package)
+	devtools::install_github("cttobin/ggthemr",upgrade='never')
+if("ProNet" %in% install$package)
+	install.packages("https://cran.r-project.org/src/contrib/Archive/ProNet/ProNet_1.0.0.tar.gz",repos = NULL,type = "source")</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='panel box box-primary'>
+			<div class='box-header with-border'>
+				<h3 class='box-title' style="font-family:sans;font-size:20px">
+					<a class="" data-toggle='collapse' data-parent='#intro' href='#intro4' aria-expanded='false'>How to install CeNet Omnibus?</a>
+				</h3>
+			</div>
+			<div id='intro4' class='panel-collapse collapse' aria-expanded='trufalsee' >
+				<div class='box-body' style="font-family:sans;font-size:18px">
+					<p style="text-align:justify; text-justify:inter-ideograph;">
+						The released version of CeNet Omnibus can be found in <a href="https://github.com/william0701/ceNet-Omnibus/releases">release.</a>
+						Please download the latest version for the best practice.
+					</p>
+					<p style="text-align:justify; text-justify:inter-ideograph;">
+						Users should install the package from local files with codes
+					</p>
+					<div class="highlight highlight-source-r">
+						<pre>install.packages("user_path/CeNetOmnibus.tar.gz",repos=NULL,type='source')</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	-->
 
 	<h1 style="font-family:Georgia">Data Preparation</h1>
 	<div class='box-group' id='intro'>
