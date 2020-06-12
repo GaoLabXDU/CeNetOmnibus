@@ -13,7 +13,7 @@ CeNet Omnibus consists of five components, including **Data Input**, **Data Proc
 To install CeNetOmnibus package, please input the following commands in the console
 
 ```
-devtools::install_github('william0701/CeNetOmnibus')
+devtools::install_github('GaoLabXDU/CeNetOmnibus')
 ```
 
 CeNetOmnibus depends on multiple packages, including **biomaRt**, **circlize**, **colourpicker**, **ComplexHeatmap**, **DT**, **formattable**, **ggplot2**, **ggplotify**, **ggthemr**, **gprofiler2**, **igraph**, **infotheo**, **jsonlite**, **linkcomm**, **MCL**, **parallel**, **PerformanceAnalytics**, **plyr**, **ProNet**, **R.oo**, **rhandsontable**, **scales**, **shiny**, **shinydashboard**, **shinyWidgets**, **survival**, **survminer**, **svglite**, **tibble**, **visNetwork**.
