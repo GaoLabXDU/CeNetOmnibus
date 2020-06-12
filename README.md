@@ -10,10 +10,10 @@ CeNet Omnibus consists of five components, including **Data Input**, **Data Proc
 
 ## How to Start
 
-To install ceNet Omnibus package, please input the following commands in console
+To install CeNetOmnibus package, please input the following commands in the console
 
 ```
-devtools::install_github('william0701/ceNetOmnibus-release')
+devtools::install_github('william0701/CeNetOmnibus')
 ```
 
 CeNetOmnibus depends on multiple packages, including **biomaRt**, **circlize**, **colourpicker**, **ComplexHeatmap**, **DT**, **formattable**, **ggplot2**, **ggplotify**, **ggthemr**, **gprofiler2**, **igraph**, **infotheo**, **jsonlite**, **linkcomm**, **MCL**, **parallel**, **PerformanceAnalytics**, **plyr**, **ProNet**, **R.oo**, **rhandsontable**, **scales**, **shiny**, **shinydashboard**, **shinyWidgets**, **survival**, **survminer**, **svglite**, **tibble**, **visNetwork**.
@@ -23,16 +23,6 @@ To make sure all the dependency packages are installed, run  following codes to 
 ```r
 library(CeNetOmnibus)
 checkDependency()
-```
-
-Or run the following code in R console directly
-
-> Demo data can be downloaded with [demodata.zip](https://github.com/william0701/ceNet-Omnibus/releases/download/0.1.1/demodata.zip). The details about these files can be found in the *readme* in *demodata*
-
-Install CeNetOmnibus package from local files
-
-```r
-install.packages("user_path/CeNetOmnibus.tar.gz",repos=NULL,type='source')
 ```
 
 ## Data Preparation
@@ -54,7 +44,7 @@ CeNetOmnibus()
 
 ### 1. Data Input
 
-**Data input** provides the interface for users to upload data for the construction of ceRNA network.
+**Data input** provides the interface for users to upload data for the construction of ceRNA network. The demo data can be found in [demodata.zip](https://github.com/william0701/ceNet-Omnibus/releases/download/0.1.1/demodata.zip)
 
 #### 1.1 Expression Profiles
 
