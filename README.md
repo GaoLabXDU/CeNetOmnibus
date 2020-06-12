@@ -297,7 +297,7 @@ Here we can perform enrichment analysis to these modules. Sure, you can also ana
 
 Currently, CeNet Omnibus integrates **g:Profiler** to do function enrichment analysis. Besides, CeNet Omnibus allows users to provide custom defined gene sets to other analysis. For user-defined data sets,  users should choose **custom input**, and upload a gene sets file. In this file, every line represents a gene set, seperated with tab. And the first element in every line should be the name of the gene set. Users can click **Preview** to check the uploaded file. The results will be shown in the **Custom Gene Preview** panel. Users can click **Details** button to view genes in corresponding gene sets.
 
-![](Figures/hallmark.png)
+![](inst/app/www/Figures/hallmark.png)
 
 The following is the parameter introduction:
 
@@ -318,7 +318,6 @@ The following is the parameter introduction:
 You should confirm all parameter Meet your requirements. Finally click **Perform** Button. You will see pictures.
 
 ![](inst/app/www/Figures/bar_Module0_enrichment_plot_GO_BP.svg)
-
 ![](inst/app/www/Figures/point_Module0_enrichment_plot_GO_BP.svg)
 
 > NOTE: You need to make sure that there are values at the top of the 2nd Step and **Network Modules** on 5th Step have been completed.Otherwise,**Gene ID Map** and **Module analysis** will be empty.
