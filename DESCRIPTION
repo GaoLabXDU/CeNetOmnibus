@@ -9,6 +9,6 @@ Description: The ceRNA regulation is a newly discovered post-transcriptional reg
 License: MIT License
 Encoding: UTF-8
 LazyData: true
-Imports: parallel,biomaRt,shiny,plyr,ggplot2,jsonlite,shinydashboard,shinyWidgets,DT,ggthemr,tibble,igraph,scales,rhandsontable,PerformanceAnalytics,linkcomm,MCL,visNetwork,colourpicker,ggplotify,survival,survminer,ComplexHeatmap,circlize,formattable,infotheo,ProNet,gprofiler2
+Imports: parallel,biomaRt,shiny,plyr,ggplot2,jsonlite,shinydashboard,shinyWidgets,DT,tibble,igraph,scales,rhandsontable,PerformanceAnalytics,linkcomm,MCL,visNetwork,colourpicker,ggplotify,survival,survminer,ComplexHeatmap,circlize,formattable,infotheo,gprofiler2
 Depends: R (>= 3.6.0)
 RoxygenNote: 7.0.2
