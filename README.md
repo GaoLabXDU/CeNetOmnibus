@@ -6,7 +6,7 @@ The ceRNA regulation is a newly discovered post-transcriptional regulation mecha
 
 CeNet Omnibus consists of five components, including **Data Input**, **Data Processing**, **Network Construction**, **Network Visualization** and **Netwoek Analysis**. The framework of CeNet Omnibus is shown below.
 
-![](Figures/framework.svg)
+![](inst/app/www/Figures/framework.svg)
 
 ## How to Start
 
@@ -128,7 +128,7 @@ For **Custom Upload** method, the uploaded file should be plain text delimited b
 
 When enter the **Data Processing** tab, the program will obtains the common ceRNAs, microRNAs and samples in the uploaded  files.
 
-![](Figures/Valid_Gene.png)
+![](inst/app/www/Figures/Valid_Gene.png)
 
 #### 2.1 Gene Grouping
 
@@ -136,13 +136,13 @@ Users are allowed to group ceRNAs into different groups to set different paramen
 
 Users can group ceRNAs according to the essential ceRNA information uploaded in step 1.3.  Validated columns are listed. 
 
-![](Figures/Gene_Mapping_1.jpg)
+![](inst/app/www/Figures/Gene_Mapping_1.jpg)
 
 > NOTE: Click **Preview** Button on the right-bottom corner of the panel once set parameters properly.
 
 > NOTE: The ceRNAs of non-selected items will be removed in the next processing.
 
-![](Figures/Group_statistic.svg)
+![](inst/app/www/Figures/Group_statistic.svg)
 
 #### 2.2 Sample Filter
 
@@ -150,11 +150,11 @@ There may be some bad samples in the ceRNA/microRNA expression profiles. This se
 
 Firstly, users should set the thresh of a good microRNA/ceRNA in samples. For example, we think the CPM of a microRNA larger than 50 is good, while the RPKM of a ceRNA larger than 0.1 is good. Then, the program will calculate the good microRNAs/ceRNAs ratio each sample, and create the distribution plot. Finally, users need to decide how many samples should be remained by sliding the percentile bar.
 
-![](Figures/Sample_Filter1.jpg)
+![](inst/app/www/Figures/Sample_Filter1.jpg)
 
-![](Figures/microSampleFilter.svg)
+![](inst/app/www/Figures/microSampleFilter.svg)
 
-![](Figures/RNASampleFilter.svg)
+![](inst/app/www/Figures/RNASampleFilter.svg)
 
 > NOTE: Click **Preview** to create the plot, and the change of Percentile bar will update the plot.
 
@@ -166,13 +166,13 @@ Because the expressions of ceRNAs and microRNAs have tissue-specificity, non-exp
 
 Firstly, users should set the minimal expression thresh of a expressed microRNA or ceRNA . For example, we think the CPM of a microRNA larger than 100 is expressed, while the RPKM of a noncoding ceRNA larger than 0.5 is expressed and 1 for a coding ceRNA. Then, the program will calculate the expressed sample ratio of each RNA, and create the distribution plot. Finally, users need to decide how many samples a RNA  should express in by sliding the Minimal Sample Ratio bar.
 
-![](Figures/RNA_Filter1.jpg)
+![](inst/app/www/Figures/RNA_Filter1.jpg)
 
-![](Figures/microStatistic.svg)
+![](inst/app/www/Figures/microStatistic.svg)
 
-![](Figures/NoncodingStatistic.svg)
+![](inst/app/www/Figures/NoncodingStatistic.svg)
 
-![](Figures/CodingStatistic.svg)
+![](inst/app/www/Figures/CodingStatistic.svg)
 
 > Tips: Click **Preview** to create the plot, and the change of Percentile bar will update the plot.
 
@@ -186,7 +186,7 @@ In Transform Operations, you can choose to perform log conversion or standardiza
 
 Note the Custom button. If you want to write a function to perform data conversion, you can click it. There will be detailed examples in the pop-up interface for you to write functions.
 
-![](Figures/Value_trans1.png)
+![](inst/app/www/Figures/Value_trans1.png)
 
 > Tips: Our operation will not be iterative. If you click the Action button again, it will perform the operation you selected on the initial data.
 
@@ -200,13 +200,13 @@ CeNet Omnibus  provides a set measurements for users to identify ceRNA pairs and
 
 Click **Add New** Button to add a new measurement. Users need to set how many CPU cores ared needed to compute this measurement. Additionally, users can select if they want to compute the measurement of all pairs or a part of pairs according to the ceRNA groups defined in section 2.1. 
 
-![](Figures/add_measurement.jpg)
+![](inst/app/www/Figures/add_measurement.jpg)
 
-![](Figures/measure_panel.jpg)
+![](inst/app/www/Figures/measure_panel.jpg)
 
 Click Start Btn to  start calculation. When the calculation is finished, the background color will be Green
 
-![](Figures/measure_finish.jpg)
+![](inst/app/www/Figures/measure_finish.jpg)
 
 > TIPS: PCC only need one core to compute. 
 
@@ -214,7 +214,7 @@ Click Start Btn to  start calculation. When the calculation is finished, the bac
 
 When the calculation is finished, the program will create the distribution plot of every task.
 
-![](Figures/thresh_1.jpg)
+![](inst/app/www/Figures/thresh_1.jpg)
 
 **Direction** can set which part of pairs should be remained. **+** and **-** can be used to tune the thresh value with step in **Step**
 
@@ -226,7 +226,7 @@ After all settings, click **Confirm** button to save the threshes.
 
 After saving all the threshes, Click **Construct Network** button to create the ceRNA network. The program will apply all the threshold setted in section 3.2. The program will summarize the network after the  constrction.
 
-![](Figures/network_summary.jpg)
+![](inst/app/www/Figures/network_summary.jpg)
 
 ### 4. Network Visualization
 
@@ -261,7 +261,7 @@ Clicking this button will restore the location of the network to prevent mouse m
 #### 4.7 Export Network
 
 Export the visualized network in the fourth page as a image
-![](Figures/network_visual.png)
+![](inst/app/www/Figures/network_visual.png)
 
 ### 5. Network Analysis
 
@@ -271,9 +271,9 @@ CeNet Omnibus provide four types of analysis to ceRNA network, including **Netwo
 
 CeNet Omnibus can calculate four node centralities and one edge centrality to evaluate the network topological properties. Users only need to click the corresponding buttons to create the density plot of every centrality.
 
-![](Figures/centrality1.jpg) 
+![](inst/app/www/Figures/centrality1.jpg) 
 
-![](Figures/degree.jpg)
+![](inst/app/www/Figures/degree.jpg)
 
 > Tips: Click **Detail** button to get detail information
 
@@ -283,13 +283,13 @@ CeNet Omnibus integrated a set of network module detection algorithms to identif
 
 CeNet Omnibus will summarize the communities in a table. Users can select modules to visualize and set node properties with the similar way in section 4.
 
-![](Figures/module_summary.png)
+![](inst/app/www/Figures/module_summary.png)
 
-![](Figures/module1.jpg)
+![](inst/app/www/Figures/module1.jpg)
 
-![](Figures/module2.jpg)
+![](inst/app/www/Figures/module2.jpg)
 
-![](Figures/module3.jpg)
+![](inst/app/www/Figures/module3.jpg)
 
 #### 5.3 Enrichment Analysis
 
@@ -317,9 +317,9 @@ The following is the parameter introduction:
 
 You should confirm all parameter Meet your requirements. Finally click **Perform** Button. You will see pictures.
 
-![](Figures/bar_Module0_enrichment_plot_GO_BP.svg)
+![](inst/app/www/Figures/bar_Module0_enrichment_plot_GO_BP.svg)
 
-![](Figures/point_Module0_enrichment_plot_GO_BP.svg)
+![](inst/app/www/Figures/point_Module0_enrichment_plot_GO_BP.svg)
 
 > NOTE: You need to make sure that there are values at the top of the 2nd Step and **Network Modules** on 5th Step have been completed.Otherwise,**Gene ID Map** and **Module analysis** will be empty.
 
@@ -327,17 +327,17 @@ You should confirm all parameter Meet your requirements. Finally click **Perform
 
 CeNet Omnibus provides the interface to perform survival analysis. There are two models, including Kaplan-Meier survival estimate model and Cox proportional hazards regression model. 
 
-![](Figures/survival.jpg)
+![](inst/app/www/Figures/survival.jpg)
 
 Users need to upload the clinical information and corresponding expression profiles. Alternatively, the expression profiles can be the expreesion profiles used to construct ceRNA network. The program will obtain the patients that appear in both data sets. Therefore, please make sure the patient ids are in the same format in two data sets.
 
 Users need to set parameters for the estimation models. CeNet Omnibus can analyze survival hazard of gene set or single gene.
 
-![](Figures/km_curve.svg)
+![](inst/app/www/Figures/km_curve.svg)
 
-![](Figures/km_group.png)
+![](inst/app/www/Figures/km_group.png)
 
-![](Figures/cox_table.jpg)
+![](inst/app/www/Figures/cox_table.jpg)
 
 ## Download
 
