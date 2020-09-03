@@ -1,7 +1,7 @@
 Package: CeNetOmnibus
 Type: Package
 Title: A Shiny based application for ceRNA construction and analysis.
-Version: 0.1.2
+Version: 0.1.3
 Author: Xiao Wen, Lin Gao, Tuo Song and Chaoqun Jiang
 Maintainer: Xiao Wen <williamxiao@live.cn>
 biocViews:
