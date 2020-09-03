@@ -9,6 +9,7 @@ CeNetOmnibus(
   workpath = tempdir(),
   projectName = NULL,
   typeLimit = 10,
+  useEnsembl = T,
   ...
 )
 }
@@ -20,6 +21,8 @@ CeNetOmnibus(
 \item{projectName}{Character. The name of this analysis. Default is session token.}
 
 \item{typeLimit}{Integer. The number of valid items. Default is 10.}
+
+\item{useEnsembl}{Boolean. Determine if use Ensembl databasae. Default is T for connecting.}
 
 \item{...}{Other parameters passed to runApp()}
 }
