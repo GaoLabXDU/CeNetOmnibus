@@ -147,7 +147,7 @@ network_module_panel=tabPanel(title="Network Modules",
                                                                        div(class='form-group shiny-input-container',
                                                                            tags$label(HTML("Fluff")),
                                                                            switchInput(inputId='mcode_fluff',value = F,onLabel = 'True',offLabel = "False")
-                                                                       )
+                                                                       )                                                  
                                                                    ),
                                                                    conditionalPanel("input.mcode_fluff",
                                                                                     div(class="col-lg-2",
@@ -172,7 +172,7 @@ network_module_panel=tabPanel(title="Network Modules",
                                           )
                                       )
                                   ),
-
+                                  
                                   div(class='box-footer',
                                       conditionalPanel('input.community_algorithm=="cluster_edge_betweenness"',
                                                        tags$cite(class="bg-orange-active",HTML("* Newman M E J, Girvan M. Finding and evaluating community structure in networks[J]. Physical review E, 2004, 69(2): 026113."),style="font-weight:bold")
@@ -287,7 +287,7 @@ enrichment_panel=tabPanel(title="Enrichment Analysis",
                                     conditionalPanel("input.choose_which_gene_to_analysis=='Modules_Gene'",
                                                       div(class='col-lg-6',
                                                           pickerInput(inputId = 'enrichment_Module_analysis1',label = 'Module analysis',
-                                                                      choices = c(),
+                                                                      choices = c(), 
                                                                       multiple = TRUE,
                                                                       options = list(size = 8,`live-search` = TRUE,"actions-box"=T),
                                                                       width = "100%"
@@ -315,7 +315,7 @@ enrichment_panel=tabPanel(title="Enrichment Analysis",
                                          inline = TRUE
                                        )
                                    )
-
+                                   
                                )
                                ),
                              box(width = 5,
@@ -324,8 +324,8 @@ enrichment_panel=tabPanel(title="Enrichment Analysis",
                              )
                             ),
                            div(id="all_enrichment_show")
-
-
+                           
+                           
 )
 survival_panel=tabPanel(title="Survival Analysis",
                          h2("Part4: Survival Analysis",style='font-family:Georgia'),
@@ -349,7 +349,7 @@ survival_panel=tabPanel(title="Survival Analysis",
                                                                             onclick="demo_clinical()",
                                                                             tags$i(class='fa fa-upload'),
                                                                             HTML("Upload Demo Data")
-
+                                                              
                                                             )),
                                                             div(class="col-lg-12",style="padding:0px",
                                                                 fileInput(inputId="clinical_file",label = "Clinical Data")
@@ -441,7 +441,7 @@ survival_panel=tabPanel(title="Survival Analysis",
                                                                 div(class="col-lg-3",
                                                                     pickerInput(inputId = "clinical_gene_source",label = "Gene Set Source",choices = c("Modules"="module",'Single Gene'='single.gene','Custom'='custom'))
                                                                 ),
-
+                                                                
                                                                 conditionalPanel("input.clinical_gene_source=='module'",
                                                                                  div(class="col-lg-3",
                                                                                      pickerInput(inputId = "clinical_module",label = "Module ID",choices = c(),multiple = T,options = list("actions-box"=T))

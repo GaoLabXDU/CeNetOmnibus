@@ -4,6 +4,7 @@
 #' @param workpath Character. The dictionary for temp files. Default is return value of tempdir()
 #' @param projectName Character. The name of this analysis. Default is session token.
 #' @param typeLimit Integer. The number of valid items. Default is 10.
+#' @param useEnsembl Boolean. Determine if use Ensembl databasae. Default is T for connecting.
 #' @param ... Other parameters passed to runApp()
 #'
 #' @return
@@ -11,8 +12,7 @@
 #'
 #' @examples
 #'    CeNetOmnibus()
-CeNetOmnibus <- function(maxRequestSize=1000,workpath=tempdir(),projectName=NULL,typeLimit=10,...) {
-  checkDependency()
+CeNetOmnibus <- function(maxRequestSize=1000,workpath=tempdir(),projectName=NULL,typeLimit=10,useEnsembl=T,...) {
   library(parallel)
   library(biomaRt)
   library(shiny)
@@ -55,5 +55,7 @@ CeNetOmnibus <- function(maxRequestSize=1000,workpath=tempdir(),projectName=NULL
   ggthemr('flat')
   usedcolors=swatch()
   options(shiny.maxRequestSize = maxRequestSize)
-  suppressMessages(shiny::runApp(system.file("app", package = "CeNetOmnibus"),launch.browser=TRUE,...))
+  useE<<-useEnsembl
+  #suppressMessages(shiny::runApp(system.file("app", package = "CeNetOmnibus"),launch.browser=TRUE,...))
+  shiny::runApp("D:\\ceNet-Omnibus\\app",launch.browser=TRUE,...)
 }

@@ -12,7 +12,14 @@ shinyServer(function(input,output,session) {
   source('www/R/analysis_tabServer.R',local = T)
   source('www/R/process_tabServer.R',local = T)
 
-  connectEnsembl(session)
+  if(useE)
+  {
+    connectEnsembl(session)  
+  }
+  else
+  {
+    updateSelectInput(session = session,inputId = 'geneinfo_source',label='Gene Information Source',choices = c('Custom'='custom'),selected='custom')
+  }
 
   if(is.null(projName)){
     projName <<- session$token
