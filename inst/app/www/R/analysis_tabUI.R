@@ -151,12 +151,12 @@ network_module_panel=tabPanel(title="Network Modules",
                                                                            tags$label(HTML("Fluff")),
                                                                            switchInput(inputId='mcode_fluff',value = F,onLabel = 'True',offLabel = "False")
                                                                        )
-                                                                   ),
-                                                                   conditionalPanel("input.mcode_fluff",
-                                                                                    div(class="col-lg-2",
-                                                                                        numericInput(inputId='mcode_fdt',label = "Cluster Density Cutoff",value = 0.8,min = 0,max = 1,step = 0.1,width = '100%')
-                                                                                    )
                                                                    )
+                                                                   # conditionalPanel("input.mcode_fluff",
+                                                                   #                  div(class="col-lg-2",
+                                                                   #                      numericInput(inputId='mcode_fdt',label = "Cluster Density Cutoff",value = 0.8,min = 0,max = 1,step = 0.1,width = '100%')
+                                                                   #                  )
+                                                                   # )
                                                                )
                                               ),
                                               tags$br()

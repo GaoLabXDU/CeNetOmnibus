@@ -435,22 +435,352 @@ run_cluster_mcl_test=function(input,output,session)
   dev.off()
 
   session$sendCustomMessage("test_parameter_status",message = list(status='complete',info=paste('Finish'),progress=100))
-  for(i in seq(1,6))
-  {
-    removeUI(selector = paste0("#parameter_test_",i),multiple = T,immediate = T,session = session)
-    insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = paste0("parameter_test_",i),width = "100%",height = "100%"))
-    output[[paste0("parameter_test_",i)]]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test1.svg",sep=""),width="100%",height="100%")},deleteFile = F)
-  }
+  removeUI(selector = "#parameter_test_1",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_2",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_3",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_4",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_5",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_6",multiple = T,immediate = T,session = session)
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_1",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_2",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_3",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_4",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_5",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_6",width = "100%",height = "100%"))
+  output[['parameter_test_1']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test1.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_2']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test2.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_3']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test3.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_4']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test4.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_5']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test5.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_6']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test6.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+
 }
 create_cluster_linkcomm_test_ui=function(session)
 {
+  ui=div(class='row',
+         div(class='col-lg-12', checkboxGroupButtons(inputId = "hierarchical_clustering",label = 'Select hierarchical clustering method',
+                                                    choices = c("average"="average","ward"="ward","single"="single","complete"="complete",
+                                                                "mcquitty"="mcquitty","median"="median",'centroid'='centroid'),size = 'normal',
+                                                    status = 'primary',individual = T,
+                                                    checkIcon = list(yes = icon("ok",lib = "glyphicon"),
+                                                                     no = icon("remove",lib = "glyphicon"))))
+  )
+  removeUI(selector = "#modaltitle")
+  insertUI(selector = "infolist>div.modal-dialog>div.modal-content>div.modal-header",where = 'afterBegin',ui = h4(id="modaltitle",class="modal-title",HTML("Set Parameter Test of LinkComm")))
+  removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
+  insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = T,immediate = T)
+  removeUI(selector = "#modalSubmit")
+  insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_linkcomm")'))
+  session$sendCustomMessage('show_community_parameter_test_modal',"")
+
+}
+run_cluster_linkcomm_test=function(input,output,session)
+{
+  method=input$hierarchical_clustering
+  if(is.null(method))
+  {
+    sendSweetAlert(session = session,title = "Error",text = "Select At least One Method",type = 'error')
+    return()
+  }
+  summary=data.frame()
+  detail=data.frame()
+  progress=0
+  allprogress=length(method)
+  for(i in method)
+  {
+    progress=progress+1
+    session$sendCustomMessage("test_parameter_status",message = list(status='run',info=paste("Running hierarchical_clustering =",i),progress=round(progress/length(method),digits = 2)*100))
+    edgeinfo=get.edgelist(net_igraph,names = T)
+    colnames(edgeinfo)=c("N1",'N2')
+    community=cluster_linkcomm(edgeinfo,hcmethod = i)
+    membership=as.numeric(community$cluster)
+    names(membership)=community$node
+
+    isolatenode=setdiff(names(V(net_igraph)),names(membership))
+    isolatecommunity=seq(from=max(membership)+1,by = 1,length.out = length(isolatenode))
+    names(isolatecommunity)=isolatenode
+    membership=c(membership,isolatecommunity)
+
+    com_mod=modularity(x = net_igraph,membership=membership)
+    isolatednode=length(isolatecommunity)
+    membership[membership%in%isolatecommunity]=0
+    com_count=length(unique(membership))
+
+    tmp=data.frame()
+    for(com in setdiff(unique(membership),0))
+    {
+      mg=names(membership[membership==com])
+      subgraph=subgraph(graph = net_igraph,v = mg)
+      node_count=length(mg)
+      edge_count=gsize(subgraph)
+      density=edge_count/(node_count*(node_count-1)/2)
+      tmp=rbind(tmp,data.frame(para=i,nodecount=node_count,edgecount=edge_count,density=density,stringsAsFactors = F))
+    }
+    summary=rbind(summary,data.frame(para=i,singleNode=isolatednode,community=com_count,modularity=com_mod,density=mean(tmp$density,na.rm = T),stringsAsFactors = F))
+    detail=rbind(detail,tmp)
+  }
+  basic_theme=theme(legend.position = 'bottom',
+                    axis.line = element_line(linetype = "solid"),
+                    panel.grid.minor = element_line(linetype = "blank"),
+                    axis.title = element_text(family = "serif",size=14,color='black'),
+                    axis.text = element_text(family = "serif",size=14,color='black'),
+                    axis.text.x = element_text(family = "serif"),
+                    axis.text.y = element_text(family = "serif"),
+                    plot.title = element_text(family = "serif", hjust = 0.5,size=18,color='black'),
+                    legend.text = element_text(family = "serif",size=14,colour = 'black'),
+                    legend.title = element_text(family = "serif",size=14,color='black'),
+                    panel.background = element_rect(fill = NA),
+                    plot.background = element_rect(colour = NA),
+                    legend.key = element_rect(fill = NA),
+                    legend.background = element_rect(fill = NA),
+                    legend.direction = "horizontal")
+  summary$para=as.factor(summary$para)
+  detail$para=as.factor(detail$para)
+  p1=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = modularity,fill=para),stat='identity')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(method)))+
+    basic_theme+labs(title="Modularity",x="Hierarchical Clustering Method")+
+    theme(legend.position ='none')
+  p2=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = density,fill=para),stat='identity')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(method)))+
+    basic_theme+labs(title="Average Density",x="Hierarchical Clustering Method")+
+    theme(legend.position='none')
+  p3=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = community,fill=para),stat='identity')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(method)))+
+    basic_theme+labs(title="Community Count",x="Hierarchical Clustering Method")+
+    theme(legend.position='none')
+  p4=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = nodecount,fill=para))+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(method)))+
+    basic_theme+labs(title="Community Node Count Distribution",x="Hierarchical Clustering Method")+
+    theme(legend.position='none')
+  p5=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = edgecount,fill=para))+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(method)))+
+    basic_theme+labs(title="Community Edge Count Distribution",x="Hierarchical Clustering Method")+
+    theme(legend.position='none')
+  p6=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = density,fill=para))+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(method)))+
+    basic_theme+labs(title="Community Density Distribution",x="Hierarchical Clustering Method")+
+    theme(legend.position='none')
+
+  svglite(paste(basepath,"/Plot/community_parameter_test1.svg",sep=""))
+  print((p1|p2)/(p3|plot_spacer()))
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test2.svg",sep=""))
+  print((p4|p5)/(p6|plot_spacer()))
+  dev.off()
+
+  session$sendCustomMessage("test_parameter_status",message = list(status='complete',info=paste('Finish'),progress=100))
+
+  removeUI(selector = "#parameter_test_1",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_2",multiple = T,immediate = T,session = session)
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_1",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_2",width = "100%",height = "100%"))
+  output[['parameter_test_1']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test1.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_2']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test2.svg",sep=""),width="100%",height="100%")},deleteFile = F)
 
 }
 create_cluster_mcode_test_ui=function(session)
 {
+  ui=list(div(class='row',
+              div(class='col-lg-3', numericInput(inputId = 'vertex_start',label = "Vertex Weight Begin",value = 0.5,min = 0,max = 1,step = 0.1)),
+              div(class='col-lg-3',numericInput(inputId = 'vertex_step',label = "Vertex Weight Step",value = 0.1,min = 0,max = 1,step = 0.1)),
+              div(class='col-lg-3',numericInput(inputId = 'vertex_stop',label = "Vertex Weight End",value = 1,min = 0,max = 1,step = 0.1))
+          ),
+          div(class='row',
+              div(class='col-lg-3', checkboxGroupButtons(inputId = "if_haircut",label = 'Select if test haircut',
+                                                         choices = c("Yes"="true","No"="false"),size = 'normal',
+                                                         status = 'primary',individual = T,
+                                                         checkIcon = list(yes = icon("ok",lib = "glyphicon"),
+                                                                          no = icon("remove",lib = "glyphicon")))
+              ),
+              div(class='col-lg-3', checkboxGroupButtons(inputId = "if_fluff",label = 'Select if test fluff',
+                                                          choices = c("Yes"="true","False"="false"),size = 'normal',status = 'primary',individual = T,
+                                                                      checkIcon = list(yes = icon("ok",lib = "glyphicon"),
+                                                                                       no = icon("remove",lib = "glyphicon")))
+              )
+          )
+  )
+  removeUI(selector = "#modaltitle")
+  insertUI(selector = "infolist>div.modal-dialog>div.modal-content>div.modal-header",where = 'afterBegin',ui = h4(id="modaltitle",class="modal-title",HTML("Set Parameter Test of LinkComm")))
+  removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
+  insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = T,immediate = T)
+  removeUI(selector = "#modalSubmit")
+  insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_mcode")'))
+  session$sendCustomMessage('show_community_parameter_test_modal',"")
+}
+run_cluster_mcode_test=function(input,output,session)
+{
+  start=input$vertex_start
+  step=input$vertex_step
+  stop=input$vertex_stop
+  haircut=input$if_haircut
+  fluff=input$if_fluff
+  if(step==0)
+  {
+    sendSweetAlert(session = session,title = "Error",text = "Vertex Step can't be 0",type = 'error')
+    return()
+  }
+  if(start>stop)
+  {
+    sendSweetAlert(session = session,title = "Error",text = "The  Begin can't larger than End",type = 'error')
+    return()
+  }
+  if(is.null(haircut))
+  {
+    sendSweetAlert(session = session,title = "Error",text = "Choose at least one choice for haircut",type = 'error')
+    return()
+  }
+  if(is.null(fluff))
+  {
+    sendSweetAlert(session = session,title = "Error",text = "Choose at least one choice for haircut",type = 'error')
+    return()
+  }
+  summary=data.frame()
+  detail=data.frame()
+  progress=0
+  allprogress=length(seq(from=start,to = stop,by = step))*length(haircut)*length(fluff)
+  for(hc in haircut)
+  {
+    for(ff in fluff)
+    {
+      for(i in seq(from=start,to = stop,by = step))
+      {
+        progress=progress+1
+        session$sendCustomMessage("test_parameter_status",message = list(status='run',info=paste("Running Vertex =",i," haircut =",hc," fluff =",fluff),progress=round(progress/allprogress,digits = 2)*100))
+        community=cluster_mcode(graph = net_igraph,vwp = i,haircut = hc,fluff = ff,fdt = 0.8)
+        membership=community$cluster
+        names(membership)=community$node
+        isolatenode=names(membership)[membership==0]
+        membership[isolatenode]=seq(from=max(membership)+1,by = 1,length.out = length(isolatenode))
+        com_mod=modularity(x = net_igraph,membership=membership)
+        isolatednode=length(isolatenode)
+        membership[isolatenode]=0
+        com_count=length(unique(membership))
+
+        tmp=data.frame()
+        for(com in setdiff(unique(membership),0))
+        {
+          mg=names(membership[membership==com])
+          subgraph=subgraph(graph = net_igraph,v = mg)
+          node_count=length(mg)
+          edge_count=gsize(subgraph)
+          density=edge_count/(node_count*(node_count-1)/2)
+          tmp=rbind(tmp,data.frame(haircut=paste("haircut=",hc,sep=""),fluff=paste("fluff=",ff,sep=""),para=i,nodecount=node_count,edgecount=edge_count,density=density,stringsAsFactors = F))
+        }
+        summary=rbind(summary,data.frame(haircut=paste("haircut=",hc,sep=""),fluff=paste("fluff=",ff,sep=""),para=i,singleNode=isolatednode,community=com_count,modularity=com_mod,density=mean(tmp$density,na.rm = T),stringsAsFactors = F))
+        detail=rbind(detail,tmp)
+      }
+    }
+  }
+
+  basic_theme=theme(legend.position = 'bottom',
+                    axis.line = element_line(linetype = "solid"),
+                    panel.grid.minor = element_line(linetype = "blank"),
+                    axis.title = element_text(family = "serif",size=14,color='black'),
+                    axis.text = element_text(family = "serif",size=14,color='black'),
+                    axis.text.x = element_text(family = "serif"),
+                    axis.text.y = element_text(family = "serif"),
+                    plot.title = element_text(family = "serif", hjust = 0.5,size=18,color='black'),
+                    legend.text = element_text(family = "serif",size=14,colour = 'black'),
+                    legend.title = element_text(family = "serif",size=14,color='black'),
+                    panel.background = element_rect(fill = NA),
+                    plot.background = element_rect(colour = NA),
+                    legend.key = element_rect(fill = NA),
+                    legend.background = element_rect(fill = NA),
+                    legend.direction = "horizontal")
+  summary$para=as.factor(summary$para)
+  detail$para=as.factor(detail$para)
+  p1=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = modularity,fill=para),stat='identity')+
+    facet_grid(haircut~fluff,scales='free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Modularity",x="Hierarchical Clustering Method")+
+    theme(legend.position ='none')
+  p2=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = density,fill=para),stat='identity')+
+    facet_grid(haircut~fluff,scales='free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Average Density",x="Hierarchical Clustering Method")+
+    theme(legend.position='none')
+  p3=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = community,fill=para),stat='identity')+
+    facet_grid(haircut~fluff,scales='free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Community Count",x="Hierarchical Clustering Method")+
+    theme(legend.position='none')
+  p4=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = nodecount,fill=para))+
+    facet_grid(haircut~fluff,scales='free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Community Node Count Distribution",x="Hierarchical Clustering Method")+
+    theme(legend.position='none')
+  p5=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = edgecount,fill=para))+
+    facet_grid(haircut~fluff,scales='free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Community Edge Count Distribution",x="Hierarchical Clustering Method")+
+    theme(legend.position='none')
+  p6=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = density,fill=para))+
+    facet_grid(haircut~fluff,scales='free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Community Density Distribution",x="Hierarchical Clustering Method")+
+    theme(legend.position='none')
+
+  svglite(paste(basepath,"/Plot/community_parameter_test1.svg",sep=""))
+  print((p1|p2)/(p3|plot_spacer()))
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test2.svg",sep=""))
+  print((p4|p5)/(p6|plot_spacer()))
+  dev.off()
+
+  session$sendCustomMessage("test_parameter_status",message = list(status='complete',info=paste('Finish'),progress=100))
+
+  svglite(paste(basepath,"/Plot/community_parameter_test1.svg",sep=""))
+  print(p1)
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test2.svg",sep=""))
+  print(p2)
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test3.svg",sep=""))
+  print(p3)
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test4.svg",sep=""))
+  print(p4)
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test5.svg",sep=""))
+  print(p5)
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test6.svg",sep=""))
+  print(p6)
+  dev.off()
+
+  session$sendCustomMessage("test_parameter_status",message = list(status='complete',info=paste('Finish'),progress=100))
+  removeUI(selector = "#parameter_test_1",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_2",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_3",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_4",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_5",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_6",multiple = T,immediate = T,session = session)
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_1",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_2",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_3",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_4",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_5",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_6",width = "100%",height = "100%"))
+  output[['parameter_test_1']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test1.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_2']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test2.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_3']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test3.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_4']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test4.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_5']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test5.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_6']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test6.svg",sep=""),width="100%",height="100%")},deleteFile = F)
 
 }
-
 create_property_box=function(type,id)
 {
   id=sub(pattern = " ",replacement = "_",x = id)

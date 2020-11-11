@@ -212,7 +212,7 @@ Shiny.addCustomMessageHandler("test_parameter_status",function(msg){
   {
     $("#modalSubmit").attr('disabled','true')
     $("#modalSubmit").next().attr('disabled','true')
-    if($("#modalbody>div.row").length!=2)
+    if($("#modalbody").find('div.progress').length!=1)
     {
       var $row=$("<div class='row'>")
       var $col=$("<div class='col-lg-12'>")

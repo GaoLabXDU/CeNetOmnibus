@@ -2414,7 +2414,7 @@ shinyServer(function(input,output,session) {
           vwp=input$mcode_vwp
           haircut=input$mcode_haircut
           fluff=input$mcode_fluff
-          fdt=input$mcode_fdt
+          fdt=0.8#input$mcode_fdt
         })
         community=get(algorithm)(net_igraph,vwp=vwp,haircut=haircut,fluff=fluff,fdt=fdt)
 
