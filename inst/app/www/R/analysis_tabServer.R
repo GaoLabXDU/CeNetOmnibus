@@ -16,6 +16,441 @@ survival_exp=""
 valid_patient=""
 custom_gene_set=""
 
+create_cluster_walktrap_test_ui=function(session)
+{
+  ui=div(class='row',
+         div(class='col-lg-3', numericInput(inputId = 'step_start',label = "Step Begin",value = 1,min = 1,step = 1)),
+         div(class='col-lg-3',numericInput(inputId = 'step_step',label = "Test step of Step",value = 1,min = 1,step = 1)),
+         div(class='col-lg-3',numericInput(inputId = 'step_stop',label = "Step End",value = 2,min = 2,step = 1))
+  )
+  removeUI(selector = "#modaltitle")
+  insertUI(selector = "infolist>div.modal-dialog>div.modal-content>div.modal-header",where = 'afterBegin',ui = h4(id="modaltitle",class="modal-title",HTML("Set Parameter Test of Random Walk")))
+  removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
+  insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = T,immediate = T)
+  removeUI(selector = "#modalSubmit")
+  insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_walktrap")'))
+  session$sendCustomMessage('show_community_parameter_test_modal',"")
+}
+run_cluster_walktrap_test=function(input,output,session)
+{
+  start=input$step_start
+  step=input$step_step
+  stop=input$step_stop
+  if(step==0)
+  {
+    sendSweetAlert(session = session,title = "Error",text = "Step can't be 0",type = 'error')
+    return()
+  }
+  if(start>stop)
+  {
+    sendSweetAlert(session = session,title = "Error",text = "The Begin can't larger than End",type = 'error')
+    return()
+  }
+  summary=data.frame()
+  detail=data.frame()
+  progress=0
+  allprogress=setdiff(seq(from=start,to = stop,by = step),0)
+  for(i in allprogress)
+  {
+    progress=progress+1
+    session$sendCustomMessage("test_parameter_status",message = list(status='run',info=paste("Running Step =",i),progress=round(progress/length(allprogress),digits = 2)*100))
+    community=cluster_walktrap(graph = net_igraph,steps = i)
+    communitySize=sizes(community)
+    singleNodeCommunity=as.numeric(names(communitySize[which(communitySize==1)]))
+    membership=membership(community)
+    com_mod=modularity(x = net_igraph,membership=membership)
+    membership[which(membership%in%singleNodeCommunity)]=0
+    isolatednode=length(singleNodeCommunity)
+    com_count=length(unique(membership))
+
+    tmp=data.frame()
+    for(com in setdiff(unique(membership),0))
+    {
+      mg=names(membership[membership==com])
+      subgraph=subgraph(graph = net_igraph,v = mg)
+      node_count=length(mg)
+      edge_count=gsize(subgraph)
+      density=edge_count/(node_count*(node_count-1)/2)
+      tmp=rbind(tmp,data.frame(para=i,nodecount=node_count,edgecount=edge_count,density=density,stringsAsFactors = F))
+    }
+    summary=rbind(summary,data.frame(para=i,singleNode=isolatednode,community=com_count,modularity=com_mod,density=mean(tmp$density,na.rm = T),stringsAsFactors = F))
+    detail=rbind(detail,tmp)
+  }
+  basic_theme=theme(legend.position = 'bottom',
+                    axis.line = element_line(linetype = "solid"),
+                    panel.grid.minor = element_line(linetype = "blank"),
+                    axis.title = element_text(family = "serif",size=14,color='black'),
+                    axis.text = element_text(family = "serif",size=14,color='black'),
+                    axis.text.x = element_text(family = "serif"),
+                    axis.text.y = element_text(family = "serif"),
+                    plot.title = element_text(family = "serif", hjust = 0.5,size=18,color='black'),
+                    legend.text = element_text(family = "serif",size=14,colour = 'black'),
+                    legend.title = element_text(family = "serif",size=14,color='black'),
+                    panel.background = element_rect(fill = NA),
+                    plot.background = element_rect(colour = NA),
+                    legend.key = element_rect(fill = NA),
+                    legend.background = element_rect(fill = NA),
+                    legend.direction = "horizontal")
+  summary$para=as.factor(summary$para)
+  detail$para=as.factor(detail$para)
+  p1=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = modularity,fill=para),stat='identity')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Modularity",x="Step")+
+    theme(legend.position ='none')
+  p2=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = density,fill=para),stat='identity')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Average Density",x="Step")+
+    theme(legend.position='none')
+  p3=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = community,fill=para),stat='identity')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Community Count",x="Step")+
+    theme(legend.position='none')
+  p4=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = nodecount,fill=para))+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Community Node Count Distribution",x="Step")+
+    theme(legend.position='none')
+  p5=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = edgecount,fill=para))+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Community Edge Count Distribution",x="Step")+
+    theme(legend.position='none')
+  p6=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = density,fill=para))+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Community Density Distribution",x="Step")+
+    theme(legend.position='none')
+
+  svglite(paste(basepath,"/Plot/community_parameter_test1.svg",sep=""))
+  print((p1|p2)/(p3|plot_spacer()))
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test2.svg",sep=""))
+  print((p4|p5)/(p6|plot_spacer()))
+  dev.off()
+
+  session$sendCustomMessage("test_parameter_status",message = list(status='complete',info=paste('Finish'),progress=100))
+  removeUI(selector = "#parameter_test_1",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_2",multiple = T,immediate = T,session = session)
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_1",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_2",width = "100%",height = "100%"))
+  output[['parameter_test_1']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test1.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_2']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test2.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+
+}
+create_cluster_infomap_test_ui=function(session)
+{
+  ui=div(class='row',
+         div(class='col-lg-3', numericInput(inputId = 'step_start',label = "Module Count Begin",value = 1,min = 1,step = 1)),
+         div(class='col-lg-3',numericInput(inputId = 'step_step',label = "Module Count Step",value = 1,min = 1,step = 1)),
+         div(class='col-lg-3',numericInput(inputId = 'step_stop',label = "Module COunt End",value = 2,min = 2,step = 1))
+  )
+  removeUI(selector = "#modaltitle")
+  insertUI(selector = "infolist>div.modal-dialog>div.modal-content>div.modal-header",where = 'afterBegin',ui = h4(id="modaltitle",class="modal-title",HTML("Set Parameter Test of Random Walk")))
+  removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
+  insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = T,immediate = T)
+  removeUI(selector = "#modalSubmit")
+  insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_infomap")'))
+  session$sendCustomMessage('show_community_parameter_test_modal',"")
+}
+
+run_cluster_infomap_test=function(input,output,session)
+{
+  start=input$step_start
+  step=input$step_step
+  stop=input$step_stop
+  if(step==0)
+  {
+    sendSweetAlert(session = session,title = "Error",text = "Step can't be 0",type = 'error')
+    return()
+  }
+  if(start>stop)
+  {
+    sendSweetAlert(session = session,title = "Error",text = "The Begin can't larger than End",type = 'error')
+    return()
+  }
+  summary=data.frame()
+  detail=data.frame()
+  progress=0
+  allprogress=setdiff(seq(from=start,to = stop,by = step),0)
+  for(i in allprogress)
+  {
+    progress=progress+1
+    session$sendCustomMessage("test_parameter_status",message = list(status='run',info=paste("Running Step =",i),progress=round(progress/length(allprogress),digits = 2)*100))
+    community=cluster_infomap(graph = net_igraph,nb.trials = i)
+    communitySize=sizes(community)
+    singleNodeCommunity=as.numeric(names(communitySize[which(communitySize==1)]))
+    membership=membership(community)
+    com_mod=modularity(x = net_igraph,membership=membership)
+    membership[which(membership%in%singleNodeCommunity)]=0
+    isolatednode=length(singleNodeCommunity)
+    com_count=length(unique(membership))
+
+    tmp=data.frame()
+    for(com in setdiff(unique(membership),0))
+    {
+      mg=names(membership[membership==com])
+      subgraph=subgraph(graph = net_igraph,v = mg)
+      node_count=length(mg)
+      edge_count=gsize(subgraph)
+      density=edge_count/(node_count*(node_count-1)/2)
+      tmp=rbind(tmp,data.frame(para=i,nodecount=node_count,edgecount=edge_count,density=density,stringsAsFactors = F))
+    }
+    summary=rbind(summary,data.frame(para=i,singleNode=isolatednode,community=com_count,modularity=com_mod,density=mean(tmp$density,na.rm = T),stringsAsFactors = F))
+    detail=rbind(detail,tmp)
+  }
+  basic_theme=theme(legend.position = 'bottom',
+                    axis.line = element_line(linetype = "solid"),
+                    panel.grid.minor = element_line(linetype = "blank"),
+                    axis.title = element_text(family = "serif",size=14,color='black'),
+                    axis.text = element_text(family = "serif",size=14,color='black'),
+                    axis.text.x = element_text(family = "serif"),
+                    axis.text.y = element_text(family = "serif"),
+                    plot.title = element_text(family = "serif", hjust = 0.5,size=18,color='black'),
+                    legend.text = element_text(family = "serif",size=14,colour = 'black'),
+                    legend.title = element_text(family = "serif",size=14,color='black'),
+                    panel.background = element_rect(fill = NA),
+                    plot.background = element_rect(colour = NA),
+                    legend.key = element_rect(fill = NA),
+                    legend.background = element_rect(fill = NA),
+                    legend.direction = "horizontal")
+  summary$para=as.factor(summary$para)
+  detail$para=as.factor(detail$para)
+  p1=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = modularity,fill=para),stat='identity')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Modularity",x="Module Count")+
+    theme(legend.position ='none')
+  p2=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = density,fill=para),stat='identity')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Average Density",x="Module Count")+
+    theme(legend.position='none')
+  p3=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = para,y = community,fill=para),stat='identity')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Community Count",x="Module Count")+
+    theme(legend.position='none')
+  p4=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = nodecount,fill=para))+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Community Node Count Distribution",x="Module Count")+
+    theme(legend.position='none')
+  p5=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = edgecount,fill=para))+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Community Edge Count Distribution",x="Module Count")+
+    theme(legend.position='none')
+  p6=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = para,y = density,fill=para))+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(length(allprogress)))+
+    basic_theme+labs(title="Community Density Distribution",x="Module Count")+
+    theme(legend.position='none')
+
+  svglite(paste(basepath,"/Plot/community_parameter_test1.svg",sep=""))
+  print((p1|p2)/(p3|plot_spacer()))
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test2.svg",sep=""))
+  print((p4|p5)/(p6|plot_spacer()))
+  dev.off()
+
+  session$sendCustomMessage("test_parameter_status",message = list(status='complete',info=paste('Finish'),progress=100))
+  removeUI(selector = "#parameter_test_1",multiple = T,immediate = T,session = session)
+  removeUI(selector = "#parameter_test_2",multiple = T,immediate = T,session = session)
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_1",width = "100%",height = "100%"))
+  insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = "parameter_test_2",width = "100%",height = "100%"))
+  output[['parameter_test_1']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test1.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  output[['parameter_test_2']]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test2.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+
+}
+create_cluster_mcl_test_ui=function(session)
+{
+  ui=list(div(class='row',
+               div(class='col-lg-3', numericInput(inputId = 'expansion_start',label = "Expansion Begin",value = 1,min = 1,step = 1)),
+               div(class='col-lg-3',numericInput(inputId = 'expansion_step',label = "Expansion  Step",value = 1,min = 1,step = 1)),
+               div(class='col-lg-3',numericInput(inputId = 'expansion_stop',label = "Expansion End",value = 2,min = 2,step = 1))
+            ),
+          div(class='row',
+              div(class='col-lg-3', numericInput(inputId = 'inflation_start',label = "Inflation Begin",value = 1,min = 1,step = 1)),
+              div(class='col-lg-3',numericInput(inputId = 'inflation_step',label = "Inflation Step",value = 1,min = 1,step = 1)),
+              div(class='col-lg-3',numericInput(inputId = 'inflation_stop',label = "Inflation End",value = 2,min = 2,step = 1))
+          )
+  )
+  removeUI(selector = "#modaltitle")
+  insertUI(selector = "infolist>div.modal-dialog>div.modal-content>div.modal-header",where = 'afterBegin',ui = h4(id="modaltitle",class="modal-title",HTML("Set Parameter Test of Random Walk")))
+  removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
+  insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = T,immediate = T)
+  removeUI(selector = "#modalSubmit")
+  insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_mcl")'))
+  session$sendCustomMessage('show_community_parameter_test_modal',"")
+
+}
+run_cluster_mcl_test=function(input,output,session)
+{
+  e.start=input$expansion_start
+  e.step=input$expansion_step
+  e.stop=input$expansion_stop
+  i.start=input$inflation_start
+  i.step=input$inflation_step
+  i.stop=input$inflation_stop
+  if(e.step==0)
+  {
+    sendSweetAlert(session = session,title = "Error",text = "Expansion Step can't be 0",type = 'error')
+    return()
+  }
+  if(e.start>e.stop)
+  {
+    sendSweetAlert(session = session,title = "Error",text = "The Expansion Begin can't larger than Expansion End",type = 'error')
+    return()
+  }
+  if(i.step==0)
+  {
+    sendSweetAlert(session = session,title = "Error",text = "Inflation Step can't be 0",type = 'error')
+    return()
+  }
+  if(i.start>i.stop)
+  {
+    sendSweetAlert(session = session,title = "Error",text = "The Inflation Begin can't larger than Inflation End",type = 'error')
+    return()
+  }
+  summary=data.frame()
+  detail=data.frame()
+  progress=0
+  allprogress=length(seq(from=e.start,to = e.stop,by = e.step))*length(seq(from=i.start,to = i.stop,by = i.step))
+  for(i in seq(from=e.start,to = e.stop,by = e.step))
+  {
+    for(j in seq(from=i.start,to = i.stop,by = i.step))
+    {
+      print(paste(i,j))
+      progress=progress+1
+      session$sendCustomMessage("test_parameter_status",message = list(status='run',info=paste("Running Expansion =",i,'and Inflation =',j),progress=round(progress/allprogress,digits = 2)*100))
+      community=mcl(as.matrix(as_adjacency_matrix(net_igraph,type='both')),addLoops = T,expansion = i,inflation = j,allow1 = T,max.iter = 100)
+      if(!grepl(pattern = "Error",x = community))
+      {
+        membership=community$Cluster
+        names(membership)=rownames(as_adjacency_matrix(net_igraph,type='both'))
+
+        com_mod=modularity(x = net_igraph,membership=membership)
+        isolatecommunity=as.numeric(names(which(table(membership)==1)))
+        singleNodeCommunity=names(membership)[membership %in% isolatecommunity]
+        membership[membership%in%isolatecommunity]=0
+        isolatednode=length(singleNodeCommunity)
+        com_count=length(unique(membership))
+
+        tmp=data.frame()
+        for(com in setdiff(unique(membership),0))
+        {
+          mg=names(membership[membership==com])
+          subgraph=subgraph(graph = net_igraph,v = mg)
+          node_count=length(mg)
+          edge_count=gsize(subgraph)
+          density=edge_count/(node_count*(node_count-1)/2)
+          tmp=rbind(tmp,data.frame(expansion=i,inflation=paste("Inflation",j),nodecount=node_count,edgecount=edge_count,density=density,stringsAsFactors = F))
+        }
+        summary=rbind(summary,data.frame(expansion=i,inflation=paste("Inflation",j),singleNode=isolatednode,community=com_count,modularity=com_mod,density=mean(tmp$density,na.rm = T),stringsAsFactors = F))
+        detail=rbind(detail,tmp)
+      }
+      else
+      {
+        summary=rbind(summary,data.frame(expansion=i,inflation=paste("Inflation",j),singleNode=NA,community=NA,modularity=NA,density=NA,stringsAsFactors = F))
+        detail=rbind(detail,data.frame(expansion=i,inflation=paste("Inflation",j),nodecount=NA,edgecount=NA,density=NA,stringsAsFactors = F))
+      }
+    }
+  }
+  basic_theme=theme(legend.position = 'bottom',
+                    axis.line = element_line(linetype = "solid"),
+                    panel.grid.minor = element_line(linetype = "blank"),
+                    axis.title = element_text(family = "serif",size=14,color='black'),
+                    axis.text = element_text(family = "serif",size=14,color='black'),
+                    axis.text.x = element_text(family = "serif"),
+                    axis.text.y = element_text(family = "serif"),
+                    plot.title = element_text(family = "serif", hjust = 0.5,size=18,color='black'),
+                    legend.text = element_text(family = "serif",size=14,colour = 'black'),
+                    legend.title = element_text(family = "serif",size=14,color='black'),
+                    panel.background = element_rect(fill = NA),
+                    plot.background = element_rect(colour = NA),
+                    legend.key = element_rect(fill = NA),
+                    legend.background = element_rect(fill = NA),
+                    legend.direction = "horizontal")
+  summary$expansion=as.factor(summary$expansion)
+  summary$inflation=as.factor(summary$inflation)
+  detail$expansion=as.factor(detail$expansion)
+  detail$expansion=as.factor(detail$inflation)
+  p1=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = expansion,y = modularity,fill=expansion),stat='identity')+
+    facet_wrap(~inflation,scales = 'free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Modularity",x="Expansion")+
+    theme(legend.position ='none')
+  p2=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = expansion,y = density,fill=expansion),stat='identity')+
+    facet_wrap(~inflation,scales = 'free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Average Density",x="Expansion")+
+    theme(legend.position='none')
+  p3=ggplot(data = summary)+
+    geom_bar(mapping = aes(x = expansion,y = community,fill=expansion),stat='identity')+
+    facet_wrap(~inflation,scales = 'free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Community Count",x="Expansion")+
+    theme(legend.position='none')
+  p4=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = expansion,y = nodecount,fill=expansion))+
+    facet_wrap(~inflation,scales = 'free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Community Node Count Distribution",x="Expansion")+
+    theme(legend.position='none')
+  p5=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = expansion,y = edgecount,fill=expansion))+
+    facet_wrap(~inflation,scales = 'free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Community Edge Count Distribution",x="Expansion")+
+    theme(legend.position='none')
+  p6=ggplot(data=detail)+
+    geom_boxplot(mapping = aes(x = expansion,y = density,fill=expansion))+
+    facet_wrap(~inflation,scales = 'free_y')+
+    scale_fill_manual(values = colorRampPalette(usedcolors)(allprogress))+
+    basic_theme+labs(title="Community Density Distribution",x="Expansion")+
+    theme(legend.position='none')
+
+  svglite(paste(basepath,"/Plot/community_parameter_test1.svg",sep=""))
+  print(p1)
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test2.svg",sep=""))
+  print(p2)
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test3.svg",sep=""))
+  print(p3)
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test4.svg",sep=""))
+  print(p4)
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test5.svg",sep=""))
+  print(p5)
+  dev.off()
+  svglite(paste(basepath,"/Plot/community_parameter_test6.svg",sep=""))
+  print(p6)
+  dev.off()
+
+  session$sendCustomMessage("test_parameter_status",message = list(status='complete',info=paste('Finish'),progress=100))
+  for(i in seq(1,6))
+  {
+    removeUI(selector = paste0("#parameter_test_",i),multiple = T,immediate = T,session = session)
+    insertUI(selector = "#modalbody",where = 'beforeEnd',ui = plotOutput(outputId = paste0("parameter_test_",i),width = "100%",height = "100%"))
+    output[[paste0("parameter_test_",i)]]=renderImage({list(src=paste(basepath,"/Plot/community_parameter_test1.svg",sep=""),width="100%",height="100%")},deleteFile = F)
+  }
+}
+create_cluster_linkcomm_test_ui=function(session)
+{
+
+}
+create_cluster_mcode_test_ui=function(session)
+{
+
+}
+
 create_property_box=function(type,id)
 {
   id=sub(pattern = " ",replacement = "_",x = id)
@@ -36,7 +471,7 @@ create_property_box=function(type,id)
                           onclick=paste(ifelse(type=='node','node','edge'),"Details(this)",sep="")
                          )
           )
-      )    
+      )
   )
   return(ui)
 }
@@ -81,7 +516,7 @@ cluster_cograph=function(netpath,outpath)
   else
   {
     cmd=paste("cd www/Program;java -cp .:Cograph.jar RunCograph",normalizePath(netpath),normalizePath(outpath))
-    msg=system(command = cmd,wait = T,intern = T)  
+    msg=system(command = cmd,wait = T,intern = T)
   }
   result=readLines(con = paste(normalizePath(outpath),"Cograph community.txt",sep=""))
   singleNode=c()
@@ -127,7 +562,7 @@ create_module_info=function()
     node_type_count=t(node_type_count)
     colnames(node_type_count)=paste(colnames(node_type_count),".count",sep="")
     rownames(node_type_count)=NULL
-    
+
     tmpmicro=as.matrix(target[module_genes,rownames(after_slice_micro.exp)])
     subnet=as.matrix(as_adjacency_matrix(subgraph))
     subnet=subnet[module_genes,module_genes]
@@ -141,7 +576,7 @@ create_module_info=function()
       scores=c(scores,mean(module_edges[,con]))
     }
     names(scores)=paste0("Average.",unique(thresh$type))
-    
+
     nodeDetails=paste("<a onclick=communityDetail('",community,"')>Details</a>",sep="")
     edgeDetails=paste("<a onclick=communityEdgeDetail('",community,"')>Details</a>",sep="")
     display=paste("<a href='#",paste("module_",community,sep=""),"' onclick=displayCommunity('",community,"')>Display</a>",sep="")
@@ -198,7 +633,7 @@ create_modal_setting=function(id)
                      )
     )
  )
-  
+
   for(column in candidate_column)
   {
     items=as.character(unique(after_slice_geneinfo[,column]))
@@ -226,7 +661,7 @@ create_modal_setting=function(id)
         coloritems=c(coloritems,list(div(class="col-lg-2",colourInput(inputId = paste(item,"_color",sep=""),label = item,value = "red"))))
       }
     }
-    
+
     if(column==module.configure[[id]]$shape.attr)
     {
       for(item in items)
@@ -236,7 +671,7 @@ create_modal_setting=function(id)
                                                      choices = shapes,
                                                      selected = module.configure[[id]]$shape[[item]]))))
       }
-      
+
     }
     else
     {
@@ -245,11 +680,11 @@ create_modal_setting=function(id)
         shapeitems=c(shapeitems,list(div(class="col-lg-2",selectInput(inputId = paste(item,"_shape",sep=""),label = item,choices = shapes,selected = "circle"))))
       }
     }
-    
-    
+
+
     colorui=conditionalPanel(condition = paste("input.module_color=='",column,"'",sep=""),div(class="row",coloritems))
     shapeui=conditionalPanel(condition = paste("input.module_shape=='",column,"'",sep=""),div(class="row",shapeitems))
-    
+
     colorcandidate=c(colorcandidate,list(colorui))
     shapecandidate=c(shapecandidate,list(shapeui))
   }
@@ -297,7 +732,7 @@ create_progress=function(msg,id=paste("#",as.numeric(Sys.time()),"_progress",sep
 create_alert_box=function(header,msg,class){
   ui=div(class=paste("alert alert-info alert-dismissible",class),
          h4(tags$i(class="icon fa fa-info"),HTML(header)),
-         HTML(msg)         
+         HTML(msg)
     )
   return(ui)
 }
@@ -310,12 +745,12 @@ km.analysis=function(data,time,status,factor)
   group=unique(data$group)
   group.color=c(usedcolors[5],usedcolors[3])
   names(group.color)=group
-  
+
   p=ggsurvplot(fit = fit,pval = T)
   pp=ggplot_build(p$plot)
-  
+
   coor_x=get('limits',envir = pp$layout$coord)$x
-  
+
   text=data.frame(text=p.val,x=(coor_x[2]-coor_x[1])/8,y=0.25,stringsAsFactors = F)
   p$plot$data$strata=as.character(p$plot$data$group)
   p$plot=ggplot(data = p$plot$data)+geom_path(mapping = aes(x=time,y =surv,colour=strata),size=1.1)+
@@ -323,13 +758,13 @@ km.analysis=function(data,time,status,factor)
     xlab('Time')+ylab('Survival probability')+ylim(0,1)+xlim(coor_x)+
     scale_color_manual(values=group.color)+
     geom_text(mapping = aes(x = x,y = y,label=text),data = text,size=5,inherit.aes = F)+
-    theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-          axis.text.x = element_text(family = "serif",colour = "black"), 
-          axis.text.y = element_text(family = "serif",colour = "black"), 
-          plot.title = element_text(family = "serif", hjust = 0.5,size=14), 
+    theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+          axis.text.x = element_text(family = "serif",colour = "black"),
+          axis.text.y = element_text(family = "serif",colour = "black"),
+          plot.title = element_text(family = "serif", hjust = 0.5,size=14),
           legend.text = element_text(family = "serif"),
           legend.title = element_text(family = "serif"),
-          legend.key = element_rect(fill = NA), 
+          legend.key = element_rect(fill = NA),
           legend.background = element_rect(fill = NA),
           legend.direction = "horizontal",
           legend.position = 'bottom',
@@ -344,16 +779,16 @@ cox.analysis=function(session,clinical,exp,time,status,ifgroup,gene,external_con
   {
     patient.cluster=kmeans(t(exp[gene,]),centers = 2)$cluster
     clinical$group=""
-    
+
     for(cl in unique(patient.cluster))
     {
       clinical[names(patient.cluster)[which(patient.cluster==cl)],'group']=paste("Group",cl,sep="")
     }
-    
+
     clinical=clinical[which(clinical$group!=""),]
     clinical$group=as.factor(clinical$group)
   }
-  
+
   surv_obj=Surv(clinical[,time],clinical[,status])
   if(!is.null(external_categorical))
   {
@@ -380,7 +815,7 @@ cox.analysis=function(session,clinical,exp,time,status,ifgroup,gene,external_con
     sendSweetAlert(session = session,title = "Warning...",text = paste("Factors(",paste(factor,collapse = ", "),") conflict between stratified and continous, and will be regard as stratified factors",sep=""),type = "warning")
     external_continous=setdiff(external_continous,strata_factor)
   }
-  
+
   if(is.null(strata_factor))
   {
     strata_formula=NULL
@@ -389,7 +824,7 @@ cox.analysis=function(session,clinical,exp,time,status,ifgroup,gene,external_con
   {
     strata_formula=paste(paste("strata(",strata_factor,')',sep=""),collapse = "+")
   }
-  
+
   if(is.null(c(external_continous,external_categorical)))
   {
     factor_formula=NULL
@@ -478,11 +913,11 @@ create_survival_result_box=function(session,label,id,model)
                       panel3
                   )
               )
-              
+
           )
       )
   insertUI(selector = "#survival_result_panel",where = "beforeEnd",ui = box,immediate = T,session = session)
-  
+
 }
 
 create_cox_survival_result_box=function(session,label,id,model)
@@ -540,11 +975,11 @@ create_cox_survival_result_box=function(session,label,id,model)
                       panel2
                   )
               )
-              
+
           )
   )
   insertUI(selector = "#survival_result_panel",where = "beforeEnd",ui = box,immediate = T,session = session)
-  
+
 }
 
 Heatmaps=function(exp,clinical,imagepath)
@@ -561,9 +996,9 @@ Heatmaps=function(exp,clinical,imagepath)
   {
     exp=exp[(-1*index),]
   }
-  
+
   exp=t(exp)
-  
+
   group=unique(clinical$group)
   group.color=c(usedcolors[5],usedcolors[3])
   names(group.color)=group

@@ -43,6 +43,7 @@ CeNetOmnibus <- function(maxRequestSize=1000,workpath=tempdir(),projectName=NULL
   library(gprofiler2)
   library(svglite)
   library(R.oo)
+  library(patchwork)
 
   maxRequestSize=maxRequestSize*1024^2
   tmpdir<<-normalizePath(workpath)
@@ -56,6 +57,8 @@ CeNetOmnibus <- function(maxRequestSize=1000,workpath=tempdir(),projectName=NULL
   usedcolors=swatch()
   options(shiny.maxRequestSize = maxRequestSize)
   useE<<-useEnsembl
-  suppressMessages(shiny::runApp(system.file("app", package = "CeNetOmnibus"),launch.browser=TRUE,...))
-  #shiny::runApp("D:\\ceNet-Omnibus\\app",launch.browser=TRUE,...)
+  #suppressMessages(shiny::runApp(system.file("app", package = "CeNetOmnibus"),launch.browser=TRUE,...))
+  shiny::runApp("inst/app",launch.browser=TRUE,...)
 }
+setwd("C:/Users/william/Desktop/CeNetOmnibus")
+CeNetOmnibus(useEnsembl = F)

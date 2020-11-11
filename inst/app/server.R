@@ -14,7 +14,7 @@ shinyServer(function(input,output,session) {
 
   if(useE)
   {
-    connectEnsembl(session)  
+    connectEnsembl(session)
   }
   else
   {
@@ -33,7 +33,7 @@ shinyServer(function(input,output,session) {
   dir.create(paste(basepath,'log',sep="/"))
   print(paste("Templete File Dictionary:",basepath))
   visual_layout=""
-  
+
   ############Input Page Action##########
   observeEvent(input$Cenet_demo,{
     removeUI(selector = "#modalbody>",multiple = T,immediate = T)
@@ -47,9 +47,9 @@ shinyServer(function(input,output,session) {
     #filepath = gsub("/","\\\\",filepath)
       ### ceRNA_preview
     tryCatch({
-        
+
         session$sendCustomMessage('reading',list(div='ceRNA_preview',status='ongoing'))
-        
+
         if(sep_cus!="")
         {
           sep=sep_cus
@@ -77,7 +77,7 @@ shinyServer(function(input,output,session) {
         session$sendCustomMessage('reading',list(div='ceRNA_preview',status='finish'))
         sendSweetAlert(session = session,title = "Error...",text = e$message,type = 'error')
       })
-      
+
       ### micro_preview
       rowname = TRUE
       filepath = paste(getwd(),"demo","micro_exp.txt",sep = "/")
@@ -118,7 +118,7 @@ shinyServer(function(input,output,session) {
       filepath = paste(getwd(),"demo","target.txt",sep = "/")
       #filepath = gsub("/","\\\\",filepath)
       session$sendCustomMessage('reading',list(div='target_preview_panel',status='ongoing'))
-     
+
       tryCatch({
         if(sep_cus!="")
         {
@@ -150,7 +150,7 @@ shinyServer(function(input,output,session) {
       filepath = paste(getwd(),"demo","geneinfo.txt",sep = "/")
       #filepath = gsub("/","\\\\",filepath)
       session$sendCustomMessage('reading',list(div='geneinfo_preview_panel',status='ongoing'))
-    
+
       tryCatch({
         if(sep_cus!="")
         {
@@ -183,7 +183,7 @@ shinyServer(function(input,output,session) {
         sendSweetAlert(session = session,title = "Error...",text = e$message,type = 'error')
       })
       session$sendCustomMessage('network_construction',list(status='finish',value="modalbody"))
-      
+
   })
   observeEvent(input$onclick,{
     isolate({msg=fromJSON(input$onclick)})
@@ -229,7 +229,7 @@ shinyServer(function(input,output,session) {
         session$sendCustomMessage('reading',list(div='ceRNA_preview',status='finish'))
         sendSweetAlert(session = session,title = "Error...",text = e$message,type = 'error')
       })
-      
+
       ### micro_preview
       session$sendCustomMessage('reading',list(div='microRNA_preview',status='ongoing'))
       isolate({
@@ -309,12 +309,12 @@ shinyServer(function(input,output,session) {
         session$sendCustomMessage('reading',list(div='target_preview_panel',status='finish'))
         sendSweetAlert(session = session,title = "Error...",text = e$message,type = 'error')
       })
-      
+
     }
     else if(msg$id=='geneinfo_preview')
     {
       session$sendCustomMessage('reading',list(div='geneinfo_preview_panel',status='ongoing'))
-      
+
       isolate({
         sep_cus=input$geneinfo_seprator_cus;
         sep=input$geneinfo_seperator;
@@ -354,7 +354,7 @@ shinyServer(function(input,output,session) {
         session$sendCustomMessage('reading',list(div='geneinfo_preview_panel',status='finish'))
         sendSweetAlert(session = session,title = "Error...",text = e$message,type = 'error')
       })
-      
+
     }
     FLAGS[['reintersect']]<<-T
   })
@@ -494,7 +494,7 @@ shinyServer(function(input,output,session) {
        session$sendCustomMessage('outdetails',obj);
     }
     if(msg$id=='Sampleoutput'){
-    
+
        obj=list(title='Valid Sample',details=toJSON(data.frame(detail= intersect(names(after_slice_micro.exp),names(after_slice_rna.exp)),stringsAsFactors =F)));
        session$sendCustomMessage('outdetails',obj);
     }
@@ -522,7 +522,7 @@ shinyServer(function(input,output,session) {
     biotype_map<<-input$biotype_map
     if(!is.null(biotype_map)&&biotype_map!='None')
     {
-     
+
       choice=unique(sect_output_geneinfo[,biotype_map])
       if(length(choice)>typeLimit)
       {
@@ -558,7 +558,7 @@ shinyServer(function(input,output,session) {
     after_slice_geneinfo <<- sect_output_geneinfo[which(!is.na(sect_output_geneinfo$.group)),]
     after_slice_rna.exp <<- sect_output_rna.exp[rownames(after_slice_geneinfo),]
     ValidNum = data.frame(rnaNum = length(rownames(after_slice_rna.exp)),stringsAsFactors = F);
-    
+
     if(is.null(biotype))
     {
       p=ggplot(data =after_slice_geneinfo)+geom_bar(mapping = aes_string(x = '.group'))+
@@ -580,13 +580,13 @@ shinyServer(function(input,output,session) {
           theme(legend.position = 'bottom',panel.background = element_rect(fill = NA))
       }
     }
-    p=p+theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-              axis.text.x = element_text(family = "serif",colour = "black"), 
-              axis.text.y = element_text(family = "serif",colour = "black"), 
-              plot.title = element_text(family = "serif", hjust = 0.5,size=14), 
+    p=p+theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+              axis.text.x = element_text(family = "serif",colour = "black"),
+              axis.text.y = element_text(family = "serif",colour = "black"),
+              plot.title = element_text(family = "serif", hjust = 0.5,size=14),
               legend.text = element_text(family = "serif"),
               legend.title = element_text(family = "serif"),
-              legend.key = element_rect(fill = NA), 
+              legend.key = element_rect(fill = NA),
               legend.background = element_rect(fill = NA),
               legend.direction = "horizontal",
               legend.position = 'bottom',
@@ -594,14 +594,14 @@ shinyServer(function(input,output,session) {
     svglite(paste(basepath,"Plot",'Gene_Group.svg',sep="/"))
     print(p)
     dev.off()
-    
+
     output$biotype_group_statics_graph=renderImage({
-      list(src=normalizePath(paste(basepath,"Plot",'Gene_Group.svg',sep="/")),height="100%",width="100%")    
+      list(src=normalizePath(paste(basepath,"Plot",'Gene_Group.svg',sep="/")),height="100%",width="100%")
     },deleteFile=F)
-    
+
     session$sendCustomMessage('Valid_valuebox_rna',ValidNum);
     session$sendCustomMessage('clear_construction_task',"")
-    
+
   })
   # download picture
   output$downloadData_group <- downloadHandler(
@@ -612,7 +612,7 @@ shinyServer(function(input,output,session) {
       file.copy(from = paste(basepath,"Plot",'Gene_Group.svg',sep="/"),to = file);
     }
   )
-  
+
   sample_filter_choose=list()
   observeEvent(input$Sample_Filter,{
     isolate({
@@ -629,11 +629,11 @@ shinyServer(function(input,output,session) {
       # gene_filter_choose['micro'] <<- list(c(number,line))
       tmpdata=data.frame(count=(colSums(get(direction)(sect_output_micro.exp,thresh)))/nrow(sect_output_micro.exp),
                              color='Remove',stringsAsFactors = F)
-      draw_x<-(max(tmpdata$count)+min(tmpdata$count))/2  
-      x2<-quantile(tmpdata$count,value,type=3) 
+      draw_x<-(max(tmpdata$count)+min(tmpdata$count))/2
+      x2<-quantile(tmpdata$count,value,type=3)
       draw_x2<-round(x2,3)
       tmpdata$color[which(tmpdata$count>x2)]='Remain'
-    
+
       liuxiasum<-length(which(tmpdata$count>x2))
       text1=paste("Valid Sample Ratio=",round(x2,3))
       text2=paste("Remain:",liuxiasum)
@@ -643,13 +643,13 @@ shinyServer(function(input,output,session) {
         scale_fill_manual(values=c('Remove'="white",'Remain'= "#9b59b6"))+
         geom_vline(xintercept=x2, colour="#990000", linetype="dashed",size=1.1)+
         labs(title = "MicroRNA Sample Quality Control")+xlab("Valid MicroRNA Ratio")+ylab('Sample Count')+
-        theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-              axis.text.x = element_text(family = "serif",colour = "black"), 
-              axis.text.y = element_text(family = "serif",colour = "black"), 
-              plot.title = element_text(family = "serif", hjust = 0.5,size=14), 
+        theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+              axis.text.x = element_text(family = "serif",colour = "black"),
+              axis.text.y = element_text(family = "serif",colour = "black"),
+              plot.title = element_text(family = "serif", hjust = 0.5,size=14),
               legend.text = element_text(family = "serif"),
               legend.title = element_text(family = "serif"),
-              legend.key = element_rect(fill = NA), 
+              legend.key = element_rect(fill = NA),
               legend.background = element_rect(fill = NA),
               legend.direction = "horizontal",
               legend.position = 'bottom',
@@ -674,7 +674,7 @@ shinyServer(function(input,output,session) {
       svglite(paste(basepath,"Plot","microSampleFilter.svg",sep = "/"))
       print(p)
       dev.off()
-  
+
       if(exist=="F"){
         print(paste("#","sample_Group_",group,'_panel',sep=""))
         insertUI(
@@ -683,7 +683,7 @@ shinyServer(function(input,output,session) {
           ui=imageOutput(outputId = paste(group,'_plot',sep=""),height = "100%"),
           immediate = T
         )
-        
+
         # insertUI(
         #  selector = paste("#","sample_Group_",group,'_panel',sep=""),
         #  where='beforeEnd',
@@ -695,39 +695,39 @@ shinyServer(function(input,output,session) {
         #  immediate = T
         # )
       }
-      
+
       output[[paste(group,'_plot',sep="")]]=renderImage({
         list(src=paste(basepath,"Plot","microSampleFilter.svg",sep = "/"),width="100%",height="100%")
       },deleteFile = F)
     }
-    
+
     else if(group=="ce_invalid_name"){
-      
+
       tmpdata=data.frame(count=(colSums(get(direction)(sect_output_rna.exp,thresh)))/nrow(sect_output_rna.exp),
                          color='Remove',stringsAsFactors = F)
       value=as.numeric(value)
-      draw_x<-(max(tmpdata$count)+min(tmpdata$count))/2  
+      draw_x<-(max(tmpdata$count)+min(tmpdata$count))/2
       x2<-quantile(tmpdata$count,value,type=3)
       tmpdata$color[which(tmpdata$count>x2)]='Remain'
       draw_x2<-round(x2,3)
-      
+
       liuxiasum<-length(which(tmpdata$count>x2))
       text1=paste("Valid Sample Ratio=",round(x2,3))
       text2=paste("Remain:",liuxiasum)
       sample_filter_choose['ce_invalid_name']<<-list(c(value,direction,thresh,liuxiasum))
-      
+
       p=ggplot()+
         geom_histogram(data = tmpdata,mapping = aes(x=count,fill=color),color="black",bins = 100) +
         scale_fill_manual(values=c('Remove'="white",'Remain'= "#9b59b6"))+
         geom_vline(aes(xintercept=x2), colour="#990000", linetype="dashed",size=1.1)+
         labs(title = "CeRNA Sample Quality Control")+xlab("Valid CeRNA Ratio")+ylab('Sample Count')+
-        theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-              axis.text.x = element_text(family = "serif",colour = "black"), 
-              axis.text.y = element_text(family = "serif",colour = "black"), 
-              plot.title = element_text(family = "serif", hjust = 0.5,size=14), 
+        theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+              axis.text.x = element_text(family = "serif",colour = "black"),
+              axis.text.y = element_text(family = "serif",colour = "black"),
+              plot.title = element_text(family = "serif", hjust = 0.5,size=14),
               legend.text = element_text(family = "serif"),
               legend.title = element_text(family = "serif"),
-              legend.key = element_rect(fill = NA), 
+              legend.key = element_rect(fill = NA),
               legend.background = element_rect(fill = NA),
               legend.direction = "horizontal",
               legend.position = 'bottom',
@@ -747,7 +747,7 @@ shinyServer(function(input,output,session) {
       }
       p=p+geom_text(data=text,mapping = aes(x = x,y = y,label=label),size=6,family='serif',inherit.aes = F)+
         xlim(axis_x[1]-x_pianyi*5/150, axis_x[2]+x_pianyi*5/150)
-      
+
       svglite(paste(basepath,"Plot","RNASampleFilter.svg",sep = "/"))
       print(p)
       dev.off()
@@ -759,7 +759,7 @@ shinyServer(function(input,output,session) {
           ui=imageOutput(outputId = paste(group,'_plot',sep=""),height = "100%"),
           immediate = T
         )
-        
+
         # insertUI(
         #   selector = paste("#","sample_Group_",group,'_panel',sep=""),
         #   where='beforeEnd',
@@ -771,14 +771,14 @@ shinyServer(function(input,output,session) {
         #   immediate = T
         # )
       }
-      
-     
+
+
       output[[paste(group,'_plot',sep="")]]=renderImage({
         list(src=paste(basepath,"Plot","RNASampleFilter.svg",sep = "/"),width="100%",height="100%")
       },deleteFile = F)
     }
   })
-  
+
   observeEvent(input$Sample_Slice_Signal,{
     # isolate({
     #   msg=input$Sample_Slice_Signal
@@ -789,7 +789,7 @@ shinyServer(function(input,output,session) {
     #   direction=msg$direction
     # })
     after_slice_geneinfo <<- sect_output_geneinfo[which(!is.na(sect_output_geneinfo$.group)),]
-    
+
     after_slice_micro.exp<<-sect_output_micro.exp[rownames(after_slice_geneinfo),]
     after_slice_rna.exp<<-sect_output_rna.exp[rownames(after_slice_geneinfo),]
     if(length(sample_filter_choose)==0){
@@ -803,29 +803,29 @@ shinyServer(function(input,output,session) {
       flag_ce=0
       for(type in names(sample_filter_choose)){
         # sample_filter_choose['micro_invalid_name']<<-list(c(value,direction,thresh))
-        line =as.numeric(sample_filter_choose[[type]][1])  
+        line =as.numeric(sample_filter_choose[[type]][1])
         direction = sample_filter_choose[[type]][2]
-        thresh=as.numeric(sample_filter_choose[[type]][3]) 
-        
+        thresh=as.numeric(sample_filter_choose[[type]][3])
+
         if(type=="micro_invalid_name"){
           expressgene_num=(colSums(get(direction)(sect_output_micro.exp,thresh)))/nrow(sect_output_micro.exp)
-          x2<-quantile(expressgene_num,line,type=3) 
-          
+          x2<-quantile(expressgene_num,line,type=3)
+
           liuxiasum<-length(colnames(sect_output_micro.exp[,which(expressgene_num>x2)]))
           remain_ratio_micro<-liuxiasum/length(colnames(sect_output_micro.exp))
           if(abs((1-line)-remain_ratio_micro)<=0.05){
             after_slice_micro.exp<<-sect_output_micro.exp[rownames(after_slice_geneinfo),which(expressgene_num>x2)]
             num1=liuxiasum
-           
+
           }
           else{
             flag_micro=1
           }
-          
+
         }
         else{
           expressgene_num2=(colSums(get(direction)(sect_output_rna.exp,thresh)))/nrow(sect_output_rna.exp)
-          x2<-quantile(expressgene_num2,line,type=3) 
+          x2<-quantile(expressgene_num2,line,type=3)
           liuxiasum<-length(colnames(sect_output_rna.exp[,which(expressgene_num2>x2)]))
           remain_ratio_ce<-liuxiasum/length(colnames(sect_output_rna.exp))
           if(abs((1-line)-remain_ratio_ce)<=0.05){
@@ -841,7 +841,7 @@ shinyServer(function(input,output,session) {
         delete_ratio_micro=(1-round(remain_ratio_micro,3))*100
         msg=HTML(paste("<h4>Large Error!</h4>",
                        "<h4>This parameter will delete ",delete_ratio_micro,"% samples.</h4>",
-                       "<h4>Please choose Percentile of MicroRNA again.</h4>",sep="")) 
+                       "<h4>Please choose Percentile of MicroRNA again.</h4>",sep=""))
         # msg=HTML("<h4>Invalid Slice! </h4><h4>You will delete more than 5% of the selection ratio.</h4><h4>Please choose micro_slice again.</h4>")
         sendSweetAlert(session = session,title = "Warning..",text = msg,type = 'warning',html = T)
       }
@@ -853,8 +853,8 @@ shinyServer(function(input,output,session) {
         sendSweetAlert(session = session,title = "Warning..",text = msg,type = 'warning',html = T)
       }
       else{
-     
-        intersect_sample_num<-length(intersect(colnames(after_slice_micro.exp),colnames(after_slice_rna.exp))) 
+
+        intersect_sample_num<-length(intersect(colnames(after_slice_micro.exp),colnames(after_slice_rna.exp)))
         # sendSweetAlert(session = session,title = "Success..",text =paste0("Filter Ok! Sample Remain: ",intersect_sample_num) ,type = 'success')
         msg=HTML(paste("<h4>Valid MicroRNA Sample: ",num1,"</h4>",
                        "<h4>Valid CeRNA Sample: ",num2,"</h4>",
@@ -862,21 +862,21 @@ shinyServer(function(input,output,session) {
         sendSweetAlert(session = session,title = "Success..",
                        text = msg,
                        type = 'success',html = T)
-        
+
         a=intersect(colnames(after_slice_micro.exp),colnames(after_slice_rna.exp))
         after_slice_micro.exp<<-after_slice_micro.exp[rownames(after_slice_geneinfo),a]
         after_slice_rna.exp<<-after_slice_rna.exp[rownames(after_slice_geneinfo),a]
-        
+
         ValidNum = data.frame(sampleNum = intersect_sample_num,stringsAsFactors = F);
         session$sendCustomMessage('Valid_valuebox_sample',ValidNum);
-        
+
       }
-      
+
     }
-    
+
 
   })
-  
+
   output$downloadData_sample <- downloadHandler(
     filename = "Sample_Filter_Plot.zip",
     content = function(file) {
@@ -892,16 +892,16 @@ shinyServer(function(input,output,session) {
       # file.copy(from = paste(basepath,"plot","Gene_filter.zip",sep = "/"),to = file);
     }
   )
-  
-  
+
+
   observeEvent(input$creatFilter_request,{
     removeUI(selector = "#Gene_Filter_all>:not(:first-child)",immediate = T,multiple = T)
     level=unique(sect_output_geneinfo$.group)
     level=level[!is.na(level)]
     session$sendCustomMessage('gene_type_infomation',data.frame(group=level))
-  
+
   })
-  
+
   gene_filter_choose = list()
   observeEvent(input$Gene_Filter_Signal,{
     isolate({
@@ -913,11 +913,11 @@ shinyServer(function(input,output,session) {
       exist=msg$exist
       line=msg$line
     })
-    
+
     #paint picture
-    if(type=="micro"){ 
+    if(type=="micro"){
       gene_filter_choose['micro'] <<- list(c(number,line))
-      
+
       after_slice_micro.exp<<- sect_output_micro.exp[,colnames(after_slice_micro.exp)]
       validGene=rownames(after_slice_micro.exp)
       validSample = rowSums(after_slice_micro.exp>=number)
@@ -931,16 +931,16 @@ shinyServer(function(input,output,session) {
       x1 = min(xdata$SampleRatio)+0.2*max(xdata$SampleRatio)+min(xdata$SampleRatio)
       text_to_plot=data.frame(x=c(x1,x1),y=c(0.95,0.90),col=c("blue","blue"),text=c(paste("Original genes:",number_ori),paste("After seg:",number_after)))
       ypoint =round(ypoint,2)
-      
+
       xdata = data.frame(SampleRatio=validSample/length(colnames(after_slice_micro.exp)),
                          color=as.character(c(xdata$SampleRatio>ratio)),
                          stringsAsFactors = F
       )
       svglite(paste(basepath,"Plot","microStatistic.svg",sep = "/"))
-      
+
       text1=paste("Sample Ratio:",ratio)
       text2=paste("Remain:",number_after)
-      
+
       p=ggplot(xdata,aes(x=SampleRatio,fill=..x..>ratio))+
         geom_histogram(color="black",bins = 100) +
         scale_fill_manual(values=c('FALSE'="white",'TRUE'= "#9b59b6"))+
@@ -960,28 +960,28 @@ shinyServer(function(input,output,session) {
       else{
         text=data.frame(label=c(text1,text2),x=draw_x[1]+x_pianyi,y=c(draw_y[2],draw_y[2]*0.95),stringsAsFactors = F)
       }
-      
+
       print(p+xlim(draw_x[1]-x_pianyi*5/150, draw_x[2]+x_pianyi*5/150)+
               geom_text(mapping = aes(x = x,y = y,label=label),data=text,size=6,family='serif')+
               labs(title = "MicroRNA Filter")+
               xlab("Sample Ratio")+ylab('Valid MicroRNA Count')+
-              theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-                    axis.text.x = element_text(family = "serif",colour = "black"), 
-                    axis.text.y = element_text(family = "serif",colour = "black"), 
-                    plot.title = element_text(family = "serif", hjust = 0.5,size=14), 
+              theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+                    axis.text.x = element_text(family = "serif",colour = "black"),
+                    axis.text.y = element_text(family = "serif",colour = "black"),
+                    plot.title = element_text(family = "serif", hjust = 0.5,size=14),
                     legend.text = element_text(family = "serif"),
                     legend.title = element_text(family = "serif"),
-                    legend.key = element_rect(fill = NA), 
+                    legend.key = element_rect(fill = NA),
                     legend.background = element_rect(fill = NA),
                     legend.direction = "horizontal",
                     legend.position = 'bottom',
                     panel.background = element_rect(fill = NA)) +labs(fill = "If Remain")
-       
+
        )
-      
+
       dev.off()
       #file.copy(from = paste(basepath,"Plot","microStatistic.svg",sep = "/"),to = paste('www/templePlot/microStatistic',session$token,'.svg',sep = ""))
-      
+
       if(exist=="F"){
         print(paste("#","gene_Group_",group,'_panel',sep=""))
         insertUI(
@@ -1012,7 +1012,7 @@ shinyServer(function(input,output,session) {
         list(src=paste(basepath,"Plot","microStatistic.svg",sep = "/"),width="100%",height="100%")
       },deleteFile = F)
       #qiefen
-      
+
     }
     else{
       gene_filter_choose[group] <<- list(c(number,line))
@@ -1030,15 +1030,15 @@ shinyServer(function(input,output,session) {
       svglite(paste(basepath,"/Plot/",group,"Statistic.svg",sep = ""))
       x1 = min(xdata$SampleRatio)+0.2*max(xdata$SampleRatio)+min(xdata$SampleRatio)
       text_to_plot=data.frame(x=c(x1,x1),y=c(0.95,0.90),col=c("blue","blue"),text=c(paste("Original genes:",number_ori),paste("After seg:",number_after)))
-      
+
       xdata = data.frame(SampleRatio=validSample/length(colnames(after_slice_micro.exp)),
                          color=as.character(c(xdata$SampleRatio>ratio)),
                          stringsAsFactors = F
       )
-      
+
       text1=paste("Sample Ratio:",ratio)
       text2=paste("Remain:",number_after)
-      
+
       p=ggplot(xdata,aes(x=SampleRatio,fill=..x..>ratio))+
         geom_histogram(color="black",bins = 100) +
         scale_fill_manual(values=c('FALSE'="white",'TRUE'= "#9b59b6"))+
@@ -1047,7 +1047,7 @@ shinyServer(function(input,output,session) {
       draw_y<-get(x = "range",envir = pp$layout$panel_scales_y[[1]]$range)
       draw_x<-get(x = "range",envir = pp$layout$panel_scales_x[[1]]$range)
       x_pianyi=(draw_x[2]-draw_x[1])*0.2
-    
+
       if(var(xdata$SampleRatio)!=0){
         if(skewness(xdata$SampleRatio)<0){
           text=data.frame(label=c(text1,text2),x=draw_x[1]+x_pianyi,y=c(draw_y[2],draw_y[2]*0.95),stringsAsFactors = F)
@@ -1059,27 +1059,27 @@ shinyServer(function(input,output,session) {
       else{
         text=data.frame(label=c(text1,text2),x=draw_x[1]+x_pianyi,y=c(draw_y[2],draw_y[2]*0.95),stringsAsFactors = F)
       }
-      
+
       print(p+xlim(draw_x[1]-x_pianyi*5/150, draw_x[2]+x_pianyi*5/150)+
               geom_text(mapping = aes(x = x,y = y,label=label),data=text,size=6,family='serif')+
               labs(title = paste("Group",group,"Genes Filter"))+xlab("Sample Ratio")+ylab('Valid RNA Count')+
-              theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-                    axis.text.x = element_text(family = "serif",colour = "black"), 
-                    axis.text.y = element_text(family = "serif",colour = "black"), 
-                    plot.title = element_text(family = "serif", hjust = 0.5,size=14), 
+              theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+                    axis.text.x = element_text(family = "serif",colour = "black"),
+                    axis.text.y = element_text(family = "serif",colour = "black"),
+                    plot.title = element_text(family = "serif", hjust = 0.5,size=14),
                     legend.text = element_text(family = "serif"),
                     legend.title = element_text(family = "serif"),
-                    legend.key = element_rect(fill = NA), 
+                    legend.key = element_rect(fill = NA),
                     legend.background = element_rect(fill = NA),
                     legend.direction = "horizontal",
                     legend.position = 'bottom',
                     panel.background = element_rect(fill = NA)) +labs(fill = "If Remain")
       )
-      
-      
+
+
       dev.off()
       #file.copy(from = paste(basepath,"/Plot/",group,"Statistic.svg",sep = ""),to = paste('www/templePlot/',group,'Statistic',session$token,'.svg',sep = ""))
-      
+
       if(exist=="F"){
         (paste("#","gene_Group_",group,'_panel',sep=""))
         insertUI(
@@ -1127,13 +1127,13 @@ shinyServer(function(input,output,session) {
 
     if(length(gene_filter_choose)==0){
       sendSweetAlert(session = session,title = "Warning..",text = 'Please click one preview at least!..',type = 'warning')
-      
+
     }else{
-    
+
       for(type in names(gene_filter_choose)){
         number = gene_filter_choose[[type]][1]
         line = gene_filter_choose[[type]][2]
-    
+
         if(type=="micro"){
           output_micro.exp = sect_output_micro.exp[,colnames(after_slice_micro.exp)]
           validGene=rownames(output_micro.exp)
@@ -1145,12 +1145,12 @@ shinyServer(function(input,output,session) {
             after_slice_micro.exp<<- output_micro.exp[intersect_name,]
             msg_pre = paste(msg_pre,"<h4>Valid MicroRNA: ",dim(after_slice_micro.exp)[1],"</h4>",sep = "")
             # num1 = length(rownames(after_slice_micro.exp))
-            
+
             #sendSweetAlert(session = session,title = "Success..",text = paste("Filter Success! Valid microRNA Remain:",num1),type = 'success')
-            
+
           }
           else{
-            
+
             sendSweetAlert(session = session,title = "Warning..",text = 'Group micro:Invlid value please choose again',type = 'warning')
             finnal =FALSE
             break
@@ -1160,7 +1160,7 @@ shinyServer(function(input,output,session) {
           #append group gene to after_slice_rna.exp
           validGene = rownames(sect_output_geneinfo[which(sect_output_geneinfo$.group==type),])
           output_rna.exp = sect_output_rna.exp[validGene,colnames(after_slice_rna.exp)]
-          
+
           validSample = rowSums(output_rna.exp>=number)
           xdata = data.frame(SampleRatio=validSample/length(colnames(output_rna.exp)),stringsAsFactors = F)
           intersect_name = rownames(xdata)[which(xdata$SampleRatio>line)]
@@ -1183,27 +1183,27 @@ shinyServer(function(input,output,session) {
         }
       }
       if(finnal){
-       
+
         num1 = length(rownames(after_slice_micro.exp))
         num2 = length(rownames(after_slice_rna.exp))
         after_slice_geneinfo <<- after_slice_geneinfo[rownames(after_slice_rna.exp),]
         #after_slice_geneinfo <<-sect_output_geneinfo[sect_name,]
         msg=HTML(msg_pre)
         sendSweetAlert(session = session,title = "Success..",text = msg,type = 'success',html = T)
-        
+
         ValidNum1 = data.frame(microNum = num1,stringsAsFactors = F);
         ValidNum2 = data.frame(rnaNum = num2,stringsAsFactors = F);
-        
+
         session$sendCustomMessage('Valid_valuebox_micro',ValidNum1);
         session$sendCustomMessage('Valid_valuebox_rna',ValidNum2);
       }else{
         after_slice_micro.exp <<- sect_output_micro.exp[,colnames(after_slice_micro.exp)]
         after_slice_geneinfo <<- sect_output_geneinfo[which(!is.na(sect_output_geneinfo$.group)),]
         after_slice_rna.exp <<- sect_output_rna.exp[rownames(after_slice_geneinfo),]     }
-      
+
     }
-    
-    #   list(src=normalizePath(paste(basepath,"Plot",'ph1.svg',sep="/")),height="100%",width="100%")    
+
+    #   list(src=normalizePath(paste(basepath,"Plot",'ph1.svg',sep="/")),height="100%",width="100%")
     # },deleteFile=F)
     # session$sendCustomMessage('clear_construction_task',"")
   })
@@ -1438,13 +1438,13 @@ shinyServer(function(input,output,session) {
       names(choice)=c(paste(condition[which(!condition$used),'description'],'(',condition[which(!condition$used),'abbr'],')',sep=""),'Custom')
     else
       names(choice)='Custom'
-    
+
     if(all(is.na(after_slice_geneinfo$.group)))
     {
       after_slice_geneinfo$.group<<-'Default'
       sendSweetAlert(session = session,title = "Warning",text = 'Group All Genes in Defaut',type = 'warning')
     }
-    
+
     groupstaistic=as.data.frame(table(after_slice_geneinfo$.group),stringsAsFactors = F)
     rownames(groupstaistic)=groupstaistic$Var1
     .group=sort(groupstaistic$Var1)
@@ -1458,7 +1458,7 @@ shinyServer(function(input,output,session) {
     show=c('All',show)
     values=c('all',values)
     cores=seq(0,validcore-sum(condition$core))
-    
+
     if(length(msg)>1)
     {
       choice=msg$type
@@ -1472,7 +1472,7 @@ shinyServer(function(input,output,session) {
       core=cores[1]
       tasks='all'
     }
-    
+
     removeUI(selector = '#modalbody>',multiple = T,immediate = T)
     insertUI(selector = '#modalbody',where = 'beforeEnd',immediate = T,
              ui=div(
@@ -1571,7 +1571,7 @@ shinyServer(function(input,output,session) {
       write(x = code,file = paste(basepath,"/code/",abbr,'.R',sep=""))
       #thresh<<-rbind(thresh,data.frame(type=condition$abbr,task=tasks,direction="<",thresh=0,stringsAsFactors = F))
     }
-    
+
     else
     {
       condition[type,'used']<<-T
@@ -1782,7 +1782,7 @@ shinyServer(function(input,output,session) {
       list(src=figurepath,width="100%",height="100%")
     },deleteFile = F)
     session$sendCustomMessage('distribution_plot',list(status='finish',value="",id=paste("density_plot",type,task,"progress",sep="_")))
-    
+
   })
   observeEvent(input$add_condition_thresh,{
     isolate({
@@ -1817,8 +1817,8 @@ shinyServer(function(input,output,session) {
     removeUI(selector = "#modalbody>",immediate = T)
     insertUI(selector = "#modalbody",where = 'beforeEnd',ui = create_progress("",id="network_construction_progress"),immediate = T)
     session$sendCustomMessage('network_construction',list(status='update',value="Initializing Network...",id="network_construction_progress"))
-    
-    
+
+
     # thresh<<-thresh[thresh$type!=type,]
     # for(name in names(newthresh))
     # {
@@ -1897,7 +1897,7 @@ shinyServer(function(input,output,session) {
       sendSweetAlert(session = session,title = "Error",text = "Please do this step after the step2 and step3",type = 'error')
     }else{
       if(do_what=="layout"){
-       
+
         type=msg$type
         visual_layout<<-type
         nodes=unique(c(edgeinfo[,1],edgeinfo[,2]))
@@ -1923,14 +1923,14 @@ shinyServer(function(input,output,session) {
     }
   })
   observeEvent(input$Network_con_finish,{
-    
+
     session$sendCustomMessage('network_construction',list(status='finish',value="",id="Construction_finish"))
-    
+
   })
   observeEvent(input$change_network_name,{
-    
+
     session$sendCustomMessage('Gene_info_name_change',colnames(after_slice_geneinfo))
-  
+
   })
   observeEvent(input$net_color_shape,{
     isolate({
@@ -1950,7 +1950,7 @@ shinyServer(function(input,output,session) {
       vec = after_slice_geneinfo[,type]
       #vec = vec[[1]]
       vec = unique(vec)
-     
+
       if(length(vec)>typeLimit){
           sendSweetAlert(session = session,title = "Error",text = "Too Many Candidates",type = 'error')
       }else{
@@ -1975,14 +1975,14 @@ shinyServer(function(input,output,session) {
       }
     }
   })
-  
+
   ##########Analysis Page Action###############
   observeEvent(input$nodeCentrality,{
     isolate({
       msg=input$nodeCentrality
       centrality=unlist(msg$value)
     })
-   
+
     if(R.oo::equals(net_igraph,"")){
       sendSweetAlert(session = session,title = "Error",text = "Please complete step 3 first",type = 'error')
     }else{
@@ -1995,14 +1995,14 @@ shinyServer(function(input,output,session) {
       {
         nodeNewInfo<<-data.frame(.id=rownames(after_slice_geneinfo),stringsAsFactors = F,row.names = rownames(after_slice_geneinfo))
       }
-      
+
       for(id in newadd)
       {
-       
+
         ui=create_property_box('node',id)
         insertUI(selector = "#network_property",where = 'beforeEnd',ui = ui,
                  immediate = T)
-        
+
         if(id=="Degree")
         {
           degree=as.data.frame(igraph::degree(net_igraph))
@@ -2015,9 +2015,9 @@ shinyServer(function(input,output,session) {
             geom_linerange(linetype='dashed')+
             geom_point(size=3)+scale_x_log10()+scale_y_log10()+geom_smooth(method = lm)+
             labs(title = "Degree Distribution")+xlab(label = "Degree")+ylab("Node Count")+
-            theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-                  axis.text.x = element_text(family = "serif",colour = "black"), 
-                  axis.text.y = element_text(family = "serif",colour = "black"), 
+            theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+                  axis.text.x = element_text(family = "serif",colour = "black"),
+                  axis.text.y = element_text(family = "serif",colour = "black"),
                   plot.title = element_text(family = "serif", hjust = 0.5,size=14),
                   panel.background = element_rect(fill = NA),legend.position = 'none',
                   plot.subtitle = element_text(family = "serif",size = 12, colour = "black", hjust = 0.5,vjust = 1))
@@ -2045,9 +2045,9 @@ shinyServer(function(input,output,session) {
           density=data.frame(x=density$x,y=density$y)
           p=ggplot(data = density)+geom_line(mapping = aes(x = x,y = y),size=1.5)+
             labs(title = "Betweenness Distribution")+xlab(label = "Betweenness")+ylab("Density")+
-            theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-                  axis.text.x = element_text(family = "serif",colour = "black"), 
-                  axis.text.y = element_text(family = "serif",colour = "black"), 
+            theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+                  axis.text.x = element_text(family = "serif",colour = "black"),
+                  axis.text.y = element_text(family = "serif",colour = "black"),
                   plot.title = element_text(family = "serif", hjust = 0.5,size=14),
                   panel.background = element_rect(fill = NA),legend.position = 'none',
                   plot.subtitle = element_text(family = "serif",size = 12, colour = "black", hjust = 0.5,vjust = 1))
@@ -2067,9 +2067,9 @@ shinyServer(function(input,output,session) {
           density=data.frame(x=density$x,y=density$y)
           p=ggplot(data = density)+geom_line(mapping = aes(x = x,y = y),size=1.5)+
             labs(title = "Closeness Distribution")+xlab(label = "Closeness")+ylab("Density")+
-            theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-                  axis.text.x = element_text(family = "serif",colour = "black"), 
-                  axis.text.y = element_text(family = "serif",colour = "black"), 
+            theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+                  axis.text.x = element_text(family = "serif",colour = "black"),
+                  axis.text.y = element_text(family = "serif",colour = "black"),
                   plot.title = element_text(family = "serif", hjust = 0.5,size=14),
                   panel.background = element_rect(fill = NA),legend.position = 'none',
                   plot.subtitle = element_text(family = "serif",size = 12, colour = "black", hjust = 0.5,vjust = 1))
@@ -2089,9 +2089,9 @@ shinyServer(function(input,output,session) {
           density=data.frame(x=density$x,y=density$y)
           p=ggplot(data = density)+geom_line(mapping = aes(x = x,y = y),size=1.5)+
             labs(title = "Clustering Coefficient Distribution")+xlab(label = "Clustering Coefficient")+ylab("Density")+
-            theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-                  axis.text.x = element_text(family = "serif",colour = "black"), 
-                  axis.text.y = element_text(family = "serif",colour = "black"), 
+            theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+                  axis.text.x = element_text(family = "serif",colour = "black"),
+                  axis.text.y = element_text(family = "serif",colour = "black"),
                   plot.title = element_text(family = "serif", hjust = 0.5,size=14),
                   panel.background = element_rect(fill = NA),legend.position = 'none',
                   plot.subtitle = element_text(family = "serif",size = 12, colour = "black", hjust = 0.5,vjust = 1))
@@ -2102,17 +2102,17 @@ shinyServer(function(input,output,session) {
             list(src=normalizePath(paste(basepath,"Plot",'node_clustering_coefficient.svg',sep="/")),height="100%",width="100%")
           },deleteFile=F)
         }
-        
+
       }
     }
-    
+
   })
   observeEvent(input$edgeCentrality,{
     isolate({
       msg=input$edgeCentrality
       centrality=msg$value
     })
-  
+
     if(R.oo::equals(net_igraph,"")){
       sendSweetAlert(session = session,title = "Error",text = "Please complete step 3 first",type = 'error')
     }else{
@@ -2125,11 +2125,11 @@ shinyServer(function(input,output,session) {
         ui=create_property_box('edge',id)
         insertUI(selector = "#network_property",where = 'beforeEnd',ui = ui,
                  immediate = T)
-        
+
         if(id=="Betweenness")
         {
           betweenness=edge_betweenness(net_igraph,directed = F)
-          
+
           #edgelist=t(apply(X = as_edgelist(net_igraph),MARGIN = 1,FUN = sort))
           #edgename=rownames(edgeinfo)
           #rownames(edgeinfo)<<-paste(edgename[,1],edgename[,2],sep="|")
@@ -2141,14 +2141,14 @@ shinyServer(function(input,output,session) {
           print(all(edgelist==edgeinfo[,c('N1','N2')]))
           edgeinfo[paste(edgelist[,1],edgelist[,2],sep="+"),'Betweenness']<<-betweenness
           #rownames(edgeinfo)<<-NULL
-          
+
           density=density(x = betweenness,from = min(betweenness,na.rm = T),to = max(betweenness,na.rm = T),na.rm = T)
           density=data.frame(x=density$x,y=density$y)
           p=ggplot(data = density)+geom_line(mapping = aes(x = x,y = y),size=1.5)+
             labs(title = "Edge Betweenness Distribution")+xlab(label = "Betweenness")+ylab("Density")+
-            theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-                  axis.text.x = element_text(family = "serif",colour = "black"), 
-                  axis.text.y = element_text(family = "serif",colour = "black"), 
+            theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+                  axis.text.x = element_text(family = "serif",colour = "black"),
+                  axis.text.y = element_text(family = "serif",colour = "black"),
                   plot.title = element_text(family = "serif", hjust = 0.5,size=14),
                   panel.background = element_rect(fill = NA),legend.position = 'none',
                   plot.subtitle = element_text(family = "serif",size = 12, colour = "black", hjust = 0.5,vjust = 1))
@@ -2159,7 +2159,7 @@ shinyServer(function(input,output,session) {
             list(src=normalizePath(paste(basepath,"Plot",'edge_betweenness.svg',sep="/")),height="100%",width="100%")
           },deleteFile=F)
         }
-        
+
       }
     }
   })
@@ -2183,7 +2183,7 @@ shinyServer(function(input,output,session) {
         hot_cols(columnSorting = T,manualColumnMove = T,manualColumnResize = F) %>%
         hot_col(col = seq(1:dim(showtable)[2]),halign='htCenter',readOnly = T,copyable = T)%>%
         hot_col(col = doubleColumn,format = '0.000e-0')
-      
+
     })
   })
   observeEvent(input$edgeDetails,{
@@ -2198,11 +2198,24 @@ shinyServer(function(input,output,session) {
         hot_col(col = seq(1:dim(edgeinfo)[2]),halign='htCenter',readOnly = T,copyable = T)
     })
   })
+  observeEvent(input$community_parameter_test,{
+    if(input$community_algorithm %in% c("cluster_walktrap","cluster_infomap",'cluster_mcl','cluster_linkcomm','cluster_mcode'))
+    {
+      get(paste('create',input$community_algorithm,"test_ui",sep="_"))(session)
+    }else
+    {
+      sendSweetAlert(session = session,title = "Warning",text = "Current algorithm does not neet parameters",type = 'warning')
+    }
+  })
+  observeEvent(input$run_parameter_test,{
+    algo=input$run_parameter_test$algorithm
+    get(paste('run',algo,"test",sep="_"))(input,output,session)
+  })
   observeEvent(input$community_detection,{
     isolate({
       algorithm=input$community_algorithm
     })
-    
+
     if(R.oo::equals(net_igraph,"")){
       sendSweetAlert(session = session,title = "Error",text = "Please complete step 3 first",type = 'error')
     }else{
@@ -2213,7 +2226,7 @@ shinyServer(function(input,output,session) {
       moduleinfo<<-""
       module.configure<<-list()
       gc()
-      
+
       if(algorithm=='cluster_edge_betweenness')
       {
         community=get(algorithm)(net_igraph)
@@ -2222,7 +2235,7 @@ shinyServer(function(input,output,session) {
         membership=membership(community)
         membership[which(membership%in%singleNodeCommunity)]=0
         after_slice_geneinfo[names(membership),'module']<<-paste("Module",membership,sep="")
-        
+
         community_list=list()
         for(id in unique(membership))
         {
@@ -2240,7 +2253,7 @@ shinyServer(function(input,output,session) {
         membership=membership(community)
         membership[which(membership%in%singleNodeCommunity)]=0
         after_slice_geneinfo[names(membership),'module']<<-paste("Module",membership,sep="")
-        
+
         community_list=list()
         for(id in unique(membership))
         {
@@ -2249,7 +2262,7 @@ shinyServer(function(input,output,session) {
         }
         names(community_list)=paste("Module",unique(membership),sep="")
         modules<<-community_list
-        
+
       }
       else if(algorithm=='cluster_label_prop')
       {
@@ -2259,7 +2272,7 @@ shinyServer(function(input,output,session) {
         membership=membership(community)
         membership[which(membership%in%singleNodeCommunity)]=0
         after_slice_geneinfo[names(membership),'module']<<-paste("Module",membership,sep="")
-        
+
         community_list=list()
         for(id in unique(membership))
         {
@@ -2271,7 +2284,7 @@ shinyServer(function(input,output,session) {
       }
       else if(algorithm=='cluster_leading_eigen')
       {
-        
+
       }
       else if(algorithm=='cluster_louvain')
       {
@@ -2281,7 +2294,7 @@ shinyServer(function(input,output,session) {
         membership=membership(community)
         membership[which(membership%in%singleNodeCommunity)]=0
         after_slice_geneinfo[names(membership),'module']<<-paste("Module",membership,sep="")
-        
+
         community_list=list()
         for(id in unique(membership))
         {
@@ -2299,7 +2312,7 @@ shinyServer(function(input,output,session) {
         membership=membership(community)
         membership[which(membership%in%singleNodeCommunity)]=0
         after_slice_geneinfo[names(membership),'module']<<-paste("Module",membership,sep="")
-        
+
         community_list=list()
         for(id in unique(membership))
         {
@@ -2320,7 +2333,7 @@ shinyServer(function(input,output,session) {
         membership=membership(community)
         membership[which(membership%in%singleNodeCommunity)]=0
         after_slice_geneinfo[names(membership),'module']<<-paste("Module",membership,sep="")
-        
+
         community_list=list()
         for(id in unique(membership))
         {
@@ -2341,7 +2354,7 @@ shinyServer(function(input,output,session) {
         membership=membership(community)
         membership[which(membership%in%singleNodeCommunity)]=0
         after_slice_geneinfo[names(membership),'module']<<-paste("Module",membership,sep="")
-        
+
         community_list=list()
         for(id in unique(membership))
         {
@@ -2404,7 +2417,7 @@ shinyServer(function(input,output,session) {
           fdt=input$mcode_fdt
         })
         community=get(algorithm)(net_igraph,vwp=vwp,haircut=haircut,fluff=fluff,fdt=fdt)
-        
+
         after_slice_geneinfo[,'module']<<-''
         community_list=list()
         for(id in unique(community$cluster))
@@ -2436,7 +2449,7 @@ shinyServer(function(input,output,session) {
                         choices = moduleinfo$ModuleID)
       updatePickerInput(session = session,inputId = "clinical_module",choices = names(modules))
     }
-    
+
   })
   observeEvent(input$communityDetals,{
     isolate({
@@ -2489,14 +2502,14 @@ shinyServer(function(input,output,session) {
       msg=input$displayCommunity
       id=msg$moduleid
     })
-    
+
     if(is.null(module.configure[[id]]))
     {
       tmp.configure=list(default.configure)
       names(tmp.configure)=id
       module.configure<<-c(module.configure,tmp.configure)
     }
-    
+
     removeUI(selector = paste("#module_",id,sep=""),multiple = T,immediate = T)
     ui=create_module_visualization(id)
     insertUI(selector = "#module_visualization",where = 'beforeEnd',ui = ui,immediate = T)
@@ -2509,9 +2522,9 @@ shinyServer(function(input,output,session) {
       colnames(edge)=c("from",'to')
       visNetwork(nodes = node,edges = edge,width = "100%",height = "100%")%>%
         visPhysics(stabilization = FALSE)%>%
-        visEdges(smooth = FALSE)%>% 
+        visEdges(smooth = FALSE)%>%
         visInteraction(navigationButtons = TRUE)%>%
-        visIgraphLayout()%>% 
+        visIgraphLayout()%>%
         visOptions(highlightNearest = TRUE)
     })
   })
@@ -2524,7 +2537,7 @@ shinyServer(function(input,output,session) {
     ui=create_modal_setting(id)
     insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = F,immediate = T)
   })
-  
+
   observeEvent(input$Update_community_style,{
     isolate({
       msg=input$Update_community_style
@@ -2534,7 +2547,7 @@ shinyServer(function(input,output,session) {
       color_map=input$module_color
       shape_map=input$module_shape
     })
-    
+
     module.gene=modules[[id]]
     node=data.frame(id=module.gene,
                     label=after_slice_geneinfo[module.gene,label],
@@ -2563,7 +2576,7 @@ shinyServer(function(input,output,session) {
           color=input[[paste0(item,"_color")]]
         })
         node[module.gene[which(after_slice_geneinfo[module.gene,color_map]==item)],'color']=color
-        
+
         module.configure[[id]]$color<<-c(module.configure[[id]]$color,list(color))
       }
       names(module.configure[[id]]$color)<<-items
@@ -2586,7 +2599,7 @@ shinyServer(function(input,output,session) {
           shape=input[[paste0(item,"_shape")]]
         })
         node[module.gene[which(after_slice_geneinfo[module.gene,shape_map]==item)],'shape']=shape
-        
+
         module.configure[[id]]$shape<<-c(module.configure[[id]]$shape,list(shape))
       }
       names(module.configure[[id]]$shape)<<-items
@@ -2594,18 +2607,18 @@ shinyServer(function(input,output,session) {
     output[[paste(id,"_plot",sep="")]]=renderVisNetwork({
       visNetwork(nodes = node,edges = edge,width = "100%",height = "100%")%>%
         visPhysics(stabilization = FALSE)%>%
-        visEdges(smooth = FALSE)%>% 
+        visEdges(smooth = FALSE)%>%
         visInteraction(navigationButtons = TRUE)%>%
         visIgraphLayout(layout = layout)%>%
-        visOptions(highlightNearest = TRUE) 
+        visOptions(highlightNearest = TRUE)
     })
-    
+
     module.configure[[id]]$layout<<-layout
     module.configure[[id]]$label<<-label
     module.configure[[id]]$color.attr<<-color_map
     module.configure[[id]]$shape.attr<<-shape_map
   })
-  
+
   observeEvent(list(input$clinical_file,input$clinical_seperator,input$clinical_header,input$clinical_first_col,input$clinical_quote),{
     isolate({
       file=input$clinical_file
@@ -2639,14 +2652,14 @@ shinyServer(function(input,output,session) {
         updatePickerInput(session = session,inputId = 'survival_extern_factor_continous',choices = column)
         updatePickerInput(session = session,inputId = 'survival_extern_factor_categorical',choices = column)
         updatePickerInput(session = session,inputId = 'survival_stratified_factor',choices = column)
-        
+
         output$clinical_patient_count=renderUI({
           div(class="external-event bg-light-blue",style="font-size:16px",
               list(tags$span("Patients in Clinical Data"),
                    tags$small(class="badge pull-right bg-red",style="font-size:16px",HTML(dim(clinical_data)[1])))
           )
         })
-        
+
         if(survival_exp!="")
         {
           valid_patient<<-intersect(rownames(clinical_data),colnames(survival_exp))
@@ -2664,9 +2677,9 @@ shinyServer(function(input,output,session) {
         removeUI(selector = "#clinical_valid_patient_count>",multiple = T,immediate = T)
       }
     )
-      
+
     }
-    
+
   })
 
   observeEvent(list(input$survival_exp_data,input$survival_exp_seperator,input$survival_exp_header,input$survival_exp_first_column),{
@@ -2698,14 +2711,14 @@ shinyServer(function(input,output,session) {
         names(column)=column
         updatePickerInput(session = session,inputId = 'clinical_survival_time',choices = column)
         updatePickerInput(session = session,inputId = 'clinical_survival_status',choices = column)
-        
+
         output$exp_patient_count=renderUI({
           div(class="external-event bg-light-blue",style="font-size:16px",
               list(tags$span("Patients in Expression Data"),
                    tags$small(class="badge pull-right bg-red",style="font-size:16px",HTML(dim(survival_exp)[2])))
           )
         })
-        
+
         if(clinical_data!="")
         {
           valid_patient<<-intersect(rownames(clinical_data),colnames(survival_exp))
@@ -2725,7 +2738,7 @@ shinyServer(function(input,output,session) {
       )
     }
   })
-  
+
   observeEvent(input$clinical_survival_status,{
     isolate({
       status_column=input$clinical_survival_status
@@ -2748,7 +2761,7 @@ shinyServer(function(input,output,session) {
                  tags$small(class="badge pull-right bg-red",style="font-size:16px",HTML(dim(survival_exp)[2])))
         )
       })
-      
+
       if(!R.oo::equals(clinical_data,""))
       {
         valid_patient<<-intersect(rownames(clinical_data),colnames(survival_exp))
@@ -2797,7 +2810,7 @@ shinyServer(function(input,output,session) {
       sendSweetAlert(session = session,title = "Error...",text = "Please Choose Column for Censor Variable!",type = 'error')
       return()
     }
-    
+
     isolate({
       genesource=input$clinical_gene_source
       singlelabel=input$clinical_single_gene
@@ -2811,7 +2824,7 @@ shinyServer(function(input,output,session) {
       if_custom_group=input$survival_custom_cluster_sample
       if_single_group=input$survival_single_group_sample
     })
-    
+
     if(genesource=="module")
     {
       if(is.null(moduleset))
@@ -2826,7 +2839,7 @@ shinyServer(function(input,output,session) {
       {
         sendSweetAlert(session = session,title = "Error...",text = "Please Input Gene Name!",type = 'error')
         return()
-      } 
+      }
     }
     else if(genesource=="custom")
     {
@@ -2836,15 +2849,15 @@ shinyServer(function(input,output,session) {
         return()
       }
     }
-  
+
     clinical_data=clinical_data[valid_patient,]
     survival_exp=survival_exp[,valid_patient]
     index=which(clinical_data[,status]==variable)
     clinical_data[,status]=1
     clinical_data[index,status]=0
-   
+
    removeUI(selector = "#survival_result_panel>",multiple = T,immediate = T)
-    
+
    if(model=="km_analysis")
    {
      if(genesource=="module")
@@ -2855,24 +2868,24 @@ shinyServer(function(input,output,session) {
                    modulegene=modules[[m]]
                    modulegene=modulegene[which(modulegene%in%rownames(survival_exp))]
                    patient.cluster=kmeans(t(survival_exp[modulegene,]),centers = 2)$cluster
-                   
+
                    tmpclinical=clinical_data[,c(time,status)]
                    tmpclinical$group=""
-                   
+
                    for(cl in unique(patient.cluster))
                    {
                      tmpclinical[names(patient.cluster)[which(patient.cluster==cl)],'group']=paste("Group",cl,sep="")
                    }
-                   
+
                    tmpclinical=tmpclinical[which(tmpclinical$group!=""),]
                    p=km.analysis(data = tmpclinical,time = time,status = status,factor = "group")
                    create_survival_result_box(session,label=paste("Survival Result of ",m,sep=""),id=m,model=model)
-                   
+
                    imagepath=paste(basepath,"/Plot/",m,"_",model,"_survival_curve.svg",sep="")
                    svglite(imagepath)
                    print(p$plot)
                    dev.off()
-                   
+
                    imagepath_heat=paste(basepath,"/Plot/",m,"_",model,"_survival_cluster.png",sep="")
                    Heatmaps(survival_exp[modulegene,],tmpclinical,imagepath_heat)
                    #plot_survival_result(output,basepath,m,model,list(p$plot,"",p$data.survtable))
@@ -2905,7 +2918,7 @@ shinyServer(function(input,output,session) {
                                div(class="box-body",
                                    h4(e$message)
                                )
-                               
+
                            )
                     )
                    )
@@ -2929,17 +2942,17 @@ shinyServer(function(input,output,session) {
            p=km.analysis(data = tmpclinical,time = time,status = status,factor = "group")
            create_survival_result_box(session,label=paste("Survival Result of ",rg,sep=""),id=rg,model=model)
            disp=SingleExpress(survival_exp[rg,],thresh,tmpclinical)
-           
+
            imagepath=paste(basepath,"/Plot/",rg,"_",model,"_survival_curve.svg",sep="")
            svglite(imagepath)
            print(p$plot)
            dev.off()
-           
+
            imagepath=paste(basepath,"/Plot/",rg,"_",model,"_survival_cluster.svg",sep="")
            svglite(imagepath)
            print(disp)
            dev.off()
-           
+
            local({
              id=rg
              table=p$data.survtable
@@ -2972,7 +2985,7 @@ shinyServer(function(input,output,session) {
                                div(class="box-body",
                                    h4(e$message)
                                )
-                               
+
                            )
                     )
            )
@@ -2990,24 +3003,24 @@ shinyServer(function(input,output,session) {
            return()
          }
          patient.cluster=kmeans(t(survival_exp[customgene,]),centers = 2)$cluster
-         
+
          tmpclinical=clinical_data[,c(time,status)]
          tmpclinical$group=""
-         
+
          for(cl in unique(patient.cluster))
          {
            tmpclinical[names(patient.cluster)[which(patient.cluster==cl)],'group']=paste("Group",cl,sep="")
          }
-         
+
          tmpclinical=tmpclinical[which(tmpclinical$group!=""),]
          p=km.analysis(data = tmpclinical,time = time,status = status,factor = "group")
          create_survival_result_box(session,label=paste("Survival Result of Custom Gene Set",sep=""),id="custom",model=model)
-         
+
          imagepath=paste(basepath,"/Plot/",'custom',"_",model,"_survival_curve.svg",sep="")
          svglite(imagepath)
          print(p$plot)
          dev.off()
-         
+
          imagepath_heat=paste(basepath,"/Plot/","custom","_",model,"_survival_cluster.png",sep="")
          Heatmaps(survival_exp[customgene,],tmpclinical,imagepath_heat)
          #plot_survival_result(output,basepath,m,model,list(p$plot,"",p$data.survtable))
@@ -3040,7 +3053,7 @@ shinyServer(function(input,output,session) {
                              div(class="box-body",
                                  h4(e$message)
                              )
-                             
+
                          )
                   )
          )
@@ -3064,10 +3077,10 @@ shinyServer(function(input,output,session) {
        {
          modulegene=modules[[m]]
          modulegene=modulegene[which(modulegene%in%rownames(survival_exp))]
-         
+
          fit=cox.analysis(session,clinical_data,survival_exp,time,status,if_module_group,modulegene,extern_factor_continous,extern_factor_categorical,strata_factor)
          create_cox_survival_result_box(session,label=paste("Survival Result of ",m,sep=""),id=m,model=model)
-         # 
+         #
          # # imagepath_heat=paste(basepath,"/Plot/",m,"_",model,"_survival_cluster.png",sep="")
          # # Heatmaps(survival_exp[modulegene,],tmpclinical,imagepath_heat)
          # # #plot_survival_result(output,basepath,m,model,list(p$plot,"",p$data.survtable))
@@ -3157,7 +3170,7 @@ shinyServer(function(input,output,session) {
                         external_categorical = extern_factor_categorical,
                         strata_factor = strata_factor,single_grouped = F)
        create_cox_survival_result_box(session,label=paste("Survival Result of Custom Genes",sep=""),id="custom",model=model)
-       # 
+       #
        # # imagepath_heat=paste(basepath,"/Plot/",m,"_",model,"_survival_cluster.png",sep="")
        # # Heatmaps(survival_exp[modulegene,],tmpclinical,imagepath_heat)
        # # #plot_survival_result(output,basepath,m,model,list(p$plot,"",p$data.survtable))
@@ -3234,14 +3247,14 @@ shinyServer(function(input,output,session) {
       updatePickerInput(session = session,inputId = 'survival_extern_factor_continous',choices = column)
       updatePickerInput(session = session,inputId = 'survival_extern_factor_categorical',choices = column)
       updatePickerInput(session = session,inputId = 'survival_stratified_factor',choices = column)
-      
+
       output$clinical_patient_count=renderUI({
         div(class="external-event bg-light-blue",style="font-size:16px",
             list(tags$span("Patients in Clinical Data"),
                  tags$small(class="badge pull-right bg-red",style="font-size:16px",HTML(dim(clinical_data)[1])))
         )
       })
-      
+
       survival_exp<<-after_slice_rna.exp
       output$exp_patient_count=renderUI({
         div(class="external-event bg-light-blue",style="font-size:16px",
@@ -3264,7 +3277,7 @@ shinyServer(function(input,output,session) {
     }
   )
   })
-  
+
 
   observeEvent(input$enrichment_finish,{
     isolate({
@@ -3282,12 +3295,12 @@ shinyServer(function(input,output,session) {
       filepath=input$enrichment_Custom_input_function_gene$datapath
       custom_significance_threshold_type=input$enrichment_Significance_threshold_custom
     })
-    
+
     removeUI(selector = '#all_enrichment_show>',immediate = T,multiple = T)
     # removeUI(selector = "#module_info_box>",multiple = T,immediate = T)
     # removeUI(selector = "#module_visualization>",multiple = T,immediate = T)
     insertUI(selector = "#all_enrichment_show",where = 'beforeEnd',ui = create_progress(paste0("Running ",choose_analysis_tool,"..."),id="enrichment_progress"),immediate = T)
-    
+
     if(choose_analysis_gene=="Custom_Gene"){
       gene_set=strsplit(x=Custom_input_gene,split = '\n')
       names(gene_set)="custom_set"
@@ -3299,7 +3312,7 @@ shinyServer(function(input,output,session) {
       }
       names(gene_set)=Module_analysis
     }
-    
+
     enrichment=data.frame()
     if(choose_analysis_tool=='gProfile'){
       for(i in names(gene_set)){
@@ -3310,7 +3323,7 @@ shinyServer(function(input,output,session) {
         if(!is.null(enrichment_result)){
           enrichment=rbind(enrichment,data.frame(enrichment_result,set_id=i,stringsAsFactors = F) )
         }
-        
+
       }
       enrichment$source=gsub(pattern = ":",replacement = "_",x =enrichment$source )
     }
@@ -3330,7 +3343,7 @@ shinyServer(function(input,output,session) {
           temp_recall=x/func_gene_num
           enrichment=rbind(enrichment,data.frame(set_id=set_id,term_id=func_id,
                                                  p_value=temp_pvalue,intersection_size=x,recall=temp_recall,source="custom",stringsAsFactors = F))
-          
+
         }
       }
       if(custom_significance_threshold_type!="")
@@ -3341,7 +3354,7 @@ shinyServer(function(input,output,session) {
     removeUI(selector = "#all_enrichment_show>",immediate = T,multiple = T)
     # insertUI(selector = "#module_info_box",where = 'beforeEnd',ui = create_alert_box(header="Tips",msg="The <i>Module0</i> is consisted of all isolated nodes",class="col-lg-4"),immediate = T)
     # insertUI(selector = "#module_info_box",where = 'beforeEnd',ui = rHandsontableOutput(outputId = "moduleInfoTable"),immediate = T)
-    
+
     for(set_id in names(gene_set)){
       insertUI(
         selector ='#all_enrichment_show',
@@ -3388,7 +3401,7 @@ shinyServer(function(input,output,session) {
                        )
                    )
                ),
-               
+
                div(class='box-footer',downloadButton(outputId=paste('export_enrichment_',set_id,sep=""),
                                                      onclick='export_enrichment_plot(this)',label = "Export"))
         ),
@@ -3423,20 +3436,20 @@ shinyServer(function(input,output,session) {
           plotdata=temp_enrichment[which(temp_enrichment$source==ss),]
           plotdata$p_value=-log(plotdata$p_value)
           plotdata=plotdata[order(plotdata$p_value,decreasing = T),]
-          
+
           svglite(paste(basepath,"Plot",paste(set_id,"_enrichment_plot_",ss,".svg",sep = ""),sep = "/"))
           if(choose_show=="bar_plot"){
-            
+
             print(
               ggplot(plotdata,aes(x=factor(term_id,levels = plotdata$term_id),y=p_value,fill=recall))+
                 geom_bar(stat = "identity")+labs(y="-log(P)",x="Term Id",title = paste(set_id,"enriched in",ss),fill="Recall")+
-                theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-                      axis.text.x = element_text(family = "serif",colour = "black"), 
-                      axis.text.y = element_text(family = "serif",colour = "black"), 
-                      plot.title = element_text(family = "serif", hjust = 0.5,size=14), 
+                theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+                      axis.text.x = element_text(family = "serif",colour = "black"),
+                      axis.text.y = element_text(family = "serif",colour = "black"),
+                      plot.title = element_text(family = "serif", hjust = 0.5,size=14),
                       legend.text = element_text(family = "serif"),
                       legend.title = element_text(family = "serif"),
-                      legend.key = element_rect(fill = NA), 
+                      legend.key = element_rect(fill = NA),
                       legend.background = element_rect(fill = NA),
                       legend.direction = "horizontal",
                       legend.position = 'bottom',
@@ -3445,17 +3458,17 @@ shinyServer(function(input,output,session) {
             )
           }
           else{
-            
+
             print(
               ggplot(plotdata,aes(y= factor(term_id,levels=plotdata$term_id),x=recall,colour=p_value,size=intersection_size))+
                 geom_point()+labs(x="Recall",y="Term Id",title = paste(set_id,"enriched in",ss))+
-                theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25), 
-                      axis.text.x = element_text(family = "serif",colour = "black"), 
-                      axis.text.y = element_text(family = "serif",colour = "black"), 
-                      plot.title = element_text(family = "serif", hjust = 0.5,size=14), 
+                theme(axis.title = element_text(family = "serif"),axis.text = element_text(family = "serif",colour = "black", vjust = 0.25),
+                      axis.text.x = element_text(family = "serif",colour = "black"),
+                      axis.text.y = element_text(family = "serif",colour = "black"),
+                      plot.title = element_text(family = "serif", hjust = 0.5,size=14),
                       legend.text = element_text(family = "serif"),
                       legend.title = element_text(family = "serif"),
-                      legend.key = element_rect(fill = NA), 
+                      legend.key = element_rect(fill = NA),
                       legend.background = element_rect(fill = NA),
                       legend.direction = "horizontal",
                       legend.position = 'bottom',
@@ -3465,18 +3478,18 @@ shinyServer(function(input,output,session) {
             )
           }
           dev.off()
-          
+
           local({
             temp_setid=set_id
             temp_ss=ss
             output[[paste(temp_setid,"enrichment_out_pic",temp_ss,sep="_")]]=renderImage({
               list(src=paste(basepath,"Plot",paste(temp_setid,"_enrichment_plot_",temp_ss,".svg",sep = ""),sep = "/"),width="100%",height="100%")
             },deleteFile = F)
-            
+
           })
-          
+
         }
-        
+
         local({
           temp_setid=set_id
           table=temp_enrichment
@@ -3484,17 +3497,17 @@ shinyServer(function(input,output,session) {
             rhandsontable(table)
           })
         })
-        
+
       }
     }
   })
-  
+
   observeEvent(input$show_custom_input_file,{
     session$sendCustomMessage('reading',list(div='custom_preview_panel',status='ongoing'))
     isolate({
       filepath=input$enrichment_Custom_input_function_gene$datapath
     })
-    
+
     if(is.null(filepath))
     {
       lines<-'No Data'
@@ -3515,22 +3528,22 @@ shinyServer(function(input,output,session) {
     }
     sign_formatter=formatter("span",onclick="showCustomGeneDetails(this)",style=function(x) {
       style(display = "inline-block",direction = "rtl", `border-radius` = "4px",`background-color` = csscolor('#3498db'), width = '150px')} )
-    
+
     df$Action=sign_formatter(df$Action)
-    
-    my_color_bar <- function (color = "lightgray", fixedWidth=150,...) 
+
+    my_color_bar <- function (color = "lightgray", fixedWidth=150,...)
     {
-      formatter("span", style = function(x) style(display = "inline-block", 
-                                                  direction = "rtl", `border-radius` = "4px", `padding-right` = "2px", 
-                                                  `background-color` = csscolor(color), width = paste(fixedWidth*proportion(x),"px",sep=""), 
+      formatter("span", style = function(x) style(display = "inline-block",
+                                                  direction = "rtl", `border-radius` = "4px", `padding-right` = "2px",
+                                                  `background-color` = csscolor(color), width = paste(fixedWidth*proportion(x),"px",sep=""),
                                                   ...))
     }
-    
+
     output$custom_preview_panel=renderFormattable({
       formattable(df,align=c("c","r","c"),list(Size=my_color_bar("#2ecc71",250)))
     })
   })
- 
+
   observeEvent(input$showCustomDetails,{
     isolate({
       msg=input$showCustomDetails
@@ -3544,12 +3557,12 @@ shinyServer(function(input,output,session) {
     # }
     aaa=paste('<table style="font-family:Times New Roman" align="center">',paste(paste('<tr><td>',custom_gene_set[[id]],'</td></tr>'),collapse = "") ,'</table>')
     aaa=HTML(aaa)
-    
+
     confirmSweetAlert(session = session,inputId = "temp",title = id,
                       text =aaa ,html =T  )
-    
+
   })
-  
+
   observeEvent(input$export_enrichment_plot,{
     isolate({
       msg=input$export_enrichment_plot
@@ -3573,7 +3586,7 @@ shinyServer(function(input,output,session) {
       )
     }
   })
-  
+
   output$export_network_node_property=downloadHandler(
      filename = 'Node_Property.txt',
      content = function(file)
@@ -3619,9 +3632,9 @@ shinyServer(function(input,output,session) {
        }
        else
        {
-         zip(zipfile = file,files = files,flags = '-j') 
+         zip(zipfile = file,files = files,flags = '-j')
        }
-       
+
      }
   )
   output$export_module_info=downloadHandler(

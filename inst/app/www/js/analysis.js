@@ -1,7 +1,7 @@
 $(document).ready(function(){
   $("a[href='#shiny-tab-analysis']").on("click",function(e){
     Shiny.setInputValue("initialization_enrichment",Math.random());
-    
+
   });
    $("#custom_preview_panel").parent().css({'overflow':'auto','height':'370px'});
 })
@@ -46,7 +46,7 @@ function nodeDetails(btn)
    })
   Shiny.setInputValue("nodeDetails",Math.random())
   Shiny.addCustomMessageHandler("nodeDetails",function(e){
-   
+
   })
 }
 function edgeDetails(btn)
@@ -126,7 +126,7 @@ function export_enrichment_plot(e)
   var $pic=$(e).parent().prev().find('.col-lg-6').children('div')
   for(var i=0;i<$pic.length;++i)
   {
-    picid.push($pic.get(i).getAttribute('id')) 
+    picid.push($pic.get(i).getAttribute('id'))
   }
   obj['picid']=picid
   obj['id']=$(e).attr('id')
@@ -190,3 +190,59 @@ function demo_clinical()
   obj['stamp']=Math.random()
   Shiny.setInputValue("demo_clinic",obj)
 }
+function run_parameter_choose(obj)
+{
+  Shiny.setInputValue("community_parameter_test",Math.random())
+}
+function run_parameter_test(para)
+{
+  var obj={}
+  obj['stamp']=Math.random()
+  obj['algorithm']=para
+  Shiny.setInputValue("run_parameter_test",obj)
+}
+
+Shiny.addCustomMessageHandler("show_community_parameter_test_modal",function(msg){
+  showModal()
+  $(".modal-footer").css("visibility","visible")
+})
+
+Shiny.addCustomMessageHandler("test_parameter_status",function(msg){
+  if(msg.status=='run')
+  {
+    $("#modalSubmit").attr('disabled','true')
+    $("#modalSubmit").next().attr('disabled','true')
+    if($("#modalbody>div.row").length!=2)
+    {
+      var $row=$("<div class='row'>")
+      var $col=$("<div class='col-lg-12'>")
+      var $progress=$("<div class='progress active'>")
+      var $style=$("<div class='progress-bar progress-bar-success progress-bar-striped'>")
+      $style.css('width',msg.progress+"%")
+      var $label=$("<span>")
+      $label.html(msg.info)
+      $style.append($label)
+      $progress.append($style)
+      $col.append($progress)
+      $row.append($col)
+      $("#modalbody").append($row)
+    }
+    else
+    {
+      $("#modalbody").find("div.progress-bar>span").html(msg.info)
+      $("#modalbody").find("div.progress-bar").css('width',msg.progress+"%")
+    }
+  }
+  else
+  {
+    $("#modalSubmit").attr('disabled','false')
+    $("#modalSubmit").next().attr('disabled','false')
+    $("#modalbody").find("div.progress-bar>span").html(msg.info)
+    $("#modalbody").find("div.progress-bar").css('width',msg.progress+"%")
+    $("#modalbody").find("div.progress").removeClass('active')
+    $("#modalSubmit").attr('disabled',false)
+    $("#modalSubmit").next().attr('disabled',false)
+  }
+
+})
+
