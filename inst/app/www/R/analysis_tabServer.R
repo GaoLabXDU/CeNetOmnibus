@@ -155,7 +155,6 @@ create_cluster_infomap_test_ui=function(session)
   insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_infomap")'))
   session$sendCustomMessage('show_community_parameter_test_modal',"")
 }
-
 run_cluster_infomap_test=function(input,output,session)
 {
   start=input$step_start
@@ -805,7 +804,6 @@ create_property_box=function(type,id)
   )
   return(ui)
 }
-
 cluster_mcl=function(graph,expansion=2,inflation=2,allow1=F,max.iter=100)
 {
   community=mcl(as.matrix(as_adjacency_matrix(graph,type='both')),addLoops = T,expansion = expansion,inflation = inflation,allow1 = allow1,max.iter = max.iter)
@@ -813,7 +811,6 @@ cluster_mcl=function(graph,expansion=2,inflation=2,allow1=F,max.iter=100)
   names(result)=rownames(as_adjacency_matrix(graph,type='both'))
   return(result)
 }
-
 cluster_linkcomm=function(edgeinfo,hcmethod)
 {
   community=getLinkCommunities(network = edgeinfo[,c("N1","N2")],hcmethod = hcmethod,directed = F,plot = F)
@@ -823,7 +820,6 @@ cluster_linkcomm=function(edgeinfo,hcmethod)
   colnames(result)=c('node','cluster')
   return(result)
 }
-
 cluster_mcode=function(graph,vwp,haircut,fluff,fdt)
 {
   community=cluster(graph = graph,method = 'MCODE',vwp = vwp,haircut = haircut,fluff = fluff,fdt = fdt,plot = F)
@@ -831,7 +827,6 @@ cluster_mcode=function(graph,vwp,haircut,fluff,fdt)
   result=data.frame(node=rownames(result),cluster=result$community,stringsAsFactors = F)
   return(result)
 }
-
 cluster_cograph=function(netpath,outpath)
 {
   # .jinit()
@@ -875,7 +870,6 @@ cluster_cograph=function(netpath,outpath)
     modules<<-c(tmp,modules)
   }
 }
-
 create_module_info=function()
 {
   moduleinfo<<-data.frame()
@@ -910,13 +904,14 @@ create_module_info=function()
     nodeDetails=paste("<a onclick=communityDetail('",community,"')>Details</a>",sep="")
     edgeDetails=paste("<a onclick=communityEdgeDetail('",community,"')>Details</a>",sep="")
     display=paste("<a href='#",paste("module_",community,sep=""),"' onclick=displayCommunity('",community,"')>Display</a>",sep="")
+    microRNA=paste("<a onclick=microRNA_analysis('",community,"')>Access</a>",sep="")
     moduleinfo<<-rbind(moduleinfo,data.frame("ModuleID"=community,"Node Count"=node_count,"Edge Count"=edge_count,node_type_count,
                                    Density=density,Average.MicroRNA=ave.micro,scores,
                                    Nodes=nodeDetails,Edges=edgeDetails,
-                                   Visualization=display,stringsAsFactors = F))
+                                   Visualization=display,
+                                   MicroRNA=microRNA,stringsAsFactors = F))
   }
 }
-
 create_module_visualization=function(id)
 {
   ui=div(class="col-lg-6",id=paste("module_",id,sep=""),

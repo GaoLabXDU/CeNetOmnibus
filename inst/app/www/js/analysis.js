@@ -246,3 +246,30 @@ Shiny.addCustomMessageHandler("test_parameter_status",function(msg){
 
 })
 
+function microRNA_analysis(module)
+{
+  var obj={}
+  obj['stamp']=Math.random()
+  obj['module']=module
+  Shiny.setInputValue("module_microRNA_analysis",obj)
+}
+Shiny.addCustomMessageHandler("show_microRNA_modal",function(msg){
+  var $download=$('<button type="button" class="btn btn-default"style="display: inline;">Export</button>')
+  $download.attr('module',msg.module)
+  $download.on('click',function(e){
+    var module=$(e.target).attr('module')
+    var obj={}
+    obj['stamp']=Math.random()
+    obj['module']=module
+    Shiny.setInputValue("export_module_microRNA_detail",obj)
+  })
+  $('#modalbody').append($download)
+  showModal()
+  $(".modal-footer").css("visibility","visible")
+  $("#modalSubmit").off('click')
+})
+Shiny.addCustomMessageHandler("save_module_microRNA_detail",function(msg){
+  var blob = new Blob([msg.text], {type: "text/plain;charset=utf-8"});
+  saveAs(blob, msg.module+"_microRNA.txt");
+})
+

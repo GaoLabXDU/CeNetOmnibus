@@ -2443,7 +2443,8 @@ shinyServer(function(input,output,session) {
           hot_col(col = seq(1:dim(moduleinfo)[2]),halign='htCenter',readOnly = T,copyable=T)%>%
           hot_col(col = "Nodes",halign = 'htCenter',renderer=htmlwidgets::JS("safeHtmlRenderer"))%>%
           hot_col(col = "Edges",halign = 'htCenter',renderer=htmlwidgets::JS("safeHtmlRenderer"))%>%
-          hot_col(col = "Visualization",halign = 'htCenter',renderer=htmlwidgets::JS("safeHtmlRenderer"))
+          hot_col(col = "Visualization",halign = 'htCenter',renderer=htmlwidgets::JS("safeHtmlRenderer"))%>%
+          hot_col(col = "MicroRNA",halign = 'htCenter',renderer=htmlwidgets::JS("safeHtmlRenderer"))
       })
       updatePickerInput(session = session,inputId = "enrichment_Module_analysis1",
                         choices = moduleinfo$ModuleID)
@@ -2537,7 +2538,6 @@ shinyServer(function(input,output,session) {
     ui=create_modal_setting(id)
     insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = F,immediate = T)
   })
-
   observeEvent(input$Update_community_style,{
     isolate({
       msg=input$Update_community_style
@@ -2617,6 +2617,46 @@ shinyServer(function(input,output,session) {
     module.configure[[id]]$label<<-label
     module.configure[[id]]$color.attr<<-color_map
     module.configure[[id]]$shape.attr<<-shape_map
+  })
+  observeEvent(input$module_microRNA_analysis,{
+    isolate({
+      module=input$module_microRNA_analysis$module
+    })
+    mg=modules[[module]]
+    mn=subgraph(graph = net_igraph,v = mg)
+    mm=get.adjacency(graph = mn,type = 'both')
+    mtarget=as(as.matrix(sect_output_target[mg,rownames(after_slice_micro.exp)]),Class = 'dgTMatrix')
+    associate_microRNA=diag(t(mtarget)%*%mm%*%mtarget)
+    names(associate_microRNA)=colnames(mtarget)
+    associate_microRNA=associate_microRNA[associate_microRNA!=0]
+    tmptarget=t(sect_output_target[mg,names(associate_microRNA)])
+    genes=apply(X = tmptarget,MARGIN = 1,FUN = function(d){return(str_wrap(paste(names(d)[d!=0],collapse = ", "),width = 50))})
+    result=data.frame(MicroRNA=rownames(tmptarget),"Target Gene Count"=rowSums(tmptarget),"Target Genes"=genes,stringsAsFactors = F)
+
+    removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
+    insertUI(selector = "#modalbody",where = 'afterBegin',ui = dataTableOutput(outputId = "module_microRNA_detail",width = "100%",height = "100%"))
+    output$module_microRNA_detail=renderDataTable({
+      datatable(data = result,rownames = F)
+    })
+    session$sendCustomMessage(type = "show_microRNA_modal",message = list(module=module))
+  })
+  observeEvent(input$export_module_microRNA_detail,{
+    isolate({
+      module=input$export_module_microRNA_detail$module
+    })
+    mg=modules[[module]]
+    mn=subgraph(graph = net_igraph,v = mg)
+    mm=get.adjacency(graph = mn,type = 'both')
+    mtarget=as(as.matrix(sect_output_target[mg,rownames(after_slice_micro.exp)]),Class = 'dgTMatrix')
+    associate_microRNA=diag(t(mtarget)%*%mm%*%mtarget)
+    names(associate_microRNA)=colnames(mtarget)
+    associate_microRNA=associate_microRNA[associate_microRNA!=0]
+    tmptarget=t(sect_output_target[mg,names(associate_microRNA)])
+    genes=apply(X = tmptarget,MARGIN = 1,FUN = function(d){return(paste(names(d)[d!=0],collapse = ", "))})
+    result=data.frame(MicroRNA=rownames(tmptarget),"Target Gene Count"=rowSums(tmptarget),"Target Genes"=genes,stringsAsFactors = F)
+    result=paste(apply(X = result,MARGIN = 1,FUN = paste,collapse="\t"),collapse = "\n")
+    result=paste(paste(colnames(result),collapse = "\t"),result,sep = "\n")
+    session$sendCustomMessage(type = "save_module_microRNA_detail",message = list(text=result,module=module))
   })
 
   observeEvent(list(input$clinical_file,input$clinical_seperator,input$clinical_header,input$clinical_first_col,input$clinical_quote),{
