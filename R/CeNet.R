@@ -44,6 +44,8 @@ CeNetOmnibus <- function(maxRequestSize=1000,workpath=tempdir(),projectName=NULL
   library(svglite)
   library(R.oo)
   library(patchwork)
+  library(Matrix)
+  library(stringr)
 
   maxRequestSize=maxRequestSize*1024^2
   tmpdir<<-normalizePath(workpath)
@@ -60,5 +62,5 @@ CeNetOmnibus <- function(maxRequestSize=1000,workpath=tempdir(),projectName=NULL
   #suppressMessages(shiny::runApp(system.file("app", package = "CeNetOmnibus"),launch.browser=TRUE,...))
   shiny::runApp("inst/app",launch.browser=TRUE,...)
 }
-setwd("C:/Users/william/Desktop/CeNetOmnibus/")
+setwd("D:/GitHub/CeNetOmnibus/")
 CeNetOmnibus(useEnsembl = F)

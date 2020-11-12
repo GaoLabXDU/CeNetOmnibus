@@ -273,3 +273,11 @@ Shiny.addCustomMessageHandler("save_module_microRNA_detail",function(msg){
   saveAs(blob, msg.module+"_microRNA.txt");
 })
 
+function edgeMicroRNA(n1,n2)
+{
+  var obj={}
+  obj['stamp']=Math.random()
+  obj['n1']=n1
+  obj['n2']=n2
+  Shiny.setInputValue('get_edge_microRNA',obj)
+}

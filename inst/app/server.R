@@ -2458,25 +2458,26 @@ shinyServer(function(input,output,session) {
       id=msg$moduleid
     })
     modulegene=modules[[id]]
+    if(nodeNewInfo!="")
+    {
+      showtable=cbind(after_slice_geneinfo,nodeNewInfo[rownames(after_slice_geneinfo),])#,stringsAsFactors = F,check.rows = T,check.names = T)
+      index=which(colnames(showtable)==".id")
+      showtable=showtable[,-1*index]
+    }
+    else
+    {
+      showtable=after_slice_geneinfo
+    }
     removeUI(selector = "#modalbody>",multiple = T,immediate = T)
-    insertUI(selector = "#modalbody",where = "beforeEnd",ui = rHandsontableOutput(outputId = "nodesDetailsTable"),immediate = T)
-    output$nodesDetailsTable=renderRHandsontable({
-      if(nodeNewInfo!="")
-      {
-        showtable=cbind(after_slice_geneinfo,nodeNewInfo[rownames(after_slice_geneinfo),])#,stringsAsFactors = F,check.rows = T,check.names = T)
-        index=which(colnames(showtable)==".id")
-        showtable=showtable[,-1*index]
-      }
-      else
-      {
-        showtable=after_slice_geneinfo
-      }
-      doubleColumn=which(unlist(lapply(X = showtable,FUN = typeof))=='double')
-      rhandsontable(showtable[modulegene,], width = "100%", height = "500",rowHeaders = NULL,search = T) %>%
-        hot_table(highlightCol = TRUE, highlightRow = TRUE) %>%
-        hot_cols(columnSorting = T,manualColumnMove = T,manualColumnResize = F) %>%
-        hot_col(col = seq(1:dim(showtable)[2]),halign='htCenter',readOnly = T,copyable = T)%>%
-        hot_col(col = doubleColumn,format = '0.000e-0')
+    insertUI(selector = "#modalbody",where = "beforeEnd",ui = dataTableOutput(outputId = "nodesDetailsTable"),immediate = T)
+    output$nodesDetailsTable=renderDataTable({
+      datatable(data = showtable,rownames = F)
+      # doubleColumn=which(unlist(lapply(X = showtable,FUN = typeof))=='double')
+      # rhandsontable(showtable[modulegene,], width = "100%", height = "500",rowHeaders = NULL,search = T) %>%
+      #   hot_table(highlightCol = TRUE, highlightRow = TRUE) %>%
+      #   hot_cols(columnSorting = T,manualColumnMove = T,manualColumnResize = F) %>%
+      #   hot_col(col = seq(1:dim(showtable)[2]),halign='htCenter',readOnly = T,copyable = T)%>%
+      #   hot_col(col = doubleColumn,format = '0.000e-0')
     })
   })
   observeEvent(input$communityEdgeDetals,{
@@ -2487,16 +2488,25 @@ shinyServer(function(input,output,session) {
     modulegene=modules[[id]]
     index=which(edgeinfo$N1%in%modulegene&edgeinfo$N2%in%modulegene)
     edges=edgeinfo[index,]
+    edges$microRNA=paste0("<a onclick=\"edgeMicroRNA('",edges[,1],"','",edges[,2],"')\" target='_blank'>Access</a>")
     removeUI(selector = "#modalbody>",multiple = T,immediate = T)
-    insertUI(selector = "#modalbody",where = "beforeEnd",ui = rHandsontableOutput(outputId = "nodesDetailsTable"),immediate = T)
-    output$nodesDetailsTable=renderRHandsontable({
-      doubleColumn=which(unlist(lapply(X = edges,FUN = typeof))=='double')
-      rhandsontable(edges, width = "100%", height = "500",rowHeaders = NULL,readOnly = F) %>%
-        hot_table(highlightCol = TRUE, highlightRow = TRUE) %>%
-        hot_cols(columnSorting = T,manualColumnMove = T,manualColumnResize = T) %>%
-        hot_col(col = doubleColumn,format='0.000e+0')%>%
-        hot_col(col = seq(1:dim(edges)[2]),halign='htCenter',readOnly = T,copyable = T)
+    insertUI(selector = "#modalbody",where = "beforeEnd",ui = dataTableOutput(outputId = "nodesDetailsTable"),immediate = T)
+    output$nodesDetailsTable=renderDataTable({
+      datatable(edges,rownames = F,escape = F)
+      # doubleColumn=which(unlist(lapply(X = edges,FUN = typeof))=='double')
+      # rhandsontable(edges, width = "100%", height = "500",rowHeaders = NULL,readOnly = F) %>%
+      #   hot_table(highlightCol = TRUE, highlightRow = TRUE) %>%
+      #   hot_cols(columnSorting = T,manualColumnMove = T,manualColumnResize = T) %>%
+      #   hot_col(col = doubleColumn,format='0.000e+0')%>%
+      #   hot_col(col = seq(1:dim(edges)[2]),halign='htCenter',readOnly = T,copyable = T)%>%
+      #   hot_col(col = ncol(edges), renderer = htmlwidgets::JS("safeHtmlRenderer"))
     })
+  })
+  observeEvent(input$get_edge_microRNA,{
+    n1=input$get_edge_microRNA$n1
+    n2=input$get_edge_microRNA$n2
+    micro=rownames(after_slice_micro.exp)[which(sect_output_target[n1,rownames(after_slice_micro.exp)]&sect_output_target[n2,rownames(after_slice_micro.exp)])]
+    sendSweetAlert(session = session,title = paste(n1,'vs',n2),text = paste(micro,collapse = ', '),type = 'info')
   })
   observeEvent(input$displayCommunity,{
     isolate({
