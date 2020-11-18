@@ -473,6 +473,25 @@ create_cluster_linkcomm_test_ui=function(session)
   session$sendCustomMessage('show_community_parameter_test_modal',"")
 
 }
+overlap_modularity=function(graph,membership)
+{
+  degree=igraph::degree(graph)
+  ec=length(E(graph))
+  node_count=table(names(membership))
+  value=0
+  for(c in unique(membership))
+  {
+    mg=names(membership)[membership==c]
+    if(length(mg)==1|membership==0)
+    {
+      next
+    }
+    mat=get.adjacency(subgraph(graph,mg))
+    newmat=(mat-degree[mg]%*%t(degree[mg])/2/ec)/(node_count[mg]%*%t(node_count[mg]))/2/ec
+    value=value+sum(newmat)
+  }
+  return(value)
+}
 run_cluster_linkcomm_test=function(input,output,session)
 {
   method=input$hierarchical_clustering
@@ -500,7 +519,7 @@ run_cluster_linkcomm_test=function(input,output,session)
     names(isolatecommunity)=isolatenode
     membership=c(membership,isolatecommunity)
 
-    com_mod=modularity(x = net_igraph,membership=membership)
+    com_mod=overlap_modularity(x = net_igraph,membership=membership)
     isolatednode=length(isolatecommunity)
     membership[membership%in%isolatecommunity]=0
     com_count=length(unique(membership))
@@ -656,7 +675,15 @@ run_cluster_mcode_test=function(input,output,session)
         names(membership)=community$node
         isolatenode=names(membership)[membership==0]
         membership[isolatenode]=seq(from=max(membership)+1,by = 1,length.out = length(isolatenode))
-        com_mod=modularity(x = net_igraph,membership=membership)
+        if(ff)
+        {
+          com_mod=overlap_modularity(x = net_igraph,membership=membership)
+        }
+        else
+        {
+          com_mod=modularity(x = net_igraph,membership=membership)
+        }
+
         isolatednode=length(isolatenode)
         membership[isolatenode]=0
         com_count=length(unique(membership))
