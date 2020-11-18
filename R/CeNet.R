@@ -59,8 +59,8 @@ CeNetOmnibus <- function(maxRequestSize=1000,workpath=tempdir(),projectName=NULL
   usedcolors=swatch()
   options(shiny.maxRequestSize = maxRequestSize)
   useE<<-useEnsembl
-  #suppressMessages(shiny::runApp(system.file("app", package = "CeNetOmnibus"),launch.browser=TRUE,...))
-  shiny::runApp("inst/app",launch.browser=TRUE,...)
+  suppressMessages(shiny::runApp(system.file("app", package = "CeNetOmnibus"),launch.browser=TRUE,...))
+  #shiny::runApp("inst/app",launch.browser=TRUE,...)
 }
-setwd("D:/GitHub/CeNetOmnibus/")
-CeNetOmnibus(useEnsembl = F)
+# setwd("D:/GitHub/CeNetOmnibus/")
+# CeNetOmnibus(useEnsembl = F)
