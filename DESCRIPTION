@@ -1,7 +1,7 @@
 Package: CeNetOmnibus
 Type: Package
-Title: A Shiny based application for ceRNA construction and analysis.
-Version: 0.1.3
+Title: A Shiny based application for ceRNA network construction and analysis.
+Version: 0.1.4
 Author: Xiao Wen, Lin Gao, Tuo Song and Chaoqun Jiang
 Maintainer: Xiao Wen <williamxiao@live.cn>
 biocViews:
@@ -9,6 +9,6 @@ Description: The ceRNA regulation is a newly discovered post-transcriptional reg
 License: MIT License
 Encoding: UTF-8
 LazyData: true
-Imports: parallel,biomaRt,shiny,plyr,ggplot2,jsonlite,shinydashboard,shinyWidgets,DT,tibble,igraph,scales,rhandsontable,PerformanceAnalytics,linkcomm,MCL,visNetwork,colourpicker,ggplotify,survival,survminer,ComplexHeatmap,circlize,formattable,infotheo,gprofiler2
+Imports: parallel,biomaRt,shiny,plyr,ggplot2,jsonlite,shinydashboard,shinyWidgets,DT,tibble,igraph,scales,rhandsontable,PerformanceAnalytics,linkcomm,MCL,visNetwork,colourpicker,ggplotify,survival,survminer,ComplexHeatmap,circlize,formattable,infotheo,gprofiler2,R.oo,svglite,patchwork,Matrix,stringi
 Depends: R (>= 3.6.0)
 RoxygenNote: 7.1.1
