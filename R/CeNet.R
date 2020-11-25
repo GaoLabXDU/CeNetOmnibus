@@ -62,5 +62,5 @@ CeNetOmnibus <- function(maxRequestSize=1000,workpath=tempdir(),projectName=NULL
   suppressMessages(shiny::runApp(system.file("app", package = "CeNetOmnibus"),launch.browser=TRUE,...))
   #shiny::runApp("inst/app",launch.browser=TRUE,...)
 }
-# setwd("D:/GitHub/CeNetOmnibus/")
+# setwd("C:/Users/william/Desktop/CeNetOmnibus/")
 # CeNetOmnibus(useEnsembl = F)
