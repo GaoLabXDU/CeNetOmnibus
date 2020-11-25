@@ -205,13 +205,19 @@ function run_parameter_test(para)
 Shiny.addCustomMessageHandler("show_community_parameter_test_modal",function(msg){
   showModal()
   $(".modal-footer").css("visibility","visible")
+  $('#modalSubmit').off('click').on('click',function(){
+    var obj={}
+    obj['stamp']=Math.random()
+    obj['algorithm']=msg.method
+    Shiny.setInputValue("run_parameter_test",obj)
+  })
 })
 
 Shiny.addCustomMessageHandler("test_parameter_status",function(msg){
   if(msg.status=='run')
   {
     $("#modalSubmit").attr('disabled','true')
-    $("#modalSubmit").next().attr('disabled','true')
+    $("#modalSubmit").prev().attr('disabled','true')
     if($("#modalbody").find('div.progress').length!=1)
     {
       var $row=$("<div class='row'>")
@@ -235,13 +241,13 @@ Shiny.addCustomMessageHandler("test_parameter_status",function(msg){
   }
   else
   {
-    $("#modalSubmit").attr('disabled','false')
-    $("#modalSubmit").next().attr('disabled','false')
+  /*  $("#modalSubmit").attr('disabled','false')
+    $("#modalSubmit").prev().attr('disabled','false')*/
     $("#modalbody").find("div.progress-bar>span").html(msg.info)
     $("#modalbody").find("div.progress-bar").css('width',msg.progress+"%")
     $("#modalbody").find("div.progress").removeClass('active')
     $("#modalSubmit").attr('disabled',false)
-    $("#modalSubmit").next().attr('disabled',false)
+    $("#modalSubmit").prev().attr('disabled',false)
   }
 
 })
@@ -266,7 +272,9 @@ Shiny.addCustomMessageHandler("show_microRNA_modal",function(msg){
   $('#modalbody').append($download)
   showModal()
   $(".modal-footer").css("visibility","visible")
-  $("#modalSubmit").off('click')
+  $("#modalSubmit").off('click').on('click',function(e){
+      $('#infolist').modal('hide');
+  })
 })
 Shiny.addCustomMessageHandler("save_module_microRNA_detail",function(msg){
   var blob = new Blob([msg.text], {type: "text/plain;charset=utf-8"});

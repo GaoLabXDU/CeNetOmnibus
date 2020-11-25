@@ -27,9 +27,9 @@ create_cluster_walktrap_test_ui=function(session)
   insertUI(selector = "infolist>div.modal-dialog>div.modal-content>div.modal-header",where = 'afterBegin',ui = h4(id="modaltitle",class="modal-title",HTML("Set Parameter Test of Random Walk")))
   removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
   insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = T,immediate = T)
-  removeUI(selector = "#modalSubmit")
-  insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_walktrap")'))
-  session$sendCustomMessage('show_community_parameter_test_modal',"")
+  # removeUI(selector = "#modalSubmit")
+  # insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_walktrap")'))
+  session$sendCustomMessage('show_community_parameter_test_modal',list(method="cluster_walktrap"))
 }
 run_cluster_walktrap_test=function(input,output,session)
 {
@@ -151,9 +151,9 @@ create_cluster_infomap_test_ui=function(session)
   insertUI(selector = "infolist>div.modal-dialog>div.modal-content>div.modal-header",where = 'afterBegin',ui = h4(id="modaltitle",class="modal-title",HTML("Set Parameter Test of Random Walk")))
   removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
   insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = T,immediate = T)
-  removeUI(selector = "#modalSubmit")
-  insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_infomap")'))
-  session$sendCustomMessage('show_community_parameter_test_modal',"")
+  # removeUI(selector = "#modalSubmit")
+  # insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_infomap")'))
+  session$sendCustomMessage('show_community_parameter_test_modal',list(method="cluster_infomap"))
 }
 run_cluster_infomap_test=function(input,output,session)
 {
@@ -281,9 +281,9 @@ create_cluster_mcl_test_ui=function(session)
   insertUI(selector = "infolist>div.modal-dialog>div.modal-content>div.modal-header",where = 'afterBegin',ui = h4(id="modaltitle",class="modal-title",HTML("Set Parameter Test of Random Walk")))
   removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
   insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = T,immediate = T)
-  removeUI(selector = "#modalSubmit")
-  insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_mcl")'))
-  session$sendCustomMessage('show_community_parameter_test_modal',"")
+  #removeUI(selector = "#modalSubmit")
+  #insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_mcl")'))
+  session$sendCustomMessage('show_community_parameter_test_modal',list(method="cluster_mcl"))
 
 }
 run_cluster_mcl_test=function(input,output,session)
@@ -468,9 +468,9 @@ create_cluster_linkcomm_test_ui=function(session)
   insertUI(selector = "infolist>div.modal-dialog>div.modal-content>div.modal-header",where = 'afterBegin',ui = h4(id="modaltitle",class="modal-title",HTML("Set Parameter Test of LinkComm")))
   removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
   insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = T,immediate = T)
-  removeUI(selector = "#modalSubmit")
-  insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_linkcomm")'))
-  session$sendCustomMessage('show_community_parameter_test_modal',"")
+  # removeUI(selector = "#modalSubmit")
+  # insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_linkcomm")'))
+  session$sendCustomMessage('show_community_parameter_test_modal',list(method="cluster_linkcomm"))
 
 }
 overlap_modularity=function(graph,membership)
@@ -519,7 +519,7 @@ run_cluster_linkcomm_test=function(input,output,session)
     names(isolatecommunity)=isolatenode
     membership=c(membership,isolatecommunity)
 
-    com_mod=overlap_modularity(x = net_igraph,membership=membership)
+    com_mod=overlap_modularity(graph = net_igraph,membership=membership)
     isolatednode=length(isolatecommunity)
     membership[membership%in%isolatecommunity]=0
     com_count=length(unique(membership))
@@ -627,9 +627,9 @@ create_cluster_mcode_test_ui=function(session)
   insertUI(selector = "infolist>div.modal-dialog>div.modal-content>div.modal-header",where = 'afterBegin',ui = h4(id="modaltitle",class="modal-title",HTML("Set Parameter Test of LinkComm")))
   removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
   insertUI(selector = "#modalbody",where = "beforeEnd",ui = ui,multiple = T,immediate = T)
-  removeUI(selector = "#modalSubmit")
-  insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_mcode")'))
-  session$sendCustomMessage('show_community_parameter_test_modal',"")
+  # removeUI(selector = "#modalSubmit")
+  # insertUI(selector = "div.modal-footer",where = 'afterBegin',ui = tags$button(id='modalSubmit',class='btn btn-primary',type="button",HTML("Run"),onclick='run_parameter_test("cluster_mcode")'))
+  session$sendCustomMessage('show_community_parameter_test_modal',list(method="cluster_mcode"))
 }
 run_cluster_mcode_test=function(input,output,session)
 {
@@ -677,7 +677,7 @@ run_cluster_mcode_test=function(input,output,session)
         membership[isolatenode]=seq(from=max(membership)+1,by = 1,length.out = length(isolatenode))
         if(ff)
         {
-          com_mod=overlap_modularity(x = net_igraph,membership=membership)
+          com_mod=overlap_modularity(graph = net_igraph,membership=membership)
         }
         else
         {
