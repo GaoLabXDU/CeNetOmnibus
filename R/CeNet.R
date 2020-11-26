@@ -13,6 +13,7 @@
 #' @examples
 #'    CeNetOmnibus()
 CeNetOmnibus <- function(maxRequestSize=1000,workpath=tempdir(),projectName=NULL,typeLimit=10,useEnsembl=T,...) {
+  checkDependency()
   library(parallel)
   library(biomaRt)
   library(shiny)
