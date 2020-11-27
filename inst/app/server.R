@@ -1265,7 +1265,7 @@ shinyServer(function(input,output,session) {
       if(colnum>12){
         colnum=12
       }
-      rhandsontable(after_slice_rna.exp[1:rownum,1:colnum]) %>%
+      rhandsontable(after_slice_rna.exp[1:rownum,1:colnum],readOnly = T) %>%
         hot_col(col = seq(1,colnum),halign = "htCenter")
     })
   })
@@ -1400,7 +1400,7 @@ shinyServer(function(input,output,session) {
       if(colnum>12){
         colnum=12
       }
-      rhandsontable(after_slice_micro.exp[1:rownum,1:colnum])
+      rhandsontable(after_slice_micro.exp[1:rownum,1:colnum],readOnly = T)
     })
   })
   observeEvent(input$Cancel_microRNA_data_show,{
@@ -2471,7 +2471,7 @@ shinyServer(function(input,output,session) {
     removeUI(selector = "#modalbody>",multiple = T,immediate = T)
     insertUI(selector = "#modalbody",where = "beforeEnd",ui = dataTableOutput(outputId = "nodesDetailsTable"),immediate = T)
     output$nodesDetailsTable=renderDataTable({
-      datatable(data = showtable,rownames = F)
+      datatable(data = showtable,rownames = F,options = list(scrollX = TRUE))
       # doubleColumn=which(unlist(lapply(X = showtable,FUN = typeof))=='double')
       # rhandsontable(showtable[modulegene,], width = "100%", height = "500",rowHeaders = NULL,search = T) %>%
       #   hot_table(highlightCol = TRUE, highlightRow = TRUE) %>%
@@ -2492,7 +2492,7 @@ shinyServer(function(input,output,session) {
     removeUI(selector = "#modalbody>",multiple = T,immediate = T)
     insertUI(selector = "#modalbody",where = "beforeEnd",ui = dataTableOutput(outputId = "nodesDetailsTable"),immediate = T)
     output$nodesDetailsTable=renderDataTable({
-      datatable(edges,rownames = F,escape = F)
+      datatable(edges,rownames = F,escape = F,options = list(scrollX = TRUE))
       # doubleColumn=which(unlist(lapply(X = edges,FUN = typeof))=='double')
       # rhandsontable(edges, width = "100%", height = "500",rowHeaders = NULL,readOnly = F) %>%
       #   hot_table(highlightCol = TRUE, highlightRow = TRUE) %>%
