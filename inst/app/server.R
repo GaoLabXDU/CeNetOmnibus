@@ -1814,7 +1814,7 @@ shinyServer(function(input,output,session) {
       sendSweetAlert(session = session,title = 'Error...',text = "No Condition Setting! Plsease Set Conditions First...",type = "error")
       return()
     }
-    removeUI(selector = "#modalbody>",immediate = T)
+    removeUI(selector = "#modalbody>",immediate = T,multiple = T)
     insertUI(selector = "#modalbody",where = 'beforeEnd',ui = create_progress("",id="network_construction_progress"),immediate = T)
     session$sendCustomMessage('network_construction',list(status='update',value="Initializing Network...",id="network_construction_progress"))
 
@@ -1917,7 +1917,7 @@ shinyServer(function(input,output,session) {
         nodes=data.frame(id=nodes,new_after_geneinfo[nodes,],stringsAsFactors = F)
         node=tibble(group="nodes",data=apply(X = nodes,MARGIN = 1,as.list))
         edge=tibble(group="edges",data=apply(X = edge,MARGIN = 1,FUN = as.list))
-        removeUI(selector = "#modalbody>",immediate = T)
+        removeUI(selector = "#modalbody>",immediate = T,multiple = T)
         insertUI(selector = "#modalbody",where = 'beforeEnd',ui = create_progress("",id="network_construction_progress"),immediate = T)
         session$sendCustomMessage('network_construction',list(status='update',value="Initializing Network...",id="network_construction_progress"))
         session$sendCustomMessage('network',toJSON(list(nodes=node,edge=edge,type=type,do_what=do_what),auto_unbox = T))
@@ -2166,7 +2166,7 @@ shinyServer(function(input,output,session) {
     }
   })
   observeEvent(input$nodeDetails,{
-    removeUI(selector = "#modalbody>",immediate = T)
+    removeUI(selector = "#modalbody>",immediate = T,multiple = T)
     insertUI(selector = "#modalbody",where = 'beforeEnd',ui = rHandsontableOutput(outputId = "nodeDetailsTable"),immediate = T)
     output$nodeDetailsTable=renderRHandsontable({
       if(nodeNewInfo!="")
@@ -2189,7 +2189,7 @@ shinyServer(function(input,output,session) {
     })
   })
   observeEvent(input$edgeDetails,{
-    removeUI(selector = "#modalbody>",immediate = T)
+    removeUI(selector = "#modalbody>",immediate = T,multiple = T)
     insertUI(selector = "#modalbody",where = 'beforeEnd',ui = rHandsontableOutput(outputId = "edgeDetailsTable"),immediate = T)
     output$edgeDetailsTable=renderRHandsontable({
       doubleColumn=which(unlist(lapply(X = edgeinfo,FUN = typeof))=='double')
@@ -2648,7 +2648,7 @@ shinyServer(function(input,output,session) {
     removeUI(selector = "#modalbody>",multiple = T,immediate = T,session = session)
     insertUI(selector = "#modalbody",where = 'afterBegin',ui = dataTableOutput(outputId = "module_microRNA_detail",width = "100%",height = "100%"))
     output$module_microRNA_detail=renderDataTable({
-      datatable(data = result,rownames = F)
+      datatable(data = result,rownames = F,options = list(scrollX = TRUE))
     })
     session$sendCustomMessage(type = "show_microRNA_modal",message = list(module=module))
   })
@@ -2694,7 +2694,7 @@ shinyServer(function(input,output,session) {
           clinical_data<<-clinical_data[,-1]
         }
         output[['clinical_data_table']]=renderDataTable({
-          head(clinical_data,n=20)
+          datatable(head(clinical_data,n=20),options = list(scrollX = TRUE))
         })
         removeUI(selector = "#icon")
         column=colnames(clinical_data)
@@ -2756,7 +2756,7 @@ shinyServer(function(input,output,session) {
           survival_exp<<-survival_exp[,-1]
         }
         output[['survival_exp_data_table']]=renderDataTable({
-          head(survival_exp,n=20)
+          datatable(head(survival_exp,n=20),options = list(scrollX = TRUE))
         })
         removeUI(selector = "#icon")
         column=colnames(clinical_data)
@@ -3289,7 +3289,7 @@ shinyServer(function(input,output,session) {
       clinical_data<<-read.table(file = paste(getwd(),'/demo/brca_subtype.csv',sep=""),header = T,sep = ",",stringsAsFactors = F,check.names = F)
       rownames(clinical_data)<<-clinical_data[,1]
       output[['clinical_data_table']]=renderDataTable({
-        head(clinical_data,n=20)
+        datatable(head(clinical_data,n=20),options = list(scrollX = TRUE))
       })
       removeUI(selector = "#icon")
       column=colnames(clinical_data)
