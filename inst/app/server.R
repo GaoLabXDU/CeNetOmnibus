@@ -1917,6 +1917,8 @@ shinyServer(function(input,output,session) {
         nodes=data.frame(id=nodes,new_after_geneinfo[nodes,],stringsAsFactors = F)
         node=tibble(group="nodes",data=apply(X = nodes,MARGIN = 1,as.list))
         edge=tibble(group="edges",data=apply(X = edge,MARGIN = 1,FUN = as.list))
+        removeUI(selector = "#modalbody>",immediate = T)
+        insertUI(selector = "#modalbody",where = 'beforeEnd',ui = create_progress("",id="network_construction_progress"),immediate = T)
         session$sendCustomMessage('network_construction',list(status='update',value="Initializing Network...",id="network_construction_progress"))
         session$sendCustomMessage('network',toJSON(list(nodes=node,edge=edge,type=type,do_what=do_what),auto_unbox = T))
       }
